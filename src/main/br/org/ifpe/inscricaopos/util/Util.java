@@ -35,7 +35,7 @@ public class Util {
 
 	    try {
 		// Criando o diretório para armazenar o arquivo
-		String workspaceProjeto = "/home/roberto/git/controle-estoque-aula-springmvc";
+		String workspaceProjeto = "/home/roberto/git/inscricao-pos-jaboatao";
 		File dir = new File(workspaceProjeto + "/WebContent/resources/img");
 		if (!dir.exists()) {
 		    dir.mkdirs();

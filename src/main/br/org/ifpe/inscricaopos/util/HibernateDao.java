@@ -1,4 +1,4 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.util;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

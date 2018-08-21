@@ -32,8 +32,10 @@
 	  	</property>
 	</bean>
 	
+	<!-- 
 	<mvc:interceptors>
 		<bean class="main.br.org.ifpe.inscricaopos.util.AutorizadorInterceptor" />
 	</mvc:interceptors>
+	-->
 	
 </beans>

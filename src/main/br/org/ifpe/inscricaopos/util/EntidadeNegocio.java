@@ -1,4 +1,9 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.util;
+
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 /**
  * @author Roberto Alencar
@@ -6,7 +11,11 @@ package main.br.org.ifpe.inscricaopos.model;
  */
 public class EntidadeNegocio {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column
     private boolean habilitado;
 
     public int getId() {

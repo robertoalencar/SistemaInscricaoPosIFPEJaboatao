@@ -1,4 +1,7 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.dao;
+
+import main.br.org.ifpe.inscricaopos.entidade.Inscricao;
+import main.br.org.ifpe.inscricaopos.util.HibernateDao;
 
 /**
  * @author Roberto Alencar

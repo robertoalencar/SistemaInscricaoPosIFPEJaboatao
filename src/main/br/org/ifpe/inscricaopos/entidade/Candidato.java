@@ -1,19 +1,40 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.entidade;
 
 import java.util.Date;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
  * @author Roberto Alencar
  *
  */
+@Entity
+@Table(name = "candidato")
 public class Candidato extends EntidadeNegocio {
 
+    @Column
     private String nome;
+
+    @Column
     private String cpf;
+
+    @Column
     private String sexo;
+
+    @Column(name = "data_nascimento")
     private Date dataNacimento;
+
+    @Column(name = "email")
     private String email;
+
+    @Column
     private String foneResidencial;
+
+    @Column
     private String foneCelular;
 
     public String getNome() {

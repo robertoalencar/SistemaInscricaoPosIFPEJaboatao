@@ -1,4 +1,6 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.entidade;
+
+import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
  * @author Roberto Alencar

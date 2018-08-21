@@ -1,6 +1,8 @@
-package main.br.org.ifpe.inscricaopos.model;
+package main.br.org.ifpe.inscricaopos.entidade;
 
 import java.util.List;
+
+import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
  * @author Roberto Alencar
