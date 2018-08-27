@@ -1,6 +1,6 @@
 package main.br.org.ifpe.inscricaopos.entidade;
 
-import java.util.List;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,23 +18,28 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 @Table(name = "inscricao")
 public class Inscricao extends EntidadeNegocio {
 
+    private static final long serialVersionUID = 1154330982477969190L;
+
     @Column
-    private Integer numero;
+    private String numero;
 
     @Column
     private Integer classificacao;
 
     @ManyToOne
-    @JoinColumn
+    @JoinColumn(name = "candidato_id")
     private Candidato candidato;
 
-    private List<Avaliacao> avaliacoes;
+    @Column
+    private Date dataInscricao;
 
-    public Integer getNumero() {
+    // private List<Avaliacao> avaliacoes;
+
+    public String getNumero() {
 	return numero;
     }
 
-    public void setNumero(Integer numero) {
+    public void setNumero(String numero) {
 	this.numero = numero;
     }
 
@@ -54,12 +59,17 @@ public class Inscricao extends EntidadeNegocio {
 	this.candidato = candidato;
     }
 
-    public List<Avaliacao> getAvaliacoes() {
-	return avaliacoes;
+    public Date getDataInscricao() {
+	return dataInscricao;
     }
 
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-	this.avaliacoes = avaliacoes;
+    public void setDataInscricao(Date dataInscricao) {
+	this.dataInscricao = dataInscricao;
     }
-
+    /*
+     * public List<Avaliacao> getAvaliacoes() { return avaliacoes; }
+     * 
+     * public void setAvaliacoes(List<Avaliacao> avaliacoes) { this.avaliacoes =
+     * avaliacoes; }
+     */
 }

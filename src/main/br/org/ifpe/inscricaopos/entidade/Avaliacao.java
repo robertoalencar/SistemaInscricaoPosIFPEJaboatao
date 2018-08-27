@@ -10,6 +10,8 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
  */
 public class Avaliacao extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -5494147717652762017L;
+
     private Usuario avaliador;
     private Date dataConclusaoAvaliacao;
     private Integer cursoPretendidoPrimeiraOpcao;

@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
@@ -16,6 +18,8 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 @Table(name = "candidato")
 public class Candidato extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -4981840235573739373L;
+
     @Column
     private String nome;
 
@@ -25,7 +29,8 @@ public class Candidato extends EntidadeNegocio {
     @Column
     private String sexo;
 
-    @Column(name = "data_nascimento")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column
     private Date dataNacimento;
 
     @Column(name = "email")
