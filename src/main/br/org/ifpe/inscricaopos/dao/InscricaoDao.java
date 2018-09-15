@@ -45,11 +45,14 @@ public class InscricaoDao extends HibernateDao {
 	return inscricao.getNumero();
     }
 
-    public List<Inscricao> listar() {
+    public List<Inscricao> listar(String criterioOrdenacao, String ordem) {
 
+	criterioOrdenacao = (criterioOrdenacao == null) ? "c.nome" : criterioOrdenacao;
+	ordem = (ordem == null) ? "ASC" : ordem;
+	
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	Query query = manager.createQuery("FROM Inscricao ORDER BY numero");
+	Query query = manager.createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY " + criterioOrdenacao + " " + ordem);
 	List<Inscricao> lista = query.getResultList();
 	manager.close();
 	factory.close();

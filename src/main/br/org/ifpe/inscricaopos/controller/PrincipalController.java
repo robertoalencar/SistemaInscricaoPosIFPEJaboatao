@@ -16,7 +16,7 @@ public class PrincipalController {
     @RequestMapping("/home")
     public String home(Model model) {
 
-	model.addAttribute("listaInscricoes", new InscricaoDao().listar());
+	model.addAttribute("listaInscricoes", new InscricaoDao().listar(null, null));
 	return "principal/home";
     }
 
