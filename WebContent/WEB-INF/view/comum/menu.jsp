@@ -227,7 +227,6 @@
                     	<li class="sidebar-search">
                             <div style="text-align: center;">
                             	<img src="<%=request.getContextPath()%>/resources/img/Ifpe_logomarca2.png" style="width: 90%;">
-                            </span>
                             </div>
                             <!-- /input-group -->
                         </li>
@@ -239,10 +238,10 @@
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inscrições <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<%=request.getContextPath()%>/inscricao/add"><i class="fa fa-edit fa-fw"></i> Nova</a>
+                                    <a href="<%=request.getContextPath()%>/inscricao/list"><i class="fa fa-table fa-fw"></i> Listar</a>
                                 </li>
                                 <li>
-                                    <a href="<%=request.getContextPath()%>/inscricao/list"><i class="fa fa-table fa-fw"></i> Listar</a>
+                                	<a href="<%=request.getContextPath()%>/inscricao/add"><i class="fa fa-edit fa-fw"></i> Nova</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

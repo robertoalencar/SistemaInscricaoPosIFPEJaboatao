@@ -10,6 +10,8 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
  */
 public class VinculoEmpregaticio extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -3357075447002975502L;
+    
     private Pontuacao pontuacao;
     private Date dataInicio;
     private Date dataFim;

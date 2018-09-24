@@ -22,7 +22,7 @@ public class InscricaoDao extends HibernateDao {
 	return Inscricao.class;
     }
 
-    public String salvarInscricao(Candidato candidato) {
+    public Inscricao salvarInscricao(Candidato candidato) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
@@ -42,22 +42,54 @@ public class InscricaoDao extends HibernateDao {
 	manager.close();
 	factory.close();
 
-	return inscricao.getNumero();
+	return inscricao;
+    }
+
+    public void remove(int id) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Inscricao inscricao = manager.find(getClassEntidade(), id);
+	Candidato candidato = manager.find(Candidato.class, inscricao.getCandidato().getId());
+
+	manager.getTransaction().begin();
+	manager.remove(inscricao);
+	manager.remove(candidato);
+	manager.getTransaction().commit();
+
+	manager.close();
+	factory.close();
     }
 
     public List<Inscricao> listar(String criterioOrdenacao, String ordem) {
 
 	criterioOrdenacao = (criterioOrdenacao == null) ? "c.nome" : criterioOrdenacao;
 	ordem = (ordem == null) ? "ASC" : ordem;
-	
+
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	Query query = manager.createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY " + criterioOrdenacao + " " + ordem);
+	Query query = manager.createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY "
+		+ criterioOrdenacao + " " + ordem);
 	List<Inscricao> lista = query.getResultList();
 	manager.close();
 	factory.close();
 
 	return lista;
+    }
+
+    public Inscricao obterInscricaoCandidato(int id) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+
+	Query query = manager.createQuery("FROM Inscricao WHERE candidato.id = :paramIdCandidato");
+	query.setParameter("paramIdCandidato", id);
+	Inscricao inscricao = (Inscricao) query.getSingleResult();
+
+	manager.close();
+	factory.close();
+
+	return inscricao;
     }
 
     private String gerarNumeroInscricao() {

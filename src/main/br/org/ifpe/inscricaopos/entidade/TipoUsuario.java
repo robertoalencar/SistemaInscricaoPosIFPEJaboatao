@@ -8,6 +8,8 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
  */
 public class TipoUsuario extends EntidadeNegocio {
 
+    private static final long serialVersionUID = -1284581090840186517L;
+    
     private String descricao;
 
     public String getDescricao() {

@@ -10,6 +10,8 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
  */
 public class Pontuacao extends EntidadeNegocio {
 
+    private static final long serialVersionUID = 2978299529103699406L;
+    
     private Integer qtdCursosGraduacaoComputacao;
     private Integer qtdCursosGraduacaoOutras;
     private Integer qtdAtigosComputacao;

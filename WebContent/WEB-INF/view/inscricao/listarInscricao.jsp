@@ -6,6 +6,7 @@
 <html>
 <head>
 
+
 	<meta charset="utf-8">
 
 	<title>Pós Graduação - Listar Inscrições</title>
@@ -14,9 +15,13 @@
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
 	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
 
+
 	<script type="text/javascript">
 
 		$(document).ready(function() {
+			
+			
+			carregaTabelaJSon();
 			
 			
 	    	$("#btNovo").click(function() {
@@ -54,14 +59,14 @@
 	                    if (dadosJSON[i].classificacao != undefined) {
 	                    	classificacao = dadosJSON[i].classificacao;
 	                    }
-	                    
+
 	                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + classificacao + "</td>";
                     	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].numero + "</td>";
                    		linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].candidato.nome + "</td>";
-              			linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].dataInscricao + "</td>";
+              			linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
           				linhas += "<td style='vertical-align: middle; text-align: center;'>";
-       					linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar Inscrição'>V</a> &nbsp;";
-   						linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar Inscrição'>E</a> &nbsp;";
+       					linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar Inscrição'>V</a> &nbsp; &nbsp;";
+   						linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar Inscrição'>E</a> &nbsp; &nbsp;";
 						linhas += "<a href='delete?id=" + dadosJSON[i].id + "' class='btn btn-danger' role='button' title='Remover Inscrição'>R</a>";
 						linhas += "</td>";
 							
@@ -154,21 +159,7 @@
 											<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
 	            						</tr>
 									</tfoot>
-									<tbody id="conteudoLista">
-										<c:forEach items="${lista}" var="obj">
-											<tr>
-		              							<td style="vertical-align: middle; text-align: center;">${obj.classificacao}</td>
-		              							<td style="vertical-align: middle; text-align: center;">${obj.numero}</td>
-		              							<td style="vertical-align: middle;">${obj.candidato.nome}</td>
-		              							<td style="vertical-align: middle; text-align: center;"><fmt:formatDate value="${obj.dataInscricao}" pattern="dd/MM/yyyy" /></td>
-		              							<td style="vertical-align: middle; text-align: center;">
-		              								<a href="view?id=${obj.id}" class="btn btn-primary" title="Visualizar Inscrição">V</a> &nbsp;
-													<a href="edit?id=${obj.id}" class="btn btn-warning" role="button" title="Editar Inscrição">E</a> &nbsp;
-													<a href="delete?id=${obj.id}" class="btn btn-danger" role="button" title="Remover Inscrição">R</a>
-		              							</td>
-		            						</tr>
-	            						</c:forEach>
-	          						</tbody>
+									<tbody id="conteudoLista"></tbody>
 	        					</table>
 	        					
 	        					<c:choose>
