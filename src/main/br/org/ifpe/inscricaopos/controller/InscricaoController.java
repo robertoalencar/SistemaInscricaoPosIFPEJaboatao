@@ -33,10 +33,17 @@ public class InscricaoController {
 	return TELA_LISTAR_INSCRICAO;
     }
 
-    @RequestMapping(value = "/inscricao/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String filter(@RequestParam String criterioOrdenacao, @RequestParam String ordem) {
+    @RequestMapping(value = "/inscricao/ordenarRegistros", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String ordenarRegistros(@RequestParam String criterioOrdenacao, @RequestParam String ordem) {
 
 	List<Inscricao> lista = new InscricaoDao().listar(criterioOrdenacao, ordem);
+	return new Gson().toJson(lista);
+    }
+
+    @RequestMapping(value = "/inscricao/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody String filter(@RequestParam String numInscricao, @RequestParam String nome) {
+
+	List<Inscricao> lista = new InscricaoDao().filtrar(numInscricao, nome);
 	return new Gson().toJson(lista);
     }
 
@@ -88,5 +95,15 @@ public class InscricaoController {
 	model.addAttribute("mensagem", "Inscrição Removida com Sucesso");
 
 	return "forward:list";
+    }
+
+    @RequestMapping("/inscricao/view")
+    public String view(@RequestParam("id") Integer id, Model model) {
+
+	Inscricao inscricao = (Inscricao) new InscricaoDao().find(id);
+	model.addAttribute("inscricao", inscricao);
+	model.addAttribute("operacao", "view");
+
+	return TELA_MANTER_INSCRICAO;
     }
 }

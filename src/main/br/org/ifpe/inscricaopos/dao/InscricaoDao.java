@@ -63,7 +63,7 @@ public class InscricaoDao extends HibernateDao {
 
     public List<Inscricao> listar(String criterioOrdenacao, String ordem) {
 
-	criterioOrdenacao = (criterioOrdenacao == null) ? "c.nome" : criterioOrdenacao;
+	criterioOrdenacao = (criterioOrdenacao == null) ? "classificacao" : criterioOrdenacao;
 	ordem = (ordem == null) ? "ASC" : ordem;
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -71,6 +71,38 @@ public class InscricaoDao extends HibernateDao {
 	Query query = manager.createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY "
 		+ criterioOrdenacao + " " + ordem);
 	List<Inscricao> lista = query.getResultList();
+	manager.close();
+	factory.close();
+
+	return lista;
+    }
+
+    public List<Inscricao> filtrar(String numInscricao, String nome) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Query query = null;
+
+	if ((numInscricao != null && !numInscricao.equals("")) && (nome == null || nome.equals(""))) {
+	    query = manager.createQuery(
+		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero like :paramNumInscricao ORDER BY c.nome");
+	    query.setParameter("paramNumInscricao", "%" + numInscricao + "%");
+	} else if ((numInscricao == null || numInscricao.equals("")) && (nome != null && !nome.equals(""))) {
+	    query = manager.createQuery(
+		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND c.nome like :paramNome ORDER BY c.nome");
+	    query.setParameter("paramNome", "%" + nome + "%");
+	} else if ((numInscricao != null && !numInscricao.equals("")) && (nome != null && !nome.equals(""))) {
+	    query = manager.createQuery(
+		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero like :paramNumInscricao AND c.nome like :paramNome ORDER BY c.nome");
+	    query.setParameter("paramNumInscricao", "%" + numInscricao + "%");
+	    query.setParameter("paramNome", "%" + nome + "%");
+	} else {
+	    query = manager
+		    .createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY c.nome");
+	}
+
+	List<Inscricao> lista = query.getResultList();
+
 	manager.close();
 	factory.close();
 

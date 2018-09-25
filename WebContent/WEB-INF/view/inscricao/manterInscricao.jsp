@@ -24,12 +24,14 @@
 	    	$("#dataNacimento").mask("99/99/9999");
 	    	
 	    	$("#btNovo").click(function() {
-	    		
 	    		window.location="<%=request.getContextPath()%>/inscricao/add";
 			});
 	    	
+			$("#btEdit").click(function() {
+	    		window.location="<%=request.getContextPath()%>/inscricao/edit?id="+$('#idInscricao').val();
+			});
+	    	
 			$("#btCancelar").click(function() {
-	    		
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
 	    	
@@ -40,6 +42,20 @@
 </head>
 
 <body>
+
+	<c:if test="${operacao eq 'view'}">
+	
+		<script type="text/javascript">
+
+			$(document).ready(function() {
+				$("input").prop("disabled", true);
+				$("#btLimpar").prop("disabled", true);
+				$("#btSalvar").prop("disabled", true);
+			});
+		
+		</script>
+		
+	</c:if>
 
 	<div id="wrapper">
 
@@ -57,89 +73,103 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: right;">
+                        	<c:if test="${operacao ne 'save'}">
+                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>  &nbsp;
+                        	</c:if>
                             <button type="button" class="btn btn-info" id="btNovo"> Novo </button>
                         </div>
                         <div class="panel-body">
                             <div class="row">
-                                <div class="col-lg-12">
                                 
-                                    <form role="form" action="${operacao}" method="post">
-                                    
-                                    	<c:if test="${operacao eq 'update'}">
-                                    		<input type="hidden" name="id" value="${inscricao.candidato.id}">
-                                    	</c:if>
-                                    
-                                    	<c:if test="${mensagem ne null}">
-                                    		<div class="alert alert-success alert-dismissible">
-                                    			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-												${mensagem}
-											</div>
-										</c:if>
-                                    
+								<form role="form" action="${operacao}" method="post">
+                                 
+                                 	<c:if test="${operacao ne 'save'}">
+                                 		<input type="hidden" name="idInscricao" id="idInscricao" value="${inscricao.id}">
+                                 		<input type="hidden" name="id" value="${inscricao.candidato.id}">
+                                 	</c:if>
+                                 
+                                 	<c:if test="${mensagem ne null}">
+                                 		<div class="alert alert-success alert-dismissible">
+                                 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+											${mensagem}
+										</div>
+									</c:if>
+                                 
+                                 	<div class="col-lg-12">
+	                                  	<div class="form-group">
+	                                          <label>Número de Inscrição</label>
+	                                          <input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
+	                                          <c:if test="${operacao eq 'save'}">
+	                                          	<p class="help-block">Campo preenchido automaticamente pelo sistema.</p>
+	                                          </c:if> 
+	                                      </div>
+									</div>
+                                  
+                                  	<div class="col-lg-12">
                                     	<div class="form-group">
-                                            <label>Número de Inscrição</label>
-                                            <input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
-                                            <c:if test="${operacao eq 'save'}">
-                                            	<p class="help-block">Campo preenchido automaticamente pelo sistema.</p>
-                                            </c:if> 
-                                        </div>
+                                        	<label>Nome</label>
+                                         	<input class="form-control" name="nome" id="nome" placeholder="Informe o nome completo do candidato." value="${inscricao.candidato.nome}" required="required">
+                                      	</div>
+									</div>
+                                     
+                                    <div class="col-lg-6">
+                                    	<div class="form-group">
+                                        	<label>CPF</label>
+                                          	<input class="form-control" name="cpf" id="cpf" value="${inscricao.candidato.cpf}" required="required">
+                                      	</div>
+									</div>
+							
+									<div class="col-lg-6">
+                                     	<div class="form-group">
+                                         	<label>E-mail</label>
+                                         	<input class="form-control" name="email" id="email" value="${inscricao.candidato.email}" required="required">
+                                    	</div>
+                                    </div>
                                     
-                                        <div class="form-group">
-                                            <label>Nome</label>
-                                            <input class="form-control" name="nome" placeholder="Informe o nome completo do candidato." value="${inscricao.candidato.nome}" required="required">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>CPF</label>
-                                            <input class="form-control" name="cpf" id="cpf" value="${inscricao.candidato.cpf}" required="required">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Sexo</label>
-                                            <div class="radio">
-                                                <label><input type="radio" name="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if> required="required">Masculino</label>
-                                            </div>
-                                            <div class="radio">
-                                                <label><input type="radio" name="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
-                                            </div>
-                                            <div class="radio">
-                                                <label><input type="radio" name="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
-                                            </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Data de Nascimento</label>
-                                            <input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />" required="required">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>E-mail</label>
-                                            <input class="form-control" name="email" value="${inscricao.candidato.email}" required="required">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Fone Residencial:</label>
-                                            <input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}" required="required">
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label>Fone Celular:</label>
-                                            <input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}" required="required">
-                                        </div>
+                                    <div class="col-lg-6">
+                                    	<div class="form-group">
+                                         	<label>Fone Residencial:</label>
+                                         	<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}" required="required">
+                                    	</div>
+                                    </div>
+                                     
+                                    <div class="col-lg-6">
+                                     	<div class="form-group">
+                                        	<label>Fone Celular:</label>
+                                          	<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}" required="required">
+                                      	</div>
+                                 	</div>
+                                     
+                                    <div class="col-lg-6">
+                                     	<div class="form-group">
+                                         	<label>Data de Nascimento</label>
+                                         	<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />" required="required">
+										</div>
+                                    </div>
+                                     
+                                     <div class="col-lg-6">
+                                     	<div class="form-group">
+                                        	<label>Sexo</label>
+                                          	<div class="radio">
+                                            	<label><input type="radio" name="sexo" id="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if> required="required">Masculino</label>
+                                              	<label><input type="radio" name="sexo" id="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
+                                              	<label><input type="radio" name="sexo" id="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
+                                          	</div>
+                                      	</div>
+									</div>
+                                    
+                                 	<div class="col-lg-12"> &nbsp; </div>
 
-										<div style="margin-top: 4%;">
-											<div style="float: left;">
-												<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
-											</div>
-											<div style="float: right;">
-	                                        	<button type="reset" class="btn btn-default" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Limpar</button> &nbsp;
-	                                        	<button type="submit" class="btn btn-primary" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Salvar</button>
-	                                        </div>
-                                        </div>
-                                        
-                                    </form>
+									<div class="col-lg-6">
+										<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
+									</div>
+									<div class="col-lg-6" style="text-align: right;">
+                                    	<button type="reset" id="btLimpar" class="btn btn-default" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Limpar</button> &nbsp;
+                                      	<button type="submit" id="btSalvar" class="btn btn-primary" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Salvar</button>
+                                    </div>
+                                     
+                                 </form>
                                     
-                                </div>
                             </div>
                             <!-- /.row (nested) -->
                         </div>
