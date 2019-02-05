@@ -34,17 +34,15 @@ public class InscricaoController {
     }
 
     @RequestMapping(value = "/inscricao/ordenarRegistros", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String ordenarRegistros(@RequestParam String criterioOrdenacao, @RequestParam String ordem) {
+    public @ResponseBody List<Inscricao> ordenarRegistros(@RequestParam String criterioOrdenacao, @RequestParam String ordem) {
 
-	List<Inscricao> lista = new InscricaoDao().listar(criterioOrdenacao, ordem);
-	return new Gson().toJson(lista);
+	return new InscricaoDao().listar(criterioOrdenacao, ordem);
     }
 
     @RequestMapping(value = "/inscricao/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody String filter(@RequestParam String numInscricao, @RequestParam String nome) {
+    public @ResponseBody List<Inscricao> filter(@RequestParam String numInscricao, @RequestParam String nome) {
 
-	List<Inscricao> lista = new InscricaoDao().filtrar(numInscricao, nome);
-	return new Gson().toJson(lista);
+	return new InscricaoDao().filtrar(numInscricao, nome);
     }
 
     @RequestMapping("/inscricao/add")

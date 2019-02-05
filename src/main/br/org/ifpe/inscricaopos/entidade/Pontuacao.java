@@ -2,23 +2,44 @@ package main.br.org.ifpe.inscricaopos.entidade;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
  * @author Roberto Alencar
  *
  */
+@Entity
 public class Pontuacao extends EntidadeNegocio {
 
     private static final long serialVersionUID = 2978299529103699406L;
-    
+
+    @Column
     private Integer qtdCursosGraduacaoComputacao;
+
+    @Column
     private Integer qtdCursosGraduacaoOutras;
+
+    @Column
     private Integer qtdAtigosComputacao;
+
+    @Column
     private Integer qtdAtigosOutras;
+
+    @OneToMany
     private List<VinculoEmpregaticio> empregos;
+
+    @Column
     private Double mediaGeralHistorico;
+
+    @Column
     private Double fatorCargaHoraria;
+
+    @Column
     private Double notaFinal;
 
     public Integer getQtdCursosGraduacaoComputacao() {

@@ -1,12 +1,16 @@
 package main.br.org.ifpe.inscricaopos.entidade;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
@@ -15,7 +19,6 @@ import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
  *
  */
 @Entity
-@Table(name = "inscricao")
 public class Inscricao extends EntidadeNegocio {
 
     private static final long serialVersionUID = 1154330982477969190L;
@@ -27,13 +30,15 @@ public class Inscricao extends EntidadeNegocio {
     private Integer classificacao;
 
     @ManyToOne
-    @JoinColumn(name = "candidato_id")
+    @JoinColumn(name = "candidatoId")
     private Candidato candidato;
 
     @Column
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dataInscricao;
 
-    // private List<Avaliacao> avaliacoes;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Avaliacao> avaliacoes;
 
     public String getNumero() {
 	return numero;
@@ -66,10 +71,13 @@ public class Inscricao extends EntidadeNegocio {
     public void setDataInscricao(Date dataInscricao) {
 	this.dataInscricao = dataInscricao;
     }
-    /*
-     * public List<Avaliacao> getAvaliacoes() { return avaliacoes; }
-     * 
-     * public void setAvaliacoes(List<Avaliacao> avaliacoes) { this.avaliacoes =
-     * avaliacoes; }
-     */
+
+    public List<Avaliacao> getAvaliacoes() {
+	return avaliacoes;
+    }
+
+    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
+	this.avaliacoes = avaliacoes;
+    }
+
 }

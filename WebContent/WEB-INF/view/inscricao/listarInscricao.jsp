@@ -6,7 +6,6 @@
 <html>
 <head>
 
-
 	<meta charset="utf-8">
 
 	<title>Pós Graduação - Listar Inscrições</title>
@@ -20,7 +19,7 @@
 
 		$(document).ready(function() {
 			
-			ordenarRegistros();
+			ordenarRegistros('classificacao');
 			
 	    	$("#btNovo").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/add";
@@ -30,12 +29,16 @@
 	    		window.location="<%=request.getContextPath()%>/home";
 			});
 			
-			$("#criterioOrdenacao").change(function() {
-				ordenarRegistros();
+			$("#ordenaClassificacao").click(function() {
+				ordenarRegistros('classificacao');
 			});
 			
-			$("#ordem").change(function() {
-				ordenarRegistros();
+			$("#ordenaNome").click(function() {
+				ordenarRegistros('c.nome');
+			});
+			
+			$("#ordenaDataInscricao").click(function() {
+				ordenarRegistros('dataInscricao');
 			});
 			
 			$("#numInscricao").keyup(function() {
@@ -59,11 +62,26 @@
 				});
 			}
 			
-			function ordenarRegistros() {
-
+			function ordenarRegistros(ordenadoPor) {
+				
+				var ordem = $('#ordem').val();
+				
+				if (ordem == null || ordem == '') {
+					
+					$('#ordem').val('ASC')
+					
+				} else if (ordem == 'ASC') {
+					
+					$('#ordem').val('DESC')
+					
+				} else if (ordem == 'DESC') {
+					
+					$('#ordem').val('ASC')
+				}
+				
 				$.post("ordenarRegistros", {
 					
-					'criterioOrdenacao' : $('#criterioOrdenacao').val(),
+					'criterioOrdenacao' : ordenadoPor,
 					'ordem' : $('#ordem').val()
 					
 				}, function(dadosJSON) {
@@ -85,12 +103,14 @@
                     if (dadosJSON[i].classificacao != undefined) {
                     	classificacao = dadosJSON[i].classificacao;
                     }
-
+                    
                     linhas += "<td style='vertical-align: middle; text-align: center;'>" + classificacao + "</td>";
                    	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].numero + "</td>";
                   	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].candidato.nome + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].avaliacoes.length + "</td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
+      				linhas += "<a href='avaliar?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Avaliar Candidato'>A</a> &nbsp; &nbsp;";
       				linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar Inscrição'>V</a> &nbsp; &nbsp;";
   					linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar Inscrição'>E</a> &nbsp; &nbsp;";
 					linhas += "<a href='delete?id=" + dadosJSON[i].id + "' class='btn btn-danger' role='button' title='Remover Inscrição'>R</a>";
@@ -159,43 +179,26 @@
                                 </div>
                             </div>
 						
-							<div style="margin-bottom: 10%;">
-								<div style="float: left;">
-									<label>Ordenar Por:</label>
-									<select class="form-control input-sm" id="criterioOrdenacao">
-										<option value="classificacao">Classificação</option>
-										<option value="c.nome">Nome</option>
-										<option value="dataInscricao">Data de Inscricao</option>
-									</select>
-								</div>
-								<div style="float: left; margin-left: 2%;">
-									<label>&nbsp;</label>
-									<select class="form-control input-sm" id="ordem">
-										<option value="ASC">Ascendente</option>
-										<option value="DESC">Descendente</option>
-									</select>
-								</div>
-								<div style="float: right; margin-top: 2%;">
-									<button type="button" class="btn btn-info" id="btNovo"> Novo </button>
-								</div>
-							</div>
+							<input type="hidden" id="ordem">
 							
 							<table class="table table-striped table-bordered table-hover" id="tabelaLista">
 								<thead>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 50%; vertical-align: middle;">Nome</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
+										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
+										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
 										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 50%; vertical-align: middle;">Nome</th>
+										<th style="width: 45%; vertical-align: middle;">Nome</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
+										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
 										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
