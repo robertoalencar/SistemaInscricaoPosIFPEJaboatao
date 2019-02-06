@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
 import main.br.org.ifpe.inscricaopos.entidade.TipoUsuario;
 import main.br.org.ifpe.inscricaopos.entidade.Usuario;
+import main.br.org.ifpe.inscricaopos.util.Criptografia;
 
 /**
  * @author Roberto Alencar
@@ -21,15 +22,13 @@ import main.br.org.ifpe.inscricaopos.entidade.Usuario;
 @Controller
 public class UsuarioController {
 
-    private static final String TELA_MANTER = "usuario/usuarioSave";
-    private static final String TELA_LISTAR = "usuario/usuarioList";
+    public static final String TELA_MANTER = "usuario/usuarioSave";
+    public static final String TELA_LISTAR = "usuario/usuarioList";
 
     @RequestMapping("/usuario/list")
     public String list(Model model) {
-	
-	
+
 	model.addAttribute("listaTipoUsuario", new UsuarioDao().list(TipoUsuario.class.getName(), "descricao", null));
-	model.addAttribute("lista", new UsuarioDao().list(Usuario.class.getName(), null, null));
 	return TELA_LISTAR;
     }
 
@@ -58,6 +57,7 @@ public class UsuarioController {
     @RequestMapping("/usuario/save")
     public String save(Usuario usuario, Model model) {
 
+	usuario.setSenha(Criptografia.criptografar(usuario.getSenha()));
 	model.addAttribute("usuario", new UsuarioDao().save(usuario));
 	model.addAttribute("mensagem", "Usuário inserido com sucesso!");
 
@@ -77,6 +77,8 @@ public class UsuarioController {
     @RequestMapping("/usuario/update")
     public String update(Usuario usuario, Model model) {
 
+	
+	
 	new UsuarioDao().update(usuario);
 	model.addAttribute("mensagem", "Usuário atualizado com sucesso!");
 	model.addAttribute("operacao", "update");

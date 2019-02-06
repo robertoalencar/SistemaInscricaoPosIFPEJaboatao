@@ -21,14 +21,13 @@ import main.br.org.ifpe.inscricaopos.entidade.Inscricao;
 @Controller
 public class InscricaoController {
 
-    private static final String TELA_MANTER = "inscricao/inscricaoSave";
-    private static final String TELA_LISTAR = "inscricao/inscricaoList";
-    private static final String TELA_AVALIAR = "inscricao/inscricaoAvaliar";
+    public static final String TELA_MANTER = "inscricao/inscricaoSave";
+    public static final String TELA_LISTAR = "inscricao/inscricaoList";
+    public static final String TELA_AVALIAR = "inscricao/inscricaoAvaliar";
 
     @RequestMapping("/inscricao/list")
     public String list(Model model) {
 
-	model.addAttribute("lista", new InscricaoDao().listar(null, null));
 	return TELA_LISTAR;
     }
 

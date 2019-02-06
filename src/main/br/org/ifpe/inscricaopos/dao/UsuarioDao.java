@@ -47,4 +47,26 @@ public class UsuarioDao extends HibernateDao {
 	return lista;
     }
 
+    public Usuario buscarUsuario(Usuario usuario) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+
+	Query query = manager.createQuery("FROM Usuario WHERE login LIKE :paramLogin AND senha LIKE :paramSenha");
+	query.setParameter("paramLogin", usuario.getLogin());
+	query.setParameter("paramSenha", usuario.getSenha());
+
+	List<?> retorno = query.getResultList();
+
+	Usuario obj = null;
+	if (retorno != null && retorno.size() != 0) {
+	    obj = (Usuario) retorno.get(0);
+	}
+
+	manager.close();
+	factory.close();
+
+	return obj;
+    }
+
 }

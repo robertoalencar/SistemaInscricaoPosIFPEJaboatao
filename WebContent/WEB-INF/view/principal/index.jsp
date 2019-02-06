@@ -25,7 +25,7 @@
 		<table style="width: 70%;">
 			<tr>
 				<td style="text-align: left; width: 70%; vertical-align: bottom;">
-					Bem vindo ao sistema de avaliação de candidatos dos cursos de <strong style="color: red;">Pós-graduação</strong> do <strong>IFPE Campus Jaboatão dos Guararapes</strong>, informe suas credencias de acesso para acessar o sistema.
+					Bem vindo ao sistema de avaliação de candidatos dos cursos de <strong style="color: #DF0101;">Pós-graduação</strong> do <strong style="color: #088A29;">IFPE Campus Jaboatão dos Guararapes</strong>, informe suas credencias de acesso para acessar o sistema.
 				</td>
 				<td style="text-align: right; width: 30%; vertical-align: bottom;">
 					<img src="<%=request.getContextPath()%>/resources/img/Ifpe_logomarca2.png" style="width: 70%;">
@@ -56,11 +56,12 @@
 	 				<div class="form-group" style="text-align: left;">
 	   				<label for="inputSenha">Senha</label>
 	   				<input type="password" class="form-control" id="inputSenha" name="senha" value="${usuario.senha}" maxlength="20" required="required" tabindex="2">
-	 				</div>
+	 			</div>
 	 				
-	 				<br/>
+	 			<br/>
 	 				
-	 				<button type="submit" class="btn btn-primary" tabindex="3" style="width: 100%; height: 50px;"> &nbsp; ENTRAR &nbsp; </button>
+	 			<button type="submit" class="btn btn-primary" tabindex="3" style="width: 100%; height: 50px;"> &nbsp; ENTRAR &nbsp; </button>
+	 			
 			</form>
 		</div>
 	</div>

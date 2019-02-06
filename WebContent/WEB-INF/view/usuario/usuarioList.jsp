@@ -81,7 +81,6 @@
 					'ordem' : $('#ordem').val()
 					
 				}, function(dadosJSON) {
-					
 					carregaTabelaJSon(dadosJSON);
 				});
 			}

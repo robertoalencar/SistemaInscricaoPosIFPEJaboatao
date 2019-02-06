@@ -84,68 +84,49 @@
 								<div class="panel-body">
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label>Número de Inscrição</label> 
-											<input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
+											<label>Número de Inscrição: </label> ${inscricao.numero}
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Nome: </label> ${inscricao.candidato.nome} 
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>CPF: </label> ${inscricao.candidato.cpf} 
+										</div>
+									</div>
+									
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Data de Nascimento: </label> <fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' /> 
+										</div>
+									</div>
+									
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Sexo: </label> ${inscricao.candidato.sexo}
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Fone Residencial: </label> ${inscricao.candidato.foneResidencial} 
+										</div>
+									</div>
+
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Fone Celular: </label> ${inscricao.candidato.foneCelular} 
 										</div>
 									</div>
 
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label>Nome</label> 
-											<input class="form-control" name="nome" id="nome" placeholder="Informe o nome completo do candidato." value="${inscricao.candidato.nome}" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>CPF</label> 
-											<input class="form-control" name="cpf" id="cpf" value="${inscricao.candidato.cpf}" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>E-mail</label> 
-											<input class="form-control" name="email" id="email" value="${inscricao.candidato.email}" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Fone Residencial:</label> 
-											<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Fone Celular:</label> 
-											<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Data de Nascimento</label> 
-											<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />" readonly="readonly">
-										</div>
-									</div>
-
-									<div class="col-lg-6">
-										<div class="form-group">
-											<label>Sexo</label>
-											<div class="radio">
-												<label><input type="radio" name="sexo" id="sexo"
-													value="Masculino"
-													<c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if>
-													readonly="readonly">Masculino</label> <label><input
-													type="radio" name="sexo" id="sexo" value="Feminino"
-													<c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>
-													readonly="readonly">Feminino</label> <label><input
-													type="radio" name="sexo" id="sexo" value="Outro"
-													<c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>
-													readonly="readonly">Outro</label>
-											</div>
+											<label>E-mail: </label> ${inscricao.candidato.email} 
 										</div>
 									</div>
 
@@ -164,13 +145,31 @@
 							
 							<div id="accordionAvaliador" class="panel-collapse collapse">
 								<div class="panel-body">
-									<div class="col-lg-12">
+									<div class="col-lg-6">
 										<div class="form-group">
-											<label>Nome</label> 
-											<input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
+											<label>Nome: </label> ${usuarioLogado.nome}
 										</div>
 									</div>
-
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Tipo: </label> ${usuarioLogado.tipo.descricao}
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>SIAPE: </label> ${usuarioLogado.siape}
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>Fone: </label> ${usuarioLogado.fone}
+										</div>
+									</div>
+									<div class="col-lg-6">
+										<div class="form-group">
+											<label>E-mail: </label> ${usuarioLogado.email}
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

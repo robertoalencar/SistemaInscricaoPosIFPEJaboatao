@@ -141,8 +141,15 @@
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
-                                        	<label>Senha</label>
-                                          	<input type="password" class="form-control" name="senha" id="senha" value="${usuario.senha}" required="required">
+                                          	<c:choose>
+                                          		<c:when test="${operacao eq 'save'}">
+                                          			<label>Senha</label>
+                                          			<input type="password" class="form-control" name="senha" id="senha" value="${usuario.senha}" required="required">	
+                                          		</c:when>
+                                          		<c:otherwise>
+                                          			<input type="hidden" name="senha" value="${usuario.senha}">
+                                          		</c:otherwise>
+                                          	</c:choose>
                                       	</div>
                                  	</div>
                                     

@@ -12,16 +12,19 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	    throws Exception {
 
 	String uri = request.getRequestURI();
-	if (uri.contains("bootstrap") || uri.contains("css") || uri.contains("img") || uri.contains("js")
-		|| uri.endsWith("InscricaoPos/") || uri.endsWith("efetuarLogin")) {
+	if (uri.contains("resources") || uri.endsWith("InscricaoPos") || uri.endsWith("efetuarLogin") || uri.endsWith("usuario/add") || uri.endsWith("usuario/save")) {
 
+	    request.getSession().setAttribute("msg", null);
 	    return true;
 	}
 
-	if (request.getSession().getAttribute("usuarioLogado") != null) {
+	if (request.getSession().getAttribute(Constantes.USUARIO_SESSAO) != null) {
+	    
+	    request.getSession().setAttribute("msg", null);
 	    return true;
 	}
 
+	request.getSession().setAttribute("msg", "É necessário informar as credencias de acesso para acessar o sistema.");
 	response.sendRedirect("/InscricaoPos");
 	return false;
     }
