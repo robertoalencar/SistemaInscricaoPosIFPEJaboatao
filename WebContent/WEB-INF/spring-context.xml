@@ -28,6 +28,7 @@
 		<property name="converters">
 	    	<list>
 		  		<bean class="main.br.org.ifpe.inscricaopos.converters.DataConverter" />
+		  		<bean class="main.br.org.ifpe.inscricaopos.converters.TipoUsuarioConverter" />
 	    	</list>
 	  	</property>
 	</bean>

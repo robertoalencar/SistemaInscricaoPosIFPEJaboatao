@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.Gson;
-
 import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
 import main.br.org.ifpe.inscricaopos.entidade.Candidato;
 import main.br.org.ifpe.inscricaopos.entidade.Inscricao;
@@ -23,18 +21,20 @@ import main.br.org.ifpe.inscricaopos.entidade.Inscricao;
 @Controller
 public class InscricaoController {
 
-    private static final String TELA_MANTER_INSCRICAO = "inscricao/manterInscricao";
-    private static final String TELA_LISTAR_INSCRICAO = "inscricao/listarInscricao";
+    private static final String TELA_MANTER = "inscricao/inscricaoSave";
+    private static final String TELA_LISTAR = "inscricao/inscricaoList";
+    private static final String TELA_AVALIAR = "inscricao/inscricaoAvaliar";
 
     @RequestMapping("/inscricao/list")
     public String list(Model model) {
 
 	model.addAttribute("lista", new InscricaoDao().listar(null, null));
-	return TELA_LISTAR_INSCRICAO;
+	return TELA_LISTAR;
     }
 
     @RequestMapping(value = "/inscricao/ordenarRegistros", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Inscricao> ordenarRegistros(@RequestParam String criterioOrdenacao, @RequestParam String ordem) {
+    public @ResponseBody List<Inscricao> ordenarRegistros(@RequestParam String criterioOrdenacao,
+	    @RequestParam String ordem) {
 
 	return new InscricaoDao().listar(criterioOrdenacao, ordem);
     }
@@ -49,15 +49,13 @@ public class InscricaoController {
     public String add(Model model) {
 
 	model.addAttribute("operacao", "save");
-	return TELA_MANTER_INSCRICAO;
+	return TELA_MANTER;
     }
 
     @RequestMapping("/inscricao/save")
     public String save(Candidato candidato, Model model) {
 
-	InscricaoDao inscricaoDao = new InscricaoDao();
-	Inscricao inscricao = inscricaoDao.salvarInscricao(candidato);
-	model.addAttribute("inscricao", inscricao);
+	model.addAttribute("inscricao", new InscricaoDao().salvarInscricao(candidato));
 	model.addAttribute("mensagem", "Inscrição inserida com sucesso!");
 
 	return "forward:add";
@@ -66,11 +64,10 @@ public class InscricaoController {
     @RequestMapping("/inscricao/edit")
     public String edit(@RequestParam("id") Integer id, Model model) {
 
-	Inscricao inscricao = (Inscricao) new InscricaoDao().find(id);
-	model.addAttribute("inscricao", inscricao);
+	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
 	model.addAttribute("operacao", "update");
 
-	return TELA_MANTER_INSCRICAO;
+	return TELA_MANTER;
     }
 
     @RequestMapping("/inscricao/update")
@@ -83,7 +80,7 @@ public class InscricaoController {
 	model.addAttribute("inscricao", dao.obterInscricaoCandidato(candidato.getId()));
 	model.addAttribute("operacao", "update");
 
-	return TELA_MANTER_INSCRICAO;
+	return TELA_MANTER;
     }
 
     @RequestMapping("/inscricao/delete")
@@ -98,10 +95,18 @@ public class InscricaoController {
     @RequestMapping("/inscricao/view")
     public String view(@RequestParam("id") Integer id, Model model) {
 
-	Inscricao inscricao = (Inscricao) new InscricaoDao().find(id);
-	model.addAttribute("inscricao", inscricao);
+	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
 	model.addAttribute("operacao", "view");
 
-	return TELA_MANTER_INSCRICAO;
+	return TELA_MANTER;
     }
+
+    @RequestMapping("/inscricao/avaliar")
+    public String avaliar(@RequestParam("id") Integer id, Model model) {
+
+	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
+
+	return TELA_AVALIAR;
+    }
+
 }

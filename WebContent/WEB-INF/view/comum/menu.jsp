@@ -246,6 +246,19 @@
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        
+                        <li>
+                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Usuário <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<%=request.getContextPath()%>/usuario/list"><i class="fa fa-table fa-fw"></i> Listar</a>
+                                </li>
+                                <li>
+                                	<a href="<%=request.getContextPath()%>/usuario/add"><i class="fa fa-edit fa-fw"></i> Nova</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

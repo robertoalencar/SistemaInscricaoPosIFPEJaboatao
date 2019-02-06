@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
@@ -19,15 +18,12 @@ public class Avaliacao extends EntidadeNegocio {
     private static final long serialVersionUID = -5494147717652762017L;
 
     @ManyToOne
-    @JoinColumn(name = "usuarioId")
     private Usuario avaliador;
 
     @ManyToOne
-    @JoinColumn(name = "pontuacaoId")
     private Pontuacao pontuacao;
 
     @ManyToOne
-    @JoinColumn(name = "inscricaoId")
     private Inscricao inscricao;
 
     @Column

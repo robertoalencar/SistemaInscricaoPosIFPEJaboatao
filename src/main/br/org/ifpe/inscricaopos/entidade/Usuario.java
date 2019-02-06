@@ -2,7 +2,6 @@ package main.br.org.ifpe.inscricaopos.entidade;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
@@ -17,7 +16,6 @@ public class Usuario extends EntidadeNegocio {
     private static final long serialVersionUID = -5141339745199942717L;
 
     @ManyToOne
-    @JoinColumn(name = "tipoUsuarioId")
     private TipoUsuario tipo;
 
     @Column

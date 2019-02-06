@@ -7,7 +7,7 @@
 
 	<meta charset="utf-8">
 
-	<title>Pós Graduação - Salvar Inscrição</title>
+	<title>Inscrição Pós Graduação</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />

@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 
 import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
@@ -30,9 +29,6 @@ public class Pontuacao extends EntidadeNegocio {
     @Column
     private Integer qtdAtigosOutras;
 
-    @OneToMany
-    private List<VinculoEmpregaticio> empregos;
-
     @Column
     private Double mediaGeralHistorico;
 
@@ -41,6 +37,9 @@ public class Pontuacao extends EntidadeNegocio {
 
     @Column
     private Double notaFinal;
+    
+    @OneToMany
+    private List<VinculoEmpregaticio> empregos;
 
     public Integer getQtdCursosGraduacaoComputacao() {
 	return qtdCursosGraduacaoComputacao;

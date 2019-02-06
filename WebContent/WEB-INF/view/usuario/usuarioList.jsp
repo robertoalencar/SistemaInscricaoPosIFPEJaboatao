@@ -8,7 +8,7 @@
 
 	<meta charset="utf-8">
 
-	<title>Pós Graduação - Listar Inscrições</title>
+	<title>Pós Graduação - Listar Usuários</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
@@ -19,29 +19,25 @@
 
 		$(document).ready(function() {
 			
-			ordenarRegistros('classificacao');
+			ordenarRegistros('nome');
 			
 	    	$("#btNovo").click(function() {
-	    		window.location="<%=request.getContextPath()%>/inscricao/add";
+	    		window.location="<%=request.getContextPath()%>/usuario/add";
 			});
 	    	
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/home";
 			});
 			
-			$("#ordenaClassificacao").click(function() {
-				ordenarRegistros('classificacao');
+			$("#ordenaTipo").click(function() {
+				ordenarRegistros('tipo');
 			});
 			
 			$("#ordenaNome").click(function() {
-				ordenarRegistros('c.nome');
+				ordenarRegistros('nome');
 			});
 			
-			$("#ordenaDataInscricao").click(function() {
-				ordenarRegistros('dataInscricao');
-			});
-			
-			$("#numInscricao").keyup(function() {
+			$("#tipoUsuario").change(function() {
 				filtrarRegistros();
 			});
 			
@@ -53,7 +49,7 @@
 				
 				$.post("filter", {
 					
-					'numInscricao' : $('#numInscricao').val(),
+					'tipoUsuarioId' : $('#tipoUsuario').val(),
 					'nome' : $('#nome').val()
 					
 				}, function(dadosJSON) {
@@ -99,21 +95,17 @@
 					
                     linhas += "<tr>";
 
-                    var classificacao = '';
-                    if (dadosJSON[i].classificacao != undefined) {
-                    	classificacao = dadosJSON[i].classificacao;
-                    }
-                    
-                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + classificacao + "</td>";
-                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].numero + "</td>";
-                  	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].candidato.nome + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].avaliacoes.length + "</td>";
+                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].tipo.descricao + "</td>";
+                   	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].nome + "</td>";
+                  	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].siape + "</td>";
+             		linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].login + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].fone + "</td>";
+             		linhas += "<td style='vertical-align: middle;'>"  + dadosJSON[i].email + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'> 3 </td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-      				linhas += "<a href='avaliar?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Avaliar Candidato'>A</a> &nbsp; &nbsp;";
-      				linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar Inscrição'>V</a> &nbsp; &nbsp;";
-  					linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar Inscrição'>E</a> &nbsp; &nbsp;";
-					linhas += "<a href='delete?id=" + dadosJSON[i].id + "' class='btn btn-danger' role='button' title='Remover Inscrição'>R</a>";
+      				linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>V</a> &nbsp; &nbsp;";
+  					linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar'>E</a> &nbsp; &nbsp;";
+					linhas += "<a href='delete?id=" + dadosJSON[i].id + "' class='btn btn-danger' role='button' title='Remover'>R</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";
@@ -141,7 +133,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> INSCRIÇÕES PÓS-GRADUAÇÃO </strong></h3>
+                    <h3 class="page-header"><strong> MANTER USUÁRIO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -156,15 +148,20 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>Inscrições</strong></a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>Usuários</strong></a>
                                         </h4>
                                     </div>
                                     <div id="collapseThree" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <div class="col-lg-6">
 		                                    	<div class="form-group">
-		                                        	<label>Nº Inscrição</label>
-		                                          	<input class="form-control" name="numInscricao" id="numInscricao">
+		                                        	<label>Tipo</label>
+		                                          	<select id="tipoUsuario" name="tipo" class="form-control">
+														<option value=""> Selecione </option>
+														<c:forEach items="${listaTipoUsuario}" var="obj">
+															<option value="${obj.id}"> ${obj.descricao} </option>
+														</c:forEach> 
+													</select>
 		                                      	</div>
 											</div>
 									
@@ -181,25 +178,36 @@
 						
 							<input type="hidden" id="ordem">
 							
+							<c:if test="${mensagem ne null}">
+                               	<div class="alert alert-success alert-dismissible">
+                               		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+									${mensagem}
+								</div>
+							</c:if>
+							
 							<table class="table table-striped table-bordered table-hover" id="tabelaLista">
 								<thead>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
-										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaTipo">Tipo</a></th>
+										<th style="width: 20%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">SIAPE</th>
+										<th style="width: 10%; vertical-align: middle;">Login</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
+										<th style="width: 20%; vertical-align: middle;">E-mail</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 45%; vertical-align: middle;">Nome</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
-										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo</th>
+										<th style="width: 20%; vertical-align: middle;">Nome</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">SIAPE</th>
+										<th style="width: 10%; vertical-align: middle;">Login</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
+										<th style="width: 20%; vertical-align: middle;">E-mail</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>

@@ -9,3 +9,6 @@
 
 <!-- Custom Fonts -->
 <link href="<%=request.getContextPath()%>/resources/template-bootstrap/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<!-- Outros -->
+<link href="<%=request.getContextPath()%>/resources/css/estilo.css" rel="stylesheet" type="text/css">

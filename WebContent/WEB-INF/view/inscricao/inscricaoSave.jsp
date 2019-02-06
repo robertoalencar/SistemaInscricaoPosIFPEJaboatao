@@ -23,6 +23,10 @@
 	    	$("#foneCelular").mask("(99) 9 9999.9999");
 	    	$("#dataNacimento").mask("99/99/9999");
 	    	
+	    	$("#btAvaliar").click(function() {
+	    		window.location="<%=request.getContextPath()%>/inscricao/avaliar?id="+$('#idInscricao').val();
+			});
+	    	
 	    	$("#btNovo").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/add";
 			});
@@ -73,10 +77,11 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: right;">
-                        	<c:if test="${operacao ne 'save'}">
-                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>  &nbsp;
+                        	<button type="button" class="btn btn-success" id="btAvaliar"> Avaliar </button> &nbsp;
+                            <button type="button" class="btn btn-info" id="btNovo"> Novo </button> &nbsp;
+                            <c:if test="${operacao ne 'save'}">
+                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>
                         	</c:if>
-                            <button type="button" class="btn btn-info" id="btNovo"> Novo </button>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -128,14 +133,14 @@
                                     
                                     <div class="col-lg-6">
                                     	<div class="form-group">
-                                         	<label>Fone Residencial:</label>
+                                         	<label>Fone Residencial</label>
                                          	<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}" required="required">
                                     	</div>
                                     </div>
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
-                                        	<label>Fone Celular:</label>
+                                        	<label>Fone Celular</label>
                                           	<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}" required="required">
                                       	</div>
                                  	</div>
