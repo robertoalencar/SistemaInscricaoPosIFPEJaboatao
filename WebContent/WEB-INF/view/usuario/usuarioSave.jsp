@@ -102,7 +102,7 @@
                                     <div class="col-lg-6">
                                     	<div class="form-group">
                                         	<label>Tipo</label>
-                                          	<select id="tipo" name="tipo" class="form-control">
+                                          	<select id="tipo" name="tipo" class="form-control" required="required">
 												<option value=""> Selecione </option>
 												<c:forEach items="${listaTipoUsuario}" var="obj">
 													<option value="${obj.id}" <c:if test="${obj.id eq usuario.tipo.id}">selected="selected"</c:if>> ${obj.descricao} </option>

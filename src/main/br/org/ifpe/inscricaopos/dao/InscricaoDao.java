@@ -22,7 +22,7 @@ public class InscricaoDao extends HibernateDao {
 	return Inscricao.class;
     }
 
-    public Inscricao salvarInscricao(Candidato candidato) {
+    public Inscricao save(Candidato candidato, String cursoEscolhido) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
@@ -34,6 +34,7 @@ public class InscricaoDao extends HibernateDao {
 	Inscricao inscricao = new Inscricao();
 	inscricao.setNumero(gerarNumeroInscricao());
 	inscricao.setCandidato(candidato);
+	inscricao.setCursoEscolhido(cursoEscolhido);
 	inscricao.setHabilitado(Boolean.TRUE);
 	inscricao.setDataInscricao(Calendar.getInstance().getTime());
 	manager.persist(inscricao);
@@ -43,6 +44,22 @@ public class InscricaoDao extends HibernateDao {
 	factory.close();
 
 	return inscricao;
+    }
+    
+    public Object update(Candidato candidato, Inscricao inscricao) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+
+	manager.getTransaction().begin();
+	manager.merge(inscricao);
+	manager.merge(candidato);
+	manager.getTransaction().commit();
+
+	manager.close();
+	factory.close();
+	
+	return candidato;
     }
 
     public void remove(int id) {
@@ -135,6 +152,6 @@ public class InscricaoDao extends HibernateDao {
 	int minuto = c.get(Calendar.MINUTE);
 	int segundo = c.get(Calendar.SECOND);
 
-	return ano + "." + (mes + 1) + "." + dia + "-" + hora + minuto + segundo;
+	return (String.valueOf(ano)).substring(2, 4) + (mes + 1) + dia + "-" + hora + minuto + segundo;
     }
 }

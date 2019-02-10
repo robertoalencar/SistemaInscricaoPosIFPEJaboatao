@@ -26,6 +26,9 @@ public class Inscricao extends EntidadeNegocio {
     private String numero;
 
     @Column
+    private String cursoEscolhido;
+
+    @Column
     private Integer classificacao;
 
     @ManyToOne
@@ -44,6 +47,15 @@ public class Inscricao extends EntidadeNegocio {
 
     public void setNumero(String numero) {
 	this.numero = numero;
+    }
+
+    public String getCursoEscolhido() {
+	
+	return cursoEscolhido;
+    }
+
+    public void setCursoEscolhido(String cursoEscolhido) {
+	this.cursoEscolhido = cursoEscolhido;
     }
 
     public Integer getClassificacao() {

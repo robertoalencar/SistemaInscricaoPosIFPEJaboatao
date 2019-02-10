@@ -2,6 +2,8 @@ package main.br.org.ifpe.inscricaopos.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
 import main.br.org.ifpe.inscricaopos.entidade.TipoUsuario;
 import main.br.org.ifpe.inscricaopos.entidade.Usuario;
+import main.br.org.ifpe.inscricaopos.util.Constantes;
 import main.br.org.ifpe.inscricaopos.util.Criptografia;
 
 /**
@@ -24,6 +27,8 @@ public class UsuarioController {
 
     public static final String TELA_MANTER = "usuario/usuarioSave";
     public static final String TELA_LISTAR = "usuario/usuarioList";
+    public static final String TELA_CHANGE_PASS = "usuario/changePassword";
+    public static final String TELA_DADOS_USUARIO = "usuario/dadosUsuario";
 
     @RequestMapping("/usuario/list")
     public String list(Model model) {
@@ -65,7 +70,7 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/edit")
-    public String edit(@RequestParam("id") Integer id, Model model) {
+    public String edit(@RequestParam Integer id, Model model) {
 
 	model.addAttribute("usuario", new UsuarioDao().find(Usuario.class, id));
 	model.addAttribute("listaTipoUsuario", new UsuarioDao().list(TipoUsuario.class.getName(), "descricao", null));
@@ -77,8 +82,6 @@ public class UsuarioController {
     @RequestMapping("/usuario/update")
     public String update(Usuario usuario, Model model) {
 
-	
-	
 	new UsuarioDao().update(usuario);
 	model.addAttribute("mensagem", "Usuário atualizado com sucesso!");
 	model.addAttribute("operacao", "update");
@@ -88,7 +91,7 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/delete")
-    public String delete(@RequestParam("id") Integer id, Model model) {
+    public String delete(@RequestParam Integer id, Model model) {
 
 	new UsuarioDao().remove(new int[] { id });
 	model.addAttribute("mensagem", "Usuário Removido com Sucesso");
@@ -97,13 +100,59 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/view")
-    public String view(@RequestParam("id") Integer id, Model model) {
+    public String view(@RequestParam Integer id, Model model) {
 
 	model.addAttribute("usuario", new UsuarioDao().find(Usuario.class, id));
 	model.addAttribute("listaTipoUsuario", new UsuarioDao().list(TipoUsuario.class.getName(), "descricao", null));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
+    }
+
+    @RequestMapping("/changePasswordView")
+    public String changePasswordView() {
+
+	return TELA_CHANGE_PASS;
+    }
+
+    @RequestMapping("/changePassword")
+    public String changePassword(@RequestParam String senhaAtual, @RequestParam String novaSenha,
+	    @RequestParam String confirmaSenha, HttpSession session, Model model) {
+
+	Usuario usuarioLogado = (Usuario) session.getAttribute(Constantes.USUARIO_SESSAO);
+	usuarioLogado.setSenha(Criptografia.criptografar(senhaAtual));
+	
+	Usuario usuario = new UsuarioDao().buscarUsuario(usuarioLogado);
+	if (usuario != null) {
+	    
+	    if (!novaSenha.equals(confirmaSenha)) {
+		
+		model.addAttribute("tipoMensagem", "alert alert-error");
+		model.addAttribute("mensagem", "A senha informada no campo 'Nova Senha' é diferente da senha informada no campo 'Confirme a Senha'.");
+		
+	    } else {
+		
+		usuarioLogado.setSenha(Criptografia.criptografar(novaSenha));
+		new UsuarioDao().update(usuarioLogado);
+		session.setAttribute(Constantes.USUARIO_SESSAO, usuarioLogado);
+		
+		model.addAttribute("tipoMensagem", "alert alert-success alert-dismissible");
+		model.addAttribute("mensagem", "Senha atualizada com sucesso!");
+	    }
+	    
+	} else {
+	    
+	    model.addAttribute("tipoMensagem", "alert alert-error");
+	    model.addAttribute("mensagem", "A senha informada no campo 'Senha Atual' é diferente da senha do usuário logado.");
+	}
+	
+	return TELA_CHANGE_PASS;
+    }
+    
+    @RequestMapping("/dadosUsuario")
+    public String dadosUsuario() {
+
+	return TELA_DADOS_USUARIO;
     }
 
 }

@@ -53,6 +53,7 @@
 
 			$(document).ready(function() {
 				$("input").prop("disabled", true);
+				$("select").prop("disabled", true);
 				$("#btLimpar").prop("disabled", true);
 				$("#btSalvar").prop("disabled", true);
 			});
@@ -77,9 +78,9 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading" style="text-align: right;">
-                        	<button type="button" class="btn btn-success" id="btAvaliar"> Avaliar </button> &nbsp;
                             <button type="button" class="btn btn-info" id="btNovo"> Novo </button> &nbsp;
                             <c:if test="${operacao ne 'save'}">
+                            	<button type="button" class="btn btn-success" id="btAvaliar"> Avaliar </button> &nbsp;
                         		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>
                         	</c:if>
                         </div>
@@ -156,13 +157,24 @@
                                      	<div class="form-group">
                                         	<label>Sexo</label>
                                           	<div class="radio">
-                                            	<label><input type="radio" name="sexo" id="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if> required="required">Masculino</label>
-                                              	<label><input type="radio" name="sexo" id="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
-                                              	<label><input type="radio" name="sexo" id="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
+                                            	<label><input type="radio" name="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if> required="required">Masculino</label>
+                                              	<label><input type="radio" name="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
+                                              	<label><input type="radio" name="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
                                           	</div>
                                       	</div>
 									</div>
-                                    
+									
+									<div class="col-lg-12">
+	                                   	<div class="form-group">
+	                                    	<label>Curso Escolhido</label>
+	                                    	<select name="cursoEscolhido" class="form-control" required="required">
+												<option value=""> Selecione </option>
+												<option value="Gestão e Qualidade em TIC" <c:if test="${inscricao.cursoEscolhido eq 'Gestão e Qualidade em TIC'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
+												<option value="Desenv. Inovação e Tecnologias Emergentes" <c:if test="${inscricao.cursoEscolhido eq 'Desenv. Inovação e Tecnologias Emergentes'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
+											</select>
+										</div>
+									</div>
+									
                                  	<div class="col-lg-12"> &nbsp; </div>
 
 									<div class="col-lg-6">

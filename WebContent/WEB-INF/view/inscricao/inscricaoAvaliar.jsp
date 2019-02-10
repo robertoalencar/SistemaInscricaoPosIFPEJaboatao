@@ -18,19 +18,6 @@
 
 		$(document).ready(function() {
 			
-			$("#cpf").mask("999.999.999-99");
-	       	$("#foneResidencial").mask("(99) 9999.9999");
-	    	$("#foneCelular").mask("(99) 9 9999.9999");
-	    	$("#dataNacimento").mask("99/99/9999");
-	    	
-	    	$("#btNovo").click(function() {
-	    		window.location="<%=request.getContextPath()%>/inscricao/add";
-			});
-	    	
-			$("#btEdit").click(function() {
-	    		window.location="<%=request.getContextPath()%>/inscricao/edit?id="+$('#idInscricao').val();
-			});
-	    	
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
@@ -42,20 +29,6 @@
 </head>
 
 <body>
-
-	<c:if test="${operacao eq 'view'}">
-	
-		<script type="text/javascript">
-
-			$(document).ready(function() {
-				$("input").prop("disabled", true);
-				$("#btLimpar").prop("disabled", true);
-				$("#btSalvar").prop("disabled", true);
-			});
-		
-		</script>
-		
-	</c:if>
 
 	<div id="wrapper">
 
@@ -176,23 +149,55 @@
 					</div>
 
 					<div class="panel panel-default">
-                        <div class="panel-heading" style="text-align: right;">
-                        	<c:if test="${operacao ne 'save'}">
-                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>  &nbsp;
-                        	</c:if>
-                            <button type="button" class="btn btn-info" id="btNovo"> Novo </button>
-                        </div>
+					
                         <div class="panel-body">
                             <div class="row">
-                                
-								
-								
-								
-								
-								
-								
-								
-								
+                            
+                            	<form role="form" action="" method="post">
+                            		
+                            		<input type="hidden" name="idInscricao" value="${inscricao.id}">
+                            		
+									<div class="col-lg-12">
+										<div class="form-group">
+											<label>Curso Escolhido: </label> ${inscricao.cursoEscolhido}
+										</div>
+									</div>
+                            
+	                            	<div class="col-lg-12">
+	                                   	<div class="form-group">
+	                                    	<label>Documentação Completa</label>
+	                                       	<div class="radio">
+	                                         	<label><input type="radio" name="documentacaoCompleta" value="true" required="required">Sim</label> &nbsp;
+	                                           	<label><input type="radio" name="documentacaoCompleta" value="false">Não</label>
+	                                       	</div>
+										</div>
+									</div>
+	                                
+									<div class="col-lg-12">
+	                                   	<div class="form-group">
+	                                    	<label>Tipo da Vaga</label>
+	                                    	<select name="tipoVaga" class="form-control" required="required">
+												<option value=""> Selecione </option>
+												<option value="VCG"> VCG - Vagas para concorrência geral </option>
+												<option value="VPP"> VPP - Vagas para pretos e pardos </option>
+												<option value="VCI"> VCI - Vagas para indígenas </option>
+												<option value="PCD"> PCD - Vagas para pessoas com deficiência </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-lg-12"> &nbsp; </div>
+
+									<div class="col-lg-6">
+										<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
+									</div>
+									
+									<div class="col-lg-6" style="text-align: right;">
+                                    	<button type="reset" id="btLimpar" class="btn btn-default">Limpar</button> &nbsp;
+                                      	<button type="submit" id="btSalvar" class="btn btn-primary">Salvar</button>
+                                    </div>
+                                    
+								</form>
                                     
                             </div>
                             <!-- /.row (nested) -->

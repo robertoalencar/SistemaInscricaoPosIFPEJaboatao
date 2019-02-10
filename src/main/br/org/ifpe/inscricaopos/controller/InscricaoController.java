@@ -52,16 +52,16 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/save")
-    public String save(Candidato candidato, Model model) {
+    public String save(Candidato candidato, @RequestParam String cursoEscolhido, Model model) {
 
-	model.addAttribute("inscricao", new InscricaoDao().salvarInscricao(candidato));
+	model.addAttribute("inscricao", new InscricaoDao().save(candidato, cursoEscolhido));
 	model.addAttribute("mensagem", "Inscrição inserida com sucesso!");
 
 	return "forward:add";
     }
 
     @RequestMapping("/inscricao/edit")
-    public String edit(@RequestParam("id") Integer id, Model model) {
+    public String edit(@RequestParam Integer id, Model model) {
 
 	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
 	model.addAttribute("operacao", "update");
@@ -70,11 +70,15 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/update")
-    public String update(Candidato candidato, Model model) {
+    public String update(Candidato candidato, @RequestParam int idInscricao, @RequestParam String cursoEscolhido, Model model) {
 
 	InscricaoDao dao = new InscricaoDao();
-
-	dao.update(candidato);
+	
+	Inscricao inscricao = (Inscricao) dao.find(Inscricao.class, idInscricao);
+	inscricao.setCursoEscolhido(cursoEscolhido);
+	
+	dao.update(candidato, inscricao);
+	
 	model.addAttribute("mensagem", "Inscrição atualizada com sucesso!");
 	model.addAttribute("inscricao", dao.obterInscricaoCandidato(candidato.getId()));
 	model.addAttribute("operacao", "update");
@@ -83,7 +87,7 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/delete")
-    public String delete(@RequestParam("id") Integer id, Model model) {
+    public String delete(@RequestParam Integer id, Model model) {
 
 	new InscricaoDao().remove(id);
 	model.addAttribute("mensagem", "Inscrição Removida com Sucesso");
@@ -92,7 +96,7 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/view")
-    public String view(@RequestParam("id") Integer id, Model model) {
+    public String view(@RequestParam Integer id, Model model) {
 
 	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
 	model.addAttribute("operacao", "view");
@@ -101,7 +105,7 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/avaliar")
-    public String avaliar(@RequestParam("id") Integer id, Model model) {
+    public String avaliar(@RequestParam Integer id, Model model) {
 
 	model.addAttribute("inscricao", new InscricaoDao().find(Inscricao.class, id));
 

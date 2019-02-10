@@ -30,12 +30,6 @@ public class Avaliacao extends EntidadeNegocio {
     private Date dataConclusaoAvaliacao;
 
     @Column
-    private String cursoPretendidoPrimeiraOpcao;
-
-    @Column
-    private String cursoPretendidoSegundoOpcao;
-
-    @Column
     private String tipoVaga;
 
     @Column
@@ -74,22 +68,6 @@ public class Avaliacao extends EntidadeNegocio {
 
     public void setDataConclusaoAvaliacao(Date dataConclusaoAvaliacao) {
 	this.dataConclusaoAvaliacao = dataConclusaoAvaliacao;
-    }
-
-    public String getCursoPretendidoPrimeiraOpcao() {
-	return cursoPretendidoPrimeiraOpcao;
-    }
-
-    public void setCursoPretendidoPrimeiraOpcao(String cursoPretendidoPrimeiraOpcao) {
-	this.cursoPretendidoPrimeiraOpcao = cursoPretendidoPrimeiraOpcao;
-    }
-
-    public String getCursoPretendidoSegundoOpcao() {
-	return cursoPretendidoSegundoOpcao;
-    }
-
-    public void setCursoPretendidoSegundoOpcao(String cursoPretendidoSegundoOpcao) {
-	this.cursoPretendidoSegundoOpcao = cursoPretendidoSegundoOpcao;
     }
 
     public String getTipoVaga() {

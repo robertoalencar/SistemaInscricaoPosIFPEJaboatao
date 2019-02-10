@@ -37,6 +37,7 @@ public class PrincipalController {
 
 	if (usuarioLogado != null) {
 	    session.setAttribute(Constantes.USUARIO_SESSAO, usuarioLogado);
+	    model.addAttribute("listaInscricoes", new InscricaoDao().listar(null, null));
 	    return TELA_HOME;
 	}
 
