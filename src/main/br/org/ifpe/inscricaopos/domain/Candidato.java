@@ -1,22 +1,33 @@
-package main.br.org.ifpe.inscricaopos.entidade;
+package main.br.org.ifpe.inscricaopos.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
-import main.br.org.ifpe.inscricaopos.util.EntidadeNegocio;
 
 /**
  * @author Roberto Alencar
  *
  */
 @Entity
-public class Candidato extends EntidadeNegocio {
+public class Candidato implements Serializable {
 
-    private static final long serialVersionUID = -4981840235573739373L;
+    private static final long serialVersionUID = -6657633521233266286L;
+
+    @Id
+    @SequenceGenerator(name = "CANDIDATO_SEQUENCE", sequenceName = "candidato_id_seq ", allocationSize = 1, initialValue = 1)
+    @GeneratedValue(generator = "CANDIDATO_SEQUENCE", strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    @Column
+    private boolean habilitado;
 
     @Column
     private String nome;
@@ -39,6 +50,22 @@ public class Candidato extends EntidadeNegocio {
 
     @Column
     private String foneCelular;
+
+    public Long getId() {
+	return id;
+    }
+
+    public void setId(Long id) {
+	this.id = id;
+    }
+
+    public boolean isHabilitado() {
+	return habilitado;
+    }
+
+    public void setHabilitado(boolean habilitado) {
+	this.habilitado = habilitado;
+    }
 
     public String getNome() {
 	return nome;

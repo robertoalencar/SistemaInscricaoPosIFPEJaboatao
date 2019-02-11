@@ -39,7 +39,7 @@ public abstract class HibernateDao {
 	return obj;
     }
 
-    public void remove(int[] ids) {
+    public void remove(Long[] ids) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
@@ -55,7 +55,7 @@ public abstract class HibernateDao {
 	factory.close();
     }
 
-    public Object find(Class<?> entidade, int id) {
+    public Object find(Class<?> entidade, Long id) {
 
 	Object obj = null;
 

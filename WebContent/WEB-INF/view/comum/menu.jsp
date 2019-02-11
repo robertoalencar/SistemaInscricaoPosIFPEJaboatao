@@ -17,8 +17,8 @@
                         <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="dadosUsuario"><i class="fa fa-user fa-fw"></i> ${usuarioLogado.nome} </a></li>
-                        <li><a href="changePasswordView"><i class="fa fa-edit"></i> Mudar Senha </a></li>
+                        <li><a href="<%=request.getContextPath()%>/dadosUsuario"><i class="fa fa-user fa-fw"></i> ${usuarioLogado.nome} </a></li>
+                        <li><a href="<%=request.getContextPath()%>/changePasswordView"><i class="fa fa-edit"></i> Mudar Senha </a></li>
                         <li class="divider"></li>
                         <li><a href="<%=request.getContextPath()%>/logout"><i class="fa fa-sign-out fa-fw"></i> Logout </a>
                         </li>

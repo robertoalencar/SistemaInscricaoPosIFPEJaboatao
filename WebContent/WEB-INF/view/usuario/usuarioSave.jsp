@@ -128,7 +128,7 @@
                                      <div class="col-lg-6">
                                      	<div class="form-group">
                                          	<label>E-mail</label>
-                                         	<input class="form-control" name="email" id="email" value="${usuario.email}" required="required">
+                                         	<input type="email" class="form-control" name="email" id="email" value="${usuario.email}" required="required">
                                     	</div>
 									</div>
 									

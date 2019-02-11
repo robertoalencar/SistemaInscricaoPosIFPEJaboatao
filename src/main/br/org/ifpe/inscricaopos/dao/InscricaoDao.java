@@ -8,14 +8,17 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import main.br.org.ifpe.inscricaopos.entidade.Candidato;
-import main.br.org.ifpe.inscricaopos.entidade.Inscricao;
+import org.springframework.stereotype.Repository;
+
+import main.br.org.ifpe.inscricaopos.domain.Candidato;
+import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 import main.br.org.ifpe.inscricaopos.util.HibernateDao;
 
 /**
  * @author Roberto Alencar
  *
  */
+@Repository
 public class InscricaoDao extends HibernateDao {
 
     public Class<Inscricao> getClassEntidade() {
@@ -45,7 +48,7 @@ public class InscricaoDao extends HibernateDao {
 
 	return inscricao;
     }
-    
+
     public Object update(Candidato candidato, Inscricao inscricao) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -58,7 +61,7 @@ public class InscricaoDao extends HibernateDao {
 
 	manager.close();
 	factory.close();
-	
+
 	return candidato;
     }
 
@@ -126,7 +129,7 @@ public class InscricaoDao extends HibernateDao {
 	return lista;
     }
 
-    public Inscricao obterInscricaoCandidato(int id) {
+    public Inscricao obterInscricaoCandidato(Long id) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();

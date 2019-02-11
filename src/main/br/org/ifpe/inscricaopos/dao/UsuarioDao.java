@@ -7,16 +7,19 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
-import main.br.org.ifpe.inscricaopos.entidade.Usuario;
+import org.springframework.stereotype.Repository;
+
+import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.HibernateDao;
 
+@Repository
 public class UsuarioDao extends HibernateDao {
 
     public Class<Usuario> getClassEntidade() {
 	return Usuario.class;
     }
 
-    public List<Usuario> filtrar(Integer tipoUsuarioId, String nome) {
+    public List<Usuario> filtrar(Long tipoUsuarioId, String nome) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
