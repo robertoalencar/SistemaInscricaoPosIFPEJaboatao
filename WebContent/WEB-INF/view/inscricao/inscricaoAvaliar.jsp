@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -8,19 +10,101 @@
 
 	<meta charset="utf-8">
 
-	<title>P�s Gradua��o - Avaliar Inscri��o</title>
+	<title>Pós Graduação - Avaliar Inscrição</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
+  	
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
 
 	<script type="text/javascript">
 
 		$(document).ready(function() {
 			
+			
+			$("#dataInicio1").datepicker({ dateFormat: 'dd/mm/yy' });
+			$("#dataFim1").datepicker({ dateFormat: 'dd/mm/yy' });
+			
+			
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
+			
+			
+			$('#gradQtdCursosComputacao').blur(function() {
+				calcularPontuacaoGraduacao();
+			});
+			$('#gradQtdCursosOutros').blur(function() {
+				calcularPontuacaoGraduacao();
+			});
+			
+			function calcularPontuacaoGraduacao() {
+				
+				var gradQtdCursosComputacao = $('#gradQtdCursosComputacao').val();
+				var gradQtdCursosOutros = $('#gradQtdCursosOutros').val();
+				var gradPontuacaoTotal = (gradQtdCursosComputacao * 3) + (gradQtdCursosOutros * 1); 
+				
+				$('#gradPontuacaoTotal').val(gradPontuacaoTotal);
+				
+				if (gradPontuacaoTotal > 3) {
+					$('#gradPontuacaoItem').val(3); //pontução máxima	
+				} else {
+					$('#gradPontuacaoItem').val(gradPontuacaoTotal);
+				}
+			}
+			
+			
+			$('#qtdAtigosComputacao').blur(function() {
+				calcularPontuacaoProducaoCientifica();
+			});
+			$('#qtdAtigosOutras').blur(function() {
+				calcularPontuacaoProducaoCientifica();
+			});
+			
+			function calcularPontuacaoProducaoCientifica() {
+				
+				var qtdAtigosComputacao = $('#qtdAtigosComputacao').val();
+				var qtdAtigosOutras = $('#qtdAtigosOutras').val();
+				var prodCientificaPontuacaoTotal = (qtdAtigosComputacao * 5) + (qtdAtigosOutras * 2); 
+				
+				$('#prodCientificaPontuacaoTotal').val(prodCientificaPontuacaoTotal);
+				
+				if (prodCientificaPontuacaoTotal > 10) {
+					$('#prodCientificaPontuacaoItem').val(10); //pontução máxima	
+				} else {
+					$('#prodCientificaPontuacaoItem').val(prodCientificaPontuacaoTotal);
+				}
+			}
+			
+			
+			$('#historicoMediaGeral').blur(function() {
+				calcularPontuacaoHistoricoEscolar();
+			});
+			$('#historicoFatorCargaHoraria').change(function() {
+				calcularPontuacaoHistoricoEscolar();
+			});
+			
+			function calcularPontuacaoHistoricoEscolar() {
+				
+				var historicoMediaGeral = $('#historicoMediaGeral').val();
+				var historicoFatorCargaHoraria = $('#historicoFatorCargaHoraria').val();
+				var historicoPontuacaoTotal = (historicoMediaGeral * historicoFatorCargaHoraria);
+				
+				historicoPontuacaoTotal = parseFloat(historicoPontuacaoTotal.toFixed(2)); //arredonda para duas casas decimais
+				
+				$('#historicoPontuacaoTotal').val(historicoPontuacaoTotal);
+				
+				if (historicoPontuacaoTotal > 10) {
+					$('#historicoPontuacaoItem').val(10); //pontução máxima	
+				} else {
+					$('#historicoPontuacaoItem').val(historicoPontuacaoTotal);
+				}
+			}
 	    	
 		});
 	
@@ -42,7 +126,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> AVALIAR INSCRI��O </strong></h3>
+                    <h3 class="page-header"><strong> AVALIAR INSCRIÇÃO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -55,7 +139,7 @@
 						
 							<div class="col-lg-12">
 								<div class="form-group">
-									<label>N�mero de Inscri��o: </label> ${inscricao.numero}
+									<label>Número de Inscrição: </label> ${inscricao.numero}
 								</div>
 							</div>
 
@@ -143,8 +227,8 @@
 
 			<div class="row">
                 <div class="col-lg-12">
-					<div class="panel panel-danger">
-      					<div class="panel-heading">Pontua��o do Candidato</div>
+					<div class="panel panel-success">
+      					<div class="panel-heading">Pontuação do Candidato</div>
                         <div class="panel-body">
                           	
 							<div class="col-lg-12">
@@ -154,10 +238,10 @@
 							</div>
                            	<div class="col-lg-6">
 								<div class="form-group">
-                                   	<label>Documenta��o Completa</label>
+                                   	<label>Documentação Completa</label>
                                    	<div class="radio">
                                      	<label><input type="radio" name="documentacaoCompleta" value="true" required="required">Sim</label> &nbsp;
-                                       	<label><input type="radio" name="documentacaoCompleta" value="false">N�o</label>
+                                       	<label><input type="radio" name="documentacaoCompleta" value="false">Não</label>
                                    	</div>
 								</div>
 							</div>
@@ -172,11 +256,17 @@
                                    	<label>Tipo da Vaga</label>
                                    	<select name="tipoVaga" class="form-control" required="required">
 										<option value=""> Selecione </option>
-										<option value="VCG"> VCG - Vagas para concorr�ncia geral </option>
+										<option value="VCG"> VCG - Vagas para concorrência geral </option>
 										<option value="VPP"> VPP - Vagas para pretos e pardos </option>
-										<option value="VCI"> VCI - Vagas para ind�genas </option>
-										<option value="PCD"> PCD - Vagas para pessoas com defici�ncia </option>
+										<option value="VCI"> VCI - Vagas para indígenas </option>
+										<option value="PCD"> PCD - Vagas para pessoas com deficiência </option>
 									</select>
+								</div>
+							</div>
+							<div class="col-lg-12">
+								<div class="form-group">
+                                   	<label>Observações</label>
+                                   	<textarea class="form-control" name="observacoes"></textarea>
 								</div>
 							</div>
 							
@@ -187,37 +277,236 @@
                	
             <div class="row">
             	<div class="col-lg-12">
-					<div class="panel panel-danger">
-    					<div class="panel-heading">(IC01) Item Curr�culo 01 - Cursos de Gradua��o - Informe a quantidade de cursos conclu�dos pelo candidato</div>
+					<div class="panel panel-warning">
+    					<div class="panel-heading">(IC01) Item Currículo 01 - Cursos de Graduação</div>
                       	<div class="panel-body">
+                      	
+                      		<div class="col-lg-12">&nbsp;</div>
+                      		
+                      		<div class="col-lg-12">
+								<div class="form-group" style="color: gray;"><strong>Atenção:</strong> Informe a quantidade de cursos de graduação concluídos pelo candidato.</div>
+							</div>
+							
+							<div class="col-lg-12">&nbsp;</div>
+                      	
 							<div class="col-lg-3">
                                	<div class="form-group">
-                                   	<label>Na �rea de Computa��o</label>
-                                   	<input type="number" class="form-control" name="gradQtdCursosComputacao" id="gradQtdCursosComputacao" pattern="[0-9]+$">
+                                   	<label>(IC01.1) Na Área de Computação</label>
+                                   	<input type="number" class="form-control" name="gradQtdCursosComputacao" id="gradQtdCursosComputacao" pattern="[0-9]+$" placeholder="Ex.: 2">
+                                   	<span style="color: gray;">Peso 3</span>
                                	</div>
 							</div>
 					
 							<div class="col-lg-3">
                              	<div class="form-group">
-                                   	<label>Em Outras �reas</label>
-                                   	<input type="number" class="form-control" name="gradQtdCursosOutros" id="gradQtdCursosOutros" pattern="[0-9]+$">
+                                   	<label>(IC01.2) Em Outras Áreas</label>
+                                   	<input type="number" class="form-control" name="gradQtdCursosOutros" id="gradQtdCursosOutros" pattern="[0-9]+$" placeholder="Ex.: 1">
+                                   	<span style="color: gray;">Peso 1</span>
                                	</div>
 							</div>
 					
 							<div class="col-lg-3">
                             	<div class="form-group">
-                                  	<label>Pontua��o Total</label>
+                                  	<label>Pontuação Total</label>
                                    	<input class="form-control" name="gradPontuacaoTotal" id="gradPontuacaoTotal" readonly="readonly">
+                                   	<span style="color: gray;">Pont. Total = (IC01.1 * 3) + (IC01.2 * 1)</span>
                                 </div>
 							</div>
 												
 							<div class="col-lg-3">
                                	<div class="form-group">
-                                 	<label>Pontua��o Item (At� 3,0 pontos)</label>
-                                   	<input class="form-control" name="gradPontuacaoItem" id="gradPontuacaoItem" readonly="readonly">
+                                 	<label>Pontuação Item</label>
+                                   	<input class="form-control" name="gradPontuacaoItem" id="gradPontuacaoItem" readonly="readonly"> 
+                                   	<span style="color: gray;">Até 3,0 pontos</span>
+                               	</div>
+							</div>
+						</div>
+						<div class="panel-heading">(IC02) Item Currículo 02 - Produção Científica</div>
+                      	<div class="panel-body">
+                      	
+                      		<div class="col-lg-12">&nbsp;</div>
+                      		
+                      		<div class="col-lg-12">
+								<div class="form-group" style="color: gray;"><strong>Atenção:</strong> Informe a quantidade de artigos publicados em revista ou congresso <strong>COM QUALIS</strong> publicados pelo candidato.</div>
+							</div>
+                      		
+                      		<div class="col-lg-12">&nbsp;</div>
+                      	
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                   	<label>(IC02.1) Na Área de Computação</label>
+                                   	<input type="number" class="form-control" name="qtdAtigosComputacao" id="qtdAtigosComputacao" pattern="[0-9]+$" placeholder="Ex.: 4">
+                                   	<span style="color: gray;">Peso 5</span>
                                	</div>
 							</div>
 					
+							<div class="col-lg-3">
+                             	<div class="form-group">
+                                   	<label>(IC02.2) Em Outras Áreas</label>
+                                   	<input type="number" class="form-control" name="qtdAtigosOutras" id="qtdAtigosOutras" pattern="[0-9]+$" placeholder="Ex.: 2">
+                                   	<span style="color: gray;">Peso 2</span>
+                               	</div>
+							</div>
+					
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>Pontuação Total</label>
+                                   	<input class="form-control" name="prodCientificaPontuacaoTotal" id="prodCientificaPontuacaoTotal" readonly="readonly">
+                                   	<span style="color: gray;">Pont. Total = (IC02.1 * 5) + (IC02.2 * 2)</span>
+                                </div>
+							</div>
+												
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                 	<label>Pontuação Item</label>
+                                   	<input class="form-control" name="prodCientificaPontuacaoItem" id="prodCientificaPontuacaoItem" readonly="readonly">
+                                   	<span style="color: gray;">Até 10,0 pontos</span>
+                               	</div>
+							</div>
+						</div>
+						
+						<div class="panel-heading">(IC03) Item Currículo 03 - Experiência Profissional</div>
+                      	<div class="panel-body">
+                      	
+                      		<div class="col-lg-12">&nbsp;</div>
+                      		
+                      		<div class="col-lg-12">
+								<div class="form-group" style="color: gray;"><strong>Atenção:</strong> Informe a data de início e fim de cada vínculo profissional comprovado pelo candidato.</div>
+							</div>
+
+                      		<div class="col-lg-12">&nbsp;</div>
+
+
+
+
+
+
+
+                      	
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                   	<label>Vínculo Empregatício na área de</label>
+									<select id="vinculo1" class="form-control">
+									<option value=""> &nbsp; </option>
+										<option value="computacao"> Computação </option>
+										<option value="outras"> Outras Áreas </option>
+									</select>
+								</div>
+							</div>
+							
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                   	<label>Data de Início do Vínculo</label>
+									<input type="text" id="dataInicio1">
+								</div>
+							</div>
+					
+							<div class="col-lg-3">
+                             	<div class="form-group">
+                                   	<label>Data Final do Vínculo</label>
+									<input type="text" id="dataFim1">
+                               	</div>
+							</div>
+					
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>Total de Meses</label>
+                                   	<input class="form-control" id="totalMeses1" readonly="readonly">
+                                </div>
+							</div>
+												
+							
+							
+							
+							
+							
+							
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>(TAC) Total Área Computação</label>
+                                   	<input class="form-control" readonly="readonly">
+                                   	<span style="color: gray;">Total de Meses Computação / 12</span>
+                                </div>
+							</div>
+					
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>(TOA) Total Outras Áreas</label>
+                                   	<input class="form-control" readonly="readonly">
+                                   	<span style="color: gray;">Total de Meses Outras / 12</span>
+                                </div>
+							</div>
+					
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>Total Geral</label>
+                                   	<input class="form-control" readonly="readonly">
+                                   	<span style="color: gray;">Total Geral = (TAC * 2) + (TOA * 1)</span>
+                                </div>
+							</div>
+												
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                 	<label>Pontuação Item</label>
+                                   	<input class="form-control" readonly="readonly">
+                                   	<span style="color: gray;">Até 10,0 pontos</span>
+                               	</div>
+							</div>
+						</div>
+						
+						<div class="panel-heading">(IC04) Item Currículo 04 – Histórico Escolar da Graduação</div>
+                      	<div class="panel-body">
+                      	
+                      		<div class="col-lg-12">&nbsp;</div>
+                      		
+                      		<div class="col-lg-12">
+								<div class="form-group" style="color: gray;"><strong>Atenção:</strong> Informe a média geral indicada no histórico escolar da graduação do candidato.</div>
+							</div>
+                      		
+                      		<div class="col-lg-12">
+								<div class="form-group" style="color: gray;">
+                                   	<label>Como Selecionar o Fator de Carga Horária:</label> <br />
+                                   	Para cursos superiores com carga horária superior a 3.000 horas ou cursos realizados no exterior, selecione o <strong> Fator 1 </strong> <br />
+                                   	Para cursos superiores com carga horária inferior a 3.000 horas, selecione o <strong> Fator 0,85 </strong>
+								</div>
+							</div>
+                      		
+                      		<div class="col-lg-12">&nbsp;</div>
+                      	
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                   	<label>(IC04.1) Média Geral do Histórico</label>
+                                   	<input type="number" class="form-control" name="historicoMediaGeral" id="historicoMediaGeral" pattern="[0-9]+$" placeholder="Ex.: 8.5">
+                               	</div>
+							</div>
+					
+							<div class="col-lg-3">
+                             	<div class="form-group">
+                                   	<label>(IC04.2) Fator de Carga Horária</label>
+                                   	<select name="historicoFatorCargaHoraria" id="historicoFatorCargaHoraria" class="form-control">
+										<option value="0"> Selecione </option>
+										<option value="0.85"> 0.85 </option>
+										<option value="1"> 1 </option>
+									</select>
+                               	</div>
+							</div>
+					
+							<div class="col-lg-3">
+                            	<div class="form-group">
+                                  	<label>Pontuação Total</label>
+                                   	<input class="form-control" name="historicoPontuacaoTotal" id="historicoPontuacaoTotal" readonly="readonly"> 
+                                   	<span style="color: gray;">Nota Histórico Escolar = IC04.1 * IC04.2</span>
+                                </div>
+							</div>
+												
+							<div class="col-lg-3">
+                               	<div class="form-group">
+                                 	<label>Pontuação Item</label>
+                                   	<input class="form-control" name="historicoPontuacaoItem" id="historicoPontuacaoItem" readonly="readonly">
+                                   	<span style="color: gray;">Até 10,0 pontos</span>
+                               	</div>
+							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -233,6 +522,13 @@
 	                   	<button type="reset" id="btLimpar" class="btn btn-default">Limpar</button> &nbsp;
 	                   	<button type="submit" id="btSalvar" class="btn btn-primary">Salvar</button>
 	                </div>
+                </div>
+			</div>
+			
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="col-lg-12"> &nbsp; </div>
+					<div class="col-lg-12"> &nbsp; </div>
                 </div>
 			</div>
 			

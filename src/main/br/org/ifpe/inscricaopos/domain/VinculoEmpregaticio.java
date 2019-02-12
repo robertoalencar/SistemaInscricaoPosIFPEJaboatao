@@ -11,19 +11,24 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Data;
+
 /**
  * @author Roberto Alencar
  *
  */
+@Data
 @Entity
 public class VinculoEmpregaticio implements Serializable {
 
+    public static final String VINCULO_AREA_COMPUTACAO = "computacao";
+    public static final String VINCULO_AREA_OUTRAS = "outras";
+    
     private static final long serialVersionUID = 5148506936140358620L;
 
     @Id
     @SequenceGenerator(name = "VINCULO_EMPREGATICIO_SEQUENCE", sequenceName = "Vinculo_empregaticio_id_seq ", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "VINCULO_EMPREGATICIO_SEQUENCE", strategy = GenerationType.SEQUENCE)
-
     private Long id;
 
     @Column
@@ -33,60 +38,15 @@ public class VinculoEmpregaticio implements Serializable {
     private Avaliacao avaliacao;
 
     @Column
+    private String areaCargo;
+
+    @Column
     private Date dataInicio;
 
     @Column
     private Date dataFim;
 
     @Column
-    private String areaCargo;
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
-
-    public boolean isHabilitado() {
-	return habilitado;
-    }
-
-    public void setHabilitado(boolean habilitado) {
-	this.habilitado = habilitado;
-    }
-
-    public Avaliacao getAvaliacao() {
-	return avaliacao;
-    }
-
-    public void setAvaliacao(Avaliacao avaliacao) {
-	this.avaliacao = avaliacao;
-    }
-
-    public Date getDataInicio() {
-	return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-	this.dataInicio = dataInicio;
-    }
-
-    public Date getDataFim() {
-	return dataFim;
-    }
-
-    public void setDataFim(Date dataFim) {
-	this.dataFim = dataFim;
-    }
-
-    public String getAreaCargo() {
-	return areaCargo;
-    }
-
-    public void setAreaCargo(String areaCargo) {
-	this.areaCargo = areaCargo;
-    }
+    private Integer totalMeses;
 
 }

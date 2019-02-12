@@ -90,7 +90,7 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/delete")
-    public String delete(@RequestParam Integer id, Model model) {
+    public String delete(@RequestParam Long id, Model model) {
 
 	inscricaoDao.remove(id);
 	model.addAttribute("mensagem", "Inscrição Removida com Sucesso");

@@ -16,10 +16,19 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 /**
  * @author Roberto Alencar
  *
  */
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 @Entity
 public class Inscricao implements Serializable {
 
@@ -51,69 +60,5 @@ public class Inscricao implements Serializable {
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dataInscricao;
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
-
-    public boolean isHabilitado() {
-	return habilitado;
-    }
-
-    public void setHabilitado(boolean habilitado) {
-	this.habilitado = habilitado;
-    }
-
-    public Candidato getCandidato() {
-	return candidato;
-    }
-
-    public void setCandidato(Candidato candidato) {
-	this.candidato = candidato;
-    }
-
-    public List<Avaliacao> getAvaliacoes() {
-	return avaliacoes;
-    }
-
-    public void setAvaliacoes(List<Avaliacao> avaliacoes) {
-	this.avaliacoes = avaliacoes;
-    }
-
-    public String getNumero() {
-	return numero;
-    }
-
-    public void setNumero(String numero) {
-	this.numero = numero;
-    }
-
-    public String getCursoEscolhido() {
-	return cursoEscolhido;
-    }
-
-    public void setCursoEscolhido(String cursoEscolhido) {
-	this.cursoEscolhido = cursoEscolhido;
-    }
-
-    public Integer getClassificacao() {
-	return classificacao;
-    }
-
-    public void setClassificacao(Integer classificacao) {
-	this.classificacao = classificacao;
-    }
-
-    public Date getDataInscricao() {
-	return dataInscricao;
-    }
-
-    public void setDataInscricao(Date dataInscricao) {
-	this.dataInscricao = dataInscricao;
-    }
 
 }

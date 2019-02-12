@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -8,11 +10,17 @@
 
 	<meta charset="utf-8">
 
-	<title>Pós Graduação - Manter Inscrição</title>
+	<title>PÃ³s GraduaÃ§Ã£o - Manter InscriÃ§Ã£o</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
-	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
+	
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	<link rel="stylesheet" href="/resources/demos/style.css">
+  	
+  	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
 
 	<script type="text/javascript">
 
@@ -21,7 +29,7 @@
 			$("#cpf").mask("999.999.999-99");
 	       	$("#foneResidencial").mask("(99) 9999.9999");
 	    	$("#foneCelular").mask("(99) 9 9999.9999");
-	    	$("#dataNacimento").mask("99/99/9999");
+	    	$("#dataNacimento").datepicker({ dateFormat: 'dd/mm/yy' });
 	    	
 	    	$("#btAvaliar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/avaliar?id="+$('#idInscricao').val();
@@ -69,7 +77,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> MANTER INSCRIÇÃO </strong></h3>
+                    <h3 class="page-header"><strong> MANTER INSCRIÃ‡ÃƒO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -103,7 +111,7 @@
                                  
                                  	<div class="col-lg-12">
 	                                  	<div class="form-group">
-	                                          <label>Número de Inscrição</label>
+	                                          <label>NÃºmero de InscriÃ§Ã£o</label>
 	                                          <input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
 	                                          <c:if test="${operacao eq 'save'}">
 	                                          	<p class="help-block">Campo preenchido automaticamente pelo sistema.</p>
@@ -169,8 +177,8 @@
 	                                    	<label>Curso Escolhido</label>
 	                                    	<select name="cursoEscolhido" class="form-control" required="required">
 												<option value=""> Selecione </option>
-												<option value="Gestão e Qualidade em TIC" <c:if test="${inscricao.cursoEscolhido eq 'Gestão e Qualidade em TIC'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
-												<option value="Desenv. Inovação e Tecnologias Emergentes" <c:if test="${inscricao.cursoEscolhido eq 'Desenv. Inovação e Tecnologias Emergentes'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
+												<option value="GestÃ£o e Qualidade em TIC" <c:if test="${inscricao.cursoEscolhido eq 'GestÃ£o e Qualidade em TIC'}">selected="selected"</c:if>> GestÃ£o e Qualidade em TIC </option>
+												<option value="Desenv. InovaÃ§Ã£o e Tecnologias Emergentes" <c:if test="${inscricao.cursoEscolhido eq 'Desenv. InovaÃ§Ã£o e Tecnologias Emergentes'}">selected="selected"</c:if>> Desenv. InovaÃ§Ã£o e Tecnologias Emergentes </option>
 											</select>
 										</div>
 									</div>
@@ -180,11 +188,12 @@
 									<div class="col-lg-6">
 										<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
 									</div>
+									
 									<div class="col-lg-6" style="text-align: right;">
                                     	<button type="reset" id="btLimpar" class="btn btn-default" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Limpar</button> &nbsp;
                                       	<button type="submit" id="btSalvar" class="btn btn-primary" <c:if test="${mensagem != null && operacao eq 'save'}">disabled="disabled"</c:if>>Salvar</button>
                                     </div>
-                                     
+                                    
                                  </form>
                                     
                             </div>
@@ -195,6 +204,13 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
+                
+                 <div class="row">
+					<div class="col-lg-12">
+						<div class="col-lg-12"> &nbsp; </div>
+	                </div>
+				</div>
+				
             </div>
             <!-- /.row -->
         </div>

@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -8,7 +10,7 @@
 
 	<meta charset="utf-8">
 
-	<title>PÛs GraduaÁ„o - Dados do Usu·rio</title>
+	<title>P√≥s Gradua√ß√£o - Dados do Usu√°rio</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
@@ -36,7 +38,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> DADOS DO USU¡RIO </strong></h3>
+                    <h3 class="page-header"><strong> DADOS DO USU√ÅRIO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>

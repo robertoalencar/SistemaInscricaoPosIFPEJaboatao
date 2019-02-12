@@ -13,10 +13,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Data;
+
 /**
  * @author Roberto Alencar
  *
  */
+@Data
 @Entity
 public class Avaliacao implements Serializable {
 
@@ -49,10 +52,16 @@ public class Avaliacao implements Serializable {
     private String observacoes;
 
     @Column
-    private Integer qtdCursosGraduacaoComputacao;
+    private Integer gradQtdCursosComputacao;
 
     @Column
-    private Integer qtdCursosGraduacaoOutras;
+    private Integer gradQtdCursosOutros;
+
+    @Column
+    private Double gradPontuacaoTotal;
+
+    @Column
+    private Double gradPontuacaoItem;
 
     @Column
     private Integer qtdAtigosComputacao;
@@ -61,143 +70,27 @@ public class Avaliacao implements Serializable {
     private Integer qtdAtigosOutras;
 
     @Column
-    private Double mediaGeralHistorico;
+    private Double prodCientificaPontuacaoTotal;
 
     @Column
-    private Double fatorCargaHoraria;
-
-    @Column
-    private Double notaFinal;
+    private Double prodCientificaPontuacaoItem;
 
     @OneToMany
     private List<VinculoEmpregaticio> empregos;
 
-    public Long getId() {
-	return id;
-    }
+    @Column
+    private Double historicoMediaGeral;
 
-    public void setId(Long id) {
-	this.id = id;
-    }
+    @Column
+    private Double historicoFatorCargaHoraria;
 
-    public boolean isHabilitado() {
-	return habilitado;
-    }
+    @Column
+    private Double historicoPontuacaoTotal;
 
-    public void setHabilitado(boolean habilitado) {
-	this.habilitado = habilitado;
-    }
+    @Column
+    private Double historicoPontuacaoItem;
 
-    public Usuario getAvaliador() {
-	return avaliador;
-    }
-
-    public void setAvaliador(Usuario avaliador) {
-	this.avaliador = avaliador;
-    }
-
-    public Inscricao getInscricao() {
-	return inscricao;
-    }
-
-    public void setInscricao(Inscricao inscricao) {
-	this.inscricao = inscricao;
-    }
-
-    public Date getDataAvaliacao() {
-	return dataAvaliacao;
-    }
-
-    public void setDataAvaliacao(Date dataAvaliacao) {
-	this.dataAvaliacao = dataAvaliacao;
-    }
-
-    public String getTipoVaga() {
-	return tipoVaga;
-    }
-
-    public void setTipoVaga(String tipoVaga) {
-	this.tipoVaga = tipoVaga;
-    }
-
-    public Boolean getDocumentacaoCompleta() {
-	return documentacaoCompleta;
-    }
-
-    public void setDocumentacaoCompleta(Boolean documentacaoCompleta) {
-	this.documentacaoCompleta = documentacaoCompleta;
-    }
-
-    public String getObservacoes() {
-	return observacoes;
-    }
-
-    public void setObservacoes(String observacoes) {
-	this.observacoes = observacoes;
-    }
-
-    public Integer getQtdCursosGraduacaoComputacao() {
-	return qtdCursosGraduacaoComputacao;
-    }
-
-    public void setQtdCursosGraduacaoComputacao(Integer qtdCursosGraduacaoComputacao) {
-	this.qtdCursosGraduacaoComputacao = qtdCursosGraduacaoComputacao;
-    }
-
-    public Integer getQtdCursosGraduacaoOutras() {
-	return qtdCursosGraduacaoOutras;
-    }
-
-    public void setQtdCursosGraduacaoOutras(Integer qtdCursosGraduacaoOutras) {
-	this.qtdCursosGraduacaoOutras = qtdCursosGraduacaoOutras;
-    }
-
-    public Integer getQtdAtigosComputacao() {
-	return qtdAtigosComputacao;
-    }
-
-    public void setQtdAtigosComputacao(Integer qtdAtigosComputacao) {
-	this.qtdAtigosComputacao = qtdAtigosComputacao;
-    }
-
-    public Integer getQtdAtigosOutras() {
-	return qtdAtigosOutras;
-    }
-
-    public void setQtdAtigosOutras(Integer qtdAtigosOutras) {
-	this.qtdAtigosOutras = qtdAtigosOutras;
-    }
-
-    public Double getMediaGeralHistorico() {
-	return mediaGeralHistorico;
-    }
-
-    public void setMediaGeralHistorico(Double mediaGeralHistorico) {
-	this.mediaGeralHistorico = mediaGeralHistorico;
-    }
-
-    public Double getFatorCargaHoraria() {
-	return fatorCargaHoraria;
-    }
-
-    public void setFatorCargaHoraria(Double fatorCargaHoraria) {
-	this.fatorCargaHoraria = fatorCargaHoraria;
-    }
-
-    public Double getNotaFinal() {
-	return notaFinal;
-    }
-
-    public void setNotaFinal(Double notaFinal) {
-	this.notaFinal = notaFinal;
-    }
-
-    public List<VinculoEmpregaticio> getEmpregos() {
-	return empregos;
-    }
-
-    public void setEmpregos(List<VinculoEmpregaticio> empregos) {
-	this.empregos = empregos;
-    }
+    @Column
+    private Double notaFinal;
 
 }

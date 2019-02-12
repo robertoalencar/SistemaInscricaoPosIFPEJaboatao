@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -8,7 +10,7 @@
 
 	<meta charset="utf-8">
 
-	<title>PÛs GraduaÁ„o - Listar Usu·rios</title>
+	<title>P√≥s Gradua√ß√£o - Listar Usu√°rios</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
@@ -132,7 +134,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> MANTER USU¡RIO </strong></h3>
+                    <h3 class="page-header"><strong> MANTER USU√ÅRIO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -147,7 +149,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>Usu·rios</strong></a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>Usu√°rios</strong></a>
                                         </h4>
                                     </div>
                                     <div id="collapseThree" class="panel-collapse collapse">
@@ -193,8 +195,8 @@
 										<th style="width: 10%; vertical-align: middle;">Login</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
 										<th style="width: 20%; vertical-align: middle;">E-mail</th>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD AvaliaÁıes</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">AÁıes</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avalia√ß√µes</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">A√ß√µes</th>
             						</tr>
 								</thead>
 								<tfoot>
@@ -205,8 +207,8 @@
 										<th style="width: 10%; vertical-align: middle;">Login</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
 										<th style="width: 20%; vertical-align: middle;">E-mail</th>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD AvaliaÁıes</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">AÁıes</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avalia√ß√µes</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">A√ß√µes</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>
@@ -214,7 +216,7 @@
         					
         					<c:choose>
 								<c:when test="${lista.size() == 0}">
-									N„o foram encontrados registros.
+									N√£o foram encontrados registros.
 								</c:when>
 								<c:otherwise>
 									Total de Itens Listados: <label id="totaLista">${lista.size()}</label>

@@ -12,10 +12,13 @@ import javax.persistence.SequenceGenerator;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+
 /**
  * @author Roberto Alencar
  *
  */
+@Data
 @Entity
 public class Candidato implements Serializable {
 
@@ -50,77 +53,5 @@ public class Candidato implements Serializable {
 
     @Column
     private String foneCelular;
-
-    public Long getId() {
-	return id;
-    }
-
-    public void setId(Long id) {
-	this.id = id;
-    }
-
-    public boolean isHabilitado() {
-	return habilitado;
-    }
-
-    public void setHabilitado(boolean habilitado) {
-	this.habilitado = habilitado;
-    }
-
-    public String getNome() {
-	return nome;
-    }
-
-    public void setNome(String nome) {
-	this.nome = nome;
-    }
-
-    public String getCpf() {
-	return cpf;
-    }
-
-    public void setCpf(String cpf) {
-	this.cpf = cpf;
-    }
-
-    public String getSexo() {
-	return sexo;
-    }
-
-    public void setSexo(String sexo) {
-	this.sexo = sexo;
-    }
-
-    public Date getDataNacimento() {
-	return dataNacimento;
-    }
-
-    public void setDataNacimento(Date dataNacimento) {
-	this.dataNacimento = dataNacimento;
-    }
-
-    public String getEmail() {
-	return email;
-    }
-
-    public void setEmail(String email) {
-	this.email = email;
-    }
-
-    public String getFoneResidencial() {
-	return foneResidencial;
-    }
-
-    public void setFoneResidencial(String foneResidencial) {
-	this.foneResidencial = foneResidencial;
-    }
-
-    public String getFoneCelular() {
-	return foneCelular;
-    }
-
-    public void setFoneCelular(String foneCelular) {
-	this.foneCelular = foneCelular;
-    }
 
 }

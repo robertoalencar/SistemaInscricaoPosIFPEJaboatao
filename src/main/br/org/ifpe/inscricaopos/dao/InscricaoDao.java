@@ -34,12 +34,14 @@ public class InscricaoDao extends HibernateDao {
 	candidato.setHabilitado(Boolean.TRUE);
 	manager.persist(candidato);
 
-	Inscricao inscricao = new Inscricao();
-	inscricao.setNumero(gerarNumeroInscricao());
-	inscricao.setCandidato(candidato);
-	inscricao.setCursoEscolhido(cursoEscolhido);
-	inscricao.setHabilitado(Boolean.TRUE);
-	inscricao.setDataInscricao(Calendar.getInstance().getTime());
+	Inscricao inscricao = Inscricao.builder()
+		.numero(gerarNumeroInscricao())
+		.candidato(candidato)
+		.cursoEscolhido(cursoEscolhido)
+		.habilitado(Boolean.TRUE)
+		.dataInscricao(Calendar.getInstance().getTime())
+		.build();
+
 	manager.persist(inscricao);
 
 	manager.getTransaction().commit();
@@ -65,7 +67,7 @@ public class InscricaoDao extends HibernateDao {
 	return candidato;
     }
 
-    public void remove(int id) {
+    public void remove(Long id) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();

@@ -1,3 +1,5 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
@@ -8,7 +10,7 @@
 
 	<meta charset="utf-8">
 
-	<title>Pós Graduação - Listar Inscrições</title>
+	<title>PÃ³s GraduaÃ§Ã£o - Listar InscriÃ§Ãµes</title>
 
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
@@ -141,7 +143,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> MANTER INSCRIÇÕES </strong></h3>
+                    <h3 class="page-header"><strong> MANTER INSCRIÃ‡Ã•ES </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -156,14 +158,14 @@
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>Inscrições</strong></a>
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree">Clique <strong>aqui</strong> para exibir os campos de para filtrar de <strong>InscriÃ§Ãµes</strong></a>
                                         </h4>
                                     </div>
                                     <div id="collapseThree" class="panel-collapse collapse">
                                         <div class="panel-body">
                                             <div class="col-lg-6">
 		                                    	<div class="form-group">
-		                                        	<label>Nº Inscrição</label>
+		                                        	<label>NÂº InscriÃ§Ã£o</label>
 		                                          	<input class="form-control" name="numInscricao" id="numInscricao">
 		                                      	</div>
 											</div>
@@ -191,22 +193,22 @@
 							<table class="table table-striped table-bordered table-hover" id="tabelaLista">
 								<thead>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">ClassificaÃ§Ã£o</a></th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">NÂº InscriÃ§Ã£o</th>
 										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
-										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data InscriÃ§Ã£o</a></th>
+										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD AvaliaÃ§Ãµes</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">AÃ§Ãµes</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">ClassificaÃ§Ã£o</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">NÂº InscriÃ§Ã£o</th>
 										<th style="width: 45%; vertical-align: middle;">Nome</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
-										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Data InscriÃ§Ã£o</th>
+										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD AvaliaÃ§Ãµes</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">AÃ§Ãµes</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>
@@ -214,7 +216,7 @@
         					
         					<c:choose>
 								<c:when test="${lista.size() == 0}">
-									Não foram encontrados registros.
+									NÃ£o foram encontrados registros.
 								</c:when>
 								<c:otherwise>
 									Total de Itens Listados: <label id="totaLista">${lista.size()}</label>
