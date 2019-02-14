@@ -24,9 +24,10 @@
 
 	<script type="text/javascript">
 	
-		var linhaNovoVinculo = "";
+	
 		var qtdLinhasVinculoEmpregaticio = 0;
 
+		
 		$(document).ready(function() {
 
 			
@@ -69,6 +70,7 @@
 				calcularPontuacaoProducaoCientifica();
 			});
 			
+			
 			function calcularPontuacaoProducaoCientifica() {
 				
 				var qtdAtigosComputacao = $('#qtdAtigosComputacao').val();
@@ -92,6 +94,7 @@
 				calcularPontuacaoHistoricoEscolar();
 			});
 			
+			
 			function calcularPontuacaoHistoricoEscolar() {
 				
 				var historicoMediaGeral = $('#historicoMediaGeral').val();
@@ -109,12 +112,10 @@
 				}
 			}
 			
+			
 			$(document).on('click', '#btAdicionarVinculo', function(){
 				
-				qtdLinhasVinculoEmpregaticio = qtdLinhasVinculoEmpregaticio + 1;
-				
-				linhaNovoVinculo += "<div id='v"+qtdLinhasVinculoEmpregaticio+"'";
-				
+				var linhaNovoVinculo = "<div id='vinculo"+qtdLinhasVinculoEmpregaticio+"'>";
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Vínculo Empregatício na área de</label>";
@@ -140,44 +141,55 @@
 				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
-				linhaNovoVinculo += "<div class='col-lg-2'>";
+				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Total de Meses</label>";
 				linhaNovoVinculo += "<input class='form-control' id='totalMeses"+qtdLinhasVinculoEmpregaticio+"' readonly='readonly'>";
 				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
-				linhaNovoVinculo += "<div class='col-lg-1'>";
-				linhaNovoVinculo += "<div class='form-group'>";
-				linhaNovoVinculo += "<label>Remover</label>";
-				linhaNovoVinculo += "<button type='button' id='removerVinculo' class='btn btn-danger glyphicon glyphicon-remove-sign'></button>";
-				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
-				linhaNovoVinculo += "</div>";
+				$('#linhaVinculoEmpregaticio').append(linhaNovoVinculo);
 				
 				$("#dataInicio"+qtdLinhasVinculoEmpregaticio).datepicker({ dateFormat: 'dd/mm/yy' });
+				$("#dataFim"+qtdLinhasVinculoEmpregaticio).datepicker({ dateFormat: 'dd/mm/yy' });
 				
-				$('#linhaVinculoEmpregaticio').html(linhaNovoVinculo);	
+				$("#areaCargo"+qtdLinhasVinculoEmpregaticio).change(function() { atualizarPontuacaoVinculos(); });
+				$("#dataInicio"+qtdLinhasVinculoEmpregaticio).change(function() { atualizarPontuacaoVinculos(); });
+				$("#dataFim"+qtdLinhasVinculoEmpregaticio).change(function() { atualizarPontuacaoVinculos(); });
+				
+				qtdLinhasVinculoEmpregaticio = qtdLinhasVinculoEmpregaticio + 1;
+				
 			});
 			
+
 			$(document).on('click', '#removerVinculo', function(){
-				alert("#v"+qtdLinhasVinculoEmpregaticio);
-				$("#v"+qtdLinhasVinculoEmpregaticio).remove();
+				
 				qtdLinhasVinculoEmpregaticio = qtdLinhasVinculoEmpregaticio - 1;
+				$("#vinculo"+qtdLinhasVinculoEmpregaticio).remove();
+				
 			});
+			
+			
+			function atualizarPontuacaoVinculos() {
+				
+				for (var i = 0; i < qtdLinhasVinculoEmpregaticio; i++) {
+					
+					var areaCargo = $("#areaCargo"+i).val();
+					var dataInicio = $("#dataInicio"+i).val();
+					var dataFim = $("#dataFim"+i).val();
+					
+					alert(areaCargo);
+					alert(dataInicio);
+					alert(dataFim);
+					
+					$("#totalMeses"+i).val(3);
+				}
+			}
+			
 		});
 		
-		
-		
-		function removerVinculo() {
-			
-			//alert("$v"+qtdLinhasVinculoEmpregaticio);
-			
-			//document.getElementById("v"+qtdLinhasVinculoEmpregaticio).remove();
-			//qtdLinhasVinculoEmpregaticio = qtdLinhasVinculoEmpregaticio - 1;
-		}
-	
 	</script>
 
 </head>
@@ -447,13 +459,15 @@
 										<li> (1) Clique no botão Adicionar para incluir novos vínculos empregatícios ao candidato. </li>
 										<li> (2) Informe a área de atuação e as datas de início e fim do respectivo vínculo empregatício. </li>
 										<li> (3) Caso o vínculo esteja sem data de saída, ou seja, é um vínculo ainda em vigor deve ser informado no campo 'Data de Início do Vínculo' a data do primeiro dia do período das inscrições. </li>
+										<li> (4) Clique em Remover para retirar o último vínculo empregatício adicionado. </li>
 									</ul>
 								</div>
 							</div>
 							
 							<div class="col-lg-2">
 								<div class="form-group" style="color: gray;">
-									<button type="button" id="btAdicionarVinculo" class="btn btn-info glyphicon glyphicon-plus-sign" title="Adicionar Novo Vínculo Empregatício"> Adicionar</button> 
+									<button type="button" id="btAdicionarVinculo" class="btn btn-info glyphicon glyphicon-plus-sign" title="Adicionar Novo Vínculo Empregatício"> Adicionar</button> <br /> <br />
+									<button type='button' id='removerVinculo' class='btn btn-danger glyphicon glyphicon-remove-sign' title="Remove Vínculo Empregatício"> Remover</button> 
 								</div>
 							</div>
 							
