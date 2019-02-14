@@ -13,14 +13,22 @@ public class DataConverter implements Converter<String, Date> {
 
     public Date convert(String data) {
 
-	Calendar c = Calendar.getInstance();
+	if (data != null && !data.equals("")) {
 
-	int dia = Integer.parseInt(data.substring(0, 2));
-	int mes = Integer.parseInt(data.substring(3, 5));
-	int ano = Integer.parseInt(data.substring(6, 10));
+	    Calendar c = Calendar.getInstance();
 
-	c.set(ano, (mes - 1), dia, 0, 0, 0);
+	    int dia = Integer.parseInt(data.substring(0, 2));
+	    int mes = Integer.parseInt(data.substring(3, 5));
+	    int ano = Integer.parseInt(data.substring(6, 10));
 
-	return c.getTime();
+	    c.set(ano, (mes - 1), dia, 0, 0, 0);
+
+	    return c.getTime();
+	    
+	} else {
+	    
+	    return null;
+	}
+
     }
 }

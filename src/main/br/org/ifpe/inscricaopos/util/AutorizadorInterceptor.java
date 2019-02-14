@@ -12,7 +12,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	    throws Exception {
 
 	String uri = request.getRequestURI();
-	if (uri.contains("resources") || uri.endsWith("InscricaoPos") || uri.endsWith("efetuarLogin") || uri.endsWith("usuario/add") || uri.endsWith("usuario/save")) {
+	if (uri.contains("resources") || uri.endsWith("inscricao-pos-jaboatao") || uri.endsWith("efetuarLogin") || uri.endsWith("usuario/add") || uri.endsWith("usuario/save")) {
 
 	    request.getSession().setAttribute("msg", null);
 	    return true;
@@ -25,7 +25,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	request.getSession().setAttribute("msg", "É necessário informar as credencias de acesso para acessar o sistema.");
-	response.sendRedirect("/InscricaoPos");
+	response.sendRedirect("/inscricao-pos-jaboatao");
 	return false;
     }
 }

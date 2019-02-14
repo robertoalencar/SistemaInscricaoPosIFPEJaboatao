@@ -99,7 +99,6 @@
                     linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].tipo.descricao + "</td>";
                    	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].nome + "</td>";
                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].siape + "</td>";
-             		linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].login + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].fone + "</td>";
              		linhas += "<td style='vertical-align: middle;'>"  + dadosJSON[i].email + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'> 3 </td>";
@@ -190,11 +189,10 @@
 								<thead>
 									<tr>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaTipo">Tipo</a></th>
-										<th style="width: 20%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 25%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">SIAPE</th>
-										<th style="width: 10%; vertical-align: middle;">Login</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
-										<th style="width: 20%; vertical-align: middle;">E-mail</th>
+										<th style="width: 25%; vertical-align: middle;">E-mail</th>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
@@ -202,11 +200,10 @@
 								<tfoot>
 									<tr>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo</th>
-										<th style="width: 20%; vertical-align: middle;">Nome</th>
+										<th style="width: 25%; vertical-align: middle;">Nome</th>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">SIAPE</th>
-										<th style="width: 10%; vertical-align: middle;">Login</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
-										<th style="width: 20%; vertical-align: middle;">E-mail</th>
+										<th style="width: 25%; vertical-align: middle;">E-mail</th>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>

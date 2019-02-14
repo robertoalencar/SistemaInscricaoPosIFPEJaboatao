@@ -118,17 +118,28 @@
 	                                          </c:if> 
 	                                      </div>
 									</div>
+									
+									<div class="col-lg-12">
+	                                   	<div class="form-group">
+	                                    	<label>Curso Escolhido<span style="color: red;"> * </span></label>
+	                                    	<select name="cursoEscolhido" class="form-control" required="required">
+												<option value=""> Selecione </option>
+												<option value="Gestao" <c:if test="${inscricao.cursoEscolhido eq 'Gestao'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
+												<option value="Inovacao" <c:if test="${inscricao.cursoEscolhido eq 'Inovacao'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
+											</select>
+										</div>
+									</div>
                                   
                                   	<div class="col-lg-12">
                                     	<div class="form-group">
-                                        	<label>Nome</label>
+                                        	<label>Nome<span style="color: red;"> * </span></label>
                                          	<input class="form-control" name="nome" id="nome" placeholder="Informe o nome completo do candidato." value="${inscricao.candidato.nome}" required="required">
                                       	</div>
 									</div>
                                      
                                     <div class="col-lg-6">
                                     	<div class="form-group">
-                                        	<label>CPF</label>
+                                        	<label>CPF<span style="color: red;"> * </span></label>
                                           	<input class="form-control" name="cpf" id="cpf" value="${inscricao.candidato.cpf}" required="required">
                                       	</div>
 									</div>
@@ -136,28 +147,28 @@
 									<div class="col-lg-6">
                                      	<div class="form-group">
                                          	<label>E-mail</label>
-                                         	<input type="email" class="form-control" name="email" id="email" value="${inscricao.candidato.email}" required="required">
+                                         	<input type="email" class="form-control" name="email" id="email" value="${inscricao.candidato.email}">
                                     	</div>
                                     </div>
                                     
                                     <div class="col-lg-6">
                                     	<div class="form-group">
                                          	<label>Fone Residencial</label>
-                                         	<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}" required="required">
+                                         	<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}">
                                     	</div>
                                     </div>
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
                                         	<label>Fone Celular</label>
-                                          	<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}" required="required">
+                                          	<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}">
                                       	</div>
                                  	</div>
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
                                          	<label>Data de Nascimento</label>
-                                         	<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />" required="required">
+                                         	<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />">
 										</div>
                                     </div>
                                      
@@ -165,7 +176,7 @@
                                      	<div class="form-group">
                                         	<label>Sexo</label>
                                           	<div class="radio">
-                                            	<label><input type="radio" name="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if> required="required">Masculino</label>
+                                            	<label><input type="radio" name="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if>>Masculino</label>
                                               	<label><input type="radio" name="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
                                               	<label><input type="radio" name="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
                                           	</div>
@@ -173,14 +184,9 @@
 									</div>
 									
 									<div class="col-lg-12">
-	                                   	<div class="form-group">
-	                                    	<label>Curso Escolhido</label>
-	                                    	<select name="cursoEscolhido" class="form-control" required="required">
-												<option value=""> Selecione </option>
-												<option value="Gestão e Qualidade em TIC" <c:if test="${inscricao.cursoEscolhido eq 'Gestão e Qualidade em TIC'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
-												<option value="Desenv. Inovação e Tecnologias Emergentes" <c:if test="${inscricao.cursoEscolhido eq 'Desenv. Inovação e Tecnologias Emergentes'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
-											</select>
-										</div>
+                                     	<div class="form-group">
+                                        	<small id="passwordHelpBlock" class="form-text text-muted"><span style="color: red;"> * </span> Campos de preenchimento obrigatório.</small>
+                                      	</div>
 									</div>
 									
                                  	<div class="col-lg-12"> &nbsp; </div>

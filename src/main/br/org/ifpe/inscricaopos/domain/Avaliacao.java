@@ -77,6 +77,18 @@ public class Avaliacao implements Serializable {
 
     @OneToMany
     private List<VinculoEmpregaticio> empregos;
+    
+    @Column
+    private Double expProfTotalMesesAreaComp;
+    
+    @Column
+    private Double expProfTotalMesesOutras;
+    
+    @Column
+    private Double expProfPontuacaoTotal;
+
+    @Column
+    private Double expProfPontuacaoItem;
 
     @Column
     private Double historicoMediaGeral;
