@@ -30,11 +30,10 @@
 
 		
 		$(document).ready(function() {
-
 			
-			$("#dataInicio1").datepicker({ dateFormat: 'dd/mm/yy' });
-			$("#dataFim1").datepicker({ dateFormat: 'dd/mm/yy' });
-			
+	       	$("#foneResidencial").mask("(99) 9999.9999");
+	    	$("#foneCelular").mask("(99) 9 9999.9999");
+	    	$("#dataNacimento").datepicker({ dateFormat: 'dd/mm/yy' });			
 			
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
@@ -119,7 +118,7 @@
 				var linhaNovoVinculo = "<div id='vinculo"+qtdLinhasVinculoEmpregaticio+"'>";
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
-				linhaNovoVinculo += "<label>Vínculo Empregatício na área de</label>";
+				linhaNovoVinculo += "<label>Vínculo na área de</label>";
 				linhaNovoVinculo += "<select id='areaCargo"+qtdLinhasVinculoEmpregaticio+"' class='form-control'>";
 				linhaNovoVinculo += "<option value=''> &nbsp; </option>";
 				linhaNovoVinculo += "<option value='computacao'> Computação </option>";
@@ -165,10 +164,11 @@
 			});
 			
 
-			$(document).on('click', '#removerVinculo', function(){
+			$(document).on('click', '#removerVinculo', function() {
 				
 				qtdLinhasVinculoEmpregaticio = qtdLinhasVinculoEmpregaticio - 1;
 				$("#vinculo"+qtdLinhasVinculoEmpregaticio).remove();
+				calcularPontuacaoItemExperienciaProfissional();
 				
 			});
 			
@@ -204,30 +204,44 @@
 				var expProfTotalMesesAreaComp = 0;
 				var expProfTotalMesesOutras = 0;
 				var areaCargo;
+				var dataInicio;
+				var dataFim;
 				var totalMeses;
 				
 				for (var i = 0; i < qtdLinhasVinculoEmpregaticio; i++) {
 					
 					areaCargo = $("#areaCargo"+i).val();
+					dataInicio = $("#dataInicio"+i).val();
+					dataFim = $("#dataFim"+i).val();
 					totalMeses = $("#totalMeses"+i).val();
 					
-					if (areaCargo == 'computacao') {
-						expProfTotalMesesAreaComp = parseFloat(expProfTotalMesesAreaComp) + parseFloat(totalMeses); 
-					} else if (areaCargo == 'outras') {
-						expProfTotalMesesOutras = parseFloat(expProfTotalMesesOutras) + parseFloat(totalMeses);
+					if ((areaCargo != null && areaCargo != "") 
+						&& (dataInicio != null && dataInicio != "") 
+						&& (dataFim != null && dataFim != "")) {
+						
+						totalMeses = $("#totalMeses"+i).val();
+						
+						if (areaCargo == 'computacao') {
+							expProfTotalMesesAreaComp = parseFloat(expProfTotalMesesAreaComp) + parseFloat(totalMeses); 
+						} else if (areaCargo == 'outras') {
+							expProfTotalMesesOutras = parseFloat(expProfTotalMesesOutras) + parseFloat(totalMeses);
+						}
 					}
 				}
+				
+				expProfTotalMesesAreaComp = parseFloat(expProfTotalMesesAreaComp/12).toFixed(2); //converte o total de meses em anos
+				expProfTotalMesesOutras = parseFloat(expProfTotalMesesOutras/12).toFixed(2); //converte o total de meses em anos
 				
 				$("#expProfTotalMesesAreaComp").val(expProfTotalMesesAreaComp);
 				$("#expProfTotalMesesOutras").val(expProfTotalMesesOutras);
 				
 				var expProfPontuacaoTotal = (expProfTotalMesesAreaComp*2)+(expProfTotalMesesOutras*1);
-				$("#expProfPontuacaoTotal").val(expProfPontuacaoTotal);
+				$("#expProfPontuacaoTotal").val(parseFloat(expProfPontuacaoTotal).toFixed(2));
 				
 				if (expProfPontuacaoTotal > 10) {
 					$('#expProfPontuacaoItem').val(10); //pontuação máxima	
 				} else {
-					$('#expProfPontuacaoItem').val(expProfPontuacaoTotal);
+					$('#expProfPontuacaoItem').val(parseFloat(expProfPontuacaoTotal).toFixed(2));
 				}
 			}
 			
@@ -251,7 +265,7 @@
         
             <div class="row">
                 <div class="col-lg-12">
-                    <h3 class="page-header"><strong> AVALIAR INSCRIÇÃO </strong></h3>
+                    <h3 class="page-header"><strong> AVALIAR CANDIDATO </strong></h3>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -263,53 +277,75 @@
 						<div class="panel-body">
 						
 							<div class="col-lg-12">
-								<div class="form-group">
-									<label>Número de Inscrição: </label> ${inscricao.numero}
-								</div>
-							</div>
-
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Nome: </label> ${inscricao.candidato.nome} 
-								</div>
-							</div>
-
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>CPF: </label> ${inscricao.candidato.cpf} 
-								</div>
+	                           	<div class="form-group">
+                                   <label>Número de Inscrição</label>
+                                   <input class="form-control" name="numero" readonly="readonly" value="${inscricao.numero}">
+                               </div>
 							</div>
 							
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Data de Nascimento: </label> <fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' /> 
-								</div>
-							</div>
-							
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Sexo: </label> ${inscricao.candidato.sexo}
-								</div>
-							</div>
-
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Fone Residencial: </label> ${inscricao.candidato.foneResidencial} 
-								</div>
-							</div>
-
-							<div class="col-lg-6">
-								<div class="form-group">
-									<label>Fone Celular: </label> ${inscricao.candidato.foneCelular} 
-								</div>
-							</div>
-
 							<div class="col-lg-12">
 								<div class="form-group">
-									<label>E-mail: </label> ${inscricao.candidato.email} 
+                                   	<label>Curso Escolhido</label>
+                                   	<select name="cursoEscolhido" class="form-control" readonly="readonly">
+										<option value=""> Selecione </option>
+										<option value="Gestao" <c:if test="${inscricao.cursoEscolhido eq 'Gestao'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
+										<option value="Inovacao" <c:if test="${inscricao.cursoEscolhido eq 'Inovacao'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
+									</select>
 								</div>
 							</div>
-
+                                
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label>Nome</label>
+									<input class="form-control" name="nome" id="nome" value="${inscricao.candidato.nome}" readonly="readonly">
+								</div>
+							</div>
+                                   
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>CPF</label>
+									<input class="form-control" name="cpf" id="cpf" value="${inscricao.candidato.cpf}" readonly="readonly">
+								</div>
+							</div>
+					
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>E-mail</label>
+									<input type="email" class="form-control" name="email" id="email" value="${inscricao.candidato.email}">
+								</div>
+							</div>
+                                  
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>Fone Residencial</label>
+									<input class="form-control" name="foneResidencial" id="foneResidencial" value="${inscricao.candidato.foneResidencial}">
+								</div>
+							</div>
+                                   
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>Fone Celular</label>
+									<input class="form-control" name="foneCelular" id="foneCelular" value="${inscricao.candidato.foneCelular}">
+								</div>
+							</div>
+                                   
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>Data de Nascimento</label>
+									<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />">
+								</div>
+							</div>
+                                   
+							<div class="col-lg-6">
+								<div class="form-group">
+									<label>Sexo</label>
+									<div class="radio">
+										<label><input type="radio" name="sexo" value="Masculino" <c:if test="${inscricao.candidato.sexo eq 'Masculino'}"> checked="checked" </c:if>>Masculino</label>
+										<label><input type="radio" name="sexo" value="Feminino" <c:if test="${inscricao.candidato.sexo eq 'Feminino'}"> checked="checked" </c:if>>Feminino</label>
+										<label><input type="radio" name="sexo" value="Outro" <c:if test="${inscricao.candidato.sexo eq 'Outro'}"> checked="checked" </c:if>>Outro</label>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -416,7 +452,7 @@
                       	
 							<div class="col-lg-3">
                                	<div class="form-group">
-                                   	<label>(IC01.1) Na Área de Computação</label>
+                                   	<label>(IC01.1) Na Área de Comput.</label>
                                    	<input type="number" class="form-control" name="gradQtdCursosComputacao" id="gradQtdCursosComputacao" pattern="[0-9]+$" placeholder="Ex.: 2">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Peso 3</small>
                                	</div>
@@ -459,7 +495,7 @@
                       	
 							<div class="col-lg-3">
                                	<div class="form-group">
-                                   	<label>(IC02.1) Na Área de Computação</label>
+                                   	<label>(IC02.1) Na Área de Comput.</label>
                                    	<input type="number" class="form-control" name="qtdAtigosComputacao" id="qtdAtigosComputacao" pattern="[0-9]+$" placeholder="Ex.: 4">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Peso 5</small>
                                	</div>
@@ -572,8 +608,9 @@
                       	
 							<div class="col-lg-3">
                                	<div class="form-group">
-                                   	<label>(IC04.1) Média Geral do Histórico</label>
+                                   	<label>(IC04.1) Média Histórico</label>
                                    	<input type="number" class="form-control" name="historicoMediaGeral" id="historicoMediaGeral" pattern="[0-9]+$" placeholder="Ex.: 8.5">
+                                   	<small id="passwordHelpBlock" class="form-text text-muted">Em caso de número decimal, utilizar vírgula ao invés de ponto.</small>
                                	</div>
 							</div>
 					

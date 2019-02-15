@@ -96,14 +96,14 @@
                                  
                                   	<div class="col-lg-12">
                                     	<div class="form-group">
-                                        	<label>Nome</label>
+                                        	<label>Nome<span style="color: red;"> * </span></label>
                                          	<input class="form-control" name="nome" id="nome" value="${usuario.nome}" required="required">
                                       	</div>
 									</div>
                                      
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                     	<div class="form-group">
-                                        	<label>Tipo</label>
+                                        	<label>Tipo<span style="color: red;"> * </span></label>
                                           	<select id="tipo" name="tipo" class="form-control" required="required">
 												<option value=""> Selecione </option>
 												<c:forEach items="${listaTipoUsuario}" var="obj">
@@ -113,39 +113,32 @@
                                       	</div>
 									</div>
 							
-									<div class="col-lg-6">
-                                     	<div class="form-group">
-                                        	<label>SIAPE</label>
-                                          	<input class="form-control" name="siape" id="siape" value="${usuario.siape}" required="required">
-                                      	</div>
-                                    </div>
-                                     
                                     <div class="col-lg-6">
                                      	<div class="form-group">
                                          	<label>Fone</label>
-                                         	<input class="form-control" name="fone" id="fone" value="${usuario.fone}" required="required">
+                                         	<input class="form-control" name="fone" id="fone" value="${usuario.fone}">
 										</div>
                                     </div>
                                      
                                      <div class="col-lg-6">
                                      	<div class="form-group">
                                          	<label>E-mail</label>
-                                         	<input type="email" class="form-control" name="email" id="email" value="${usuario.email}" required="required">
+                                         	<input type="email" class="form-control" name="email" id="email" value="${usuario.email}">
                                     	</div>
 									</div>
 									
-									<div class="col-lg-6">
-                                    	<div class="form-group">
-                                         	<label>Login</label>
-                                         	<input class="form-control" name="login" id="login" value="${usuario.login}" required="required">
-                                    	</div>
+                                    <div class="col-lg-6">
+                                     	<div class="form-group">
+                                        	<label>SIAPE<span style="color: red;"> * </span></label>
+                                          	<input class="form-control" name="siape" id="siape" value="${usuario.siape}" required="required">
+                                      	</div>
                                     </div>
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
                                           	<c:choose>
                                           		<c:when test="${operacao eq 'save'}">
-                                          			<label>Senha</label>
+                                          			<label>Senha<span style="color: red;"> * </span></label>
                                           			<input type="password" class="form-control" name="senha" id="senha" value="${usuario.senha}" required="required">	
                                           		</c:when>
                                           		<c:otherwise>
@@ -154,6 +147,12 @@
                                           	</c:choose>
                                       	</div>
                                  	</div>
+                                 	
+                                 	<div class="col-lg-12">
+                                     	<div class="form-group">
+                                        	<small id="passwordHelpBlock" class="form-text text-muted"><span style="color: red;"> * </span> Campos de preenchimento obrigatório.</small>
+                                      	</div>
+									</div>
                                     
                                  	<div class="col-lg-12"> &nbsp; </div>
 

@@ -40,9 +40,6 @@ public class Usuario implements Serializable {
     private String siape;
 
     @Column
-    private String login;
-
-    @Column
     private String senha;
 
     @Column

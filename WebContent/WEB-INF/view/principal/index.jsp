@@ -19,8 +19,8 @@
 	<br />
 	<br />
 	<br />
-
-	<div align="center" style="color: #6E6E6E;">
+	
+	<div class="row" align="center" style="coor: #6E6E6E;">
 
 		<table style="width: 70%;">
 			<tr>
@@ -49,13 +49,13 @@
 				<br/>
 	
 				<div class="form-group" style="text-align: left;">
-	   				<label for="inputLogin">Login</label>
-	   				<input type="text" class="form-control" id="inputLogin" name="login" value="${usuario.login}" maxlength="20" required="required" tabindex="1">
+	   				<label for="inputLogin">SIAPE</label>
+	   				<input type="text" class="form-control" name="siape" value="${usuario.siape}" maxlength="20" required="required" tabindex="1">
 	 				</div>
 	 				
 	 				<div class="form-group" style="text-align: left;">
 	   				<label for="inputSenha">Senha</label>
-	   				<input type="password" class="form-control" id="inputSenha" name="senha" value="${usuario.senha}" maxlength="20" required="required" tabindex="2">
+	   				<input type="password" class="form-control" name="senha" value="${usuario.senha}" maxlength="20" required="required" tabindex="2">
 	 			</div>
 	 				
 	 			<br/>
