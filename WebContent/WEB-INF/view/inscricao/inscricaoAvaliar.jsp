@@ -21,6 +21,7 @@
   	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/maskedinput.js"></script>
+  	<script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/moment-with-locales.min.js"></script>
 
 	<script type="text/javascript">
 	
@@ -40,10 +41,10 @@
 			});
 			
 			
-			$('#gradQtdCursosComputacao').blur(function() {
+			$('#gradQtdCursosComputacao').change(function() {
 				calcularPontuacaoGraduacao();
 			});
-			$('#gradQtdCursosOutros').blur(function() {
+			$('#gradQtdCursosOutros').change(function() {
 				calcularPontuacaoGraduacao();
 			});
 			
@@ -63,10 +64,10 @@
 			}
 			
 			
-			$('#qtdAtigosComputacao').blur(function() {
+			$('#qtdAtigosComputacao').change(function() {
 				calcularPontuacaoProducaoCientifica();
 			});
-			$('#qtdAtigosOutras').blur(function() {
+			$('#qtdAtigosOutras').change(function() {
 				calcularPontuacaoProducaoCientifica();
 			});
 			
@@ -87,7 +88,7 @@
 			}
 			
 			
-			$('#historicoMediaGeral').blur(function() {
+			$('#historicoMediaGeral').change(function() {
 				calcularPontuacaoHistoricoEscolar();
 			});
 			$('#historicoFatorCargaHoraria').change(function() {
@@ -177,14 +178,56 @@
 				for (var i = 0; i < qtdLinhasVinculoEmpregaticio; i++) {
 					
 					var areaCargo = $("#areaCargo"+i).val();
-					var dataInicio = $("#dataInicio"+i).val();
-					var dataFim = $("#dataFim"+i).val();
+					var campoDataInicio = $("#dataInicio"+i).val();
+					var campoDataFim = $("#dataFim"+i).val();
 					
-					alert(areaCargo);
-					alert(dataInicio);
-					alert(dataFim);
+					if ((areaCargo != null && areaCargo != "") 
+							&& (campoDataInicio != null && campoDataInicio != "") 
+							&& (campoDataFim != null && campoDataFim != "")) {
+
+				        moment.locale('pt-br');
+						
+				        var dataInicio = moment(campoDataInicio,'DD/MM/YYYY');
+				        var dataFim = moment(campoDataFim,'DD/MM/YYYY');
+				        var diffDias = dataFim.diff(dataInicio, 'days');
+				        var diffMeses = parseFloat((diffDias/30).toFixed(2));
+				        
+						$("#totalMeses" + i).val(diffMeses);
+						
+						calcularPontuacaoItemExperienciaProfissional();
+					}
+				}
+			}
+			
+			function calcularPontuacaoItemExperienciaProfissional() {
+				
+				var expProfTotalMesesAreaComp = 0;
+				var expProfTotalMesesOutras = 0;
+				var areaCargo;
+				var totalMeses;
+				
+				for (var i = 0; i < qtdLinhasVinculoEmpregaticio; i++) {
 					
-					$("#totalMeses"+i).val(3);
+					areaCargo = $("#areaCargo"+i).val();
+					totalMeses = $("#totalMeses"+i).val();
+					
+					if (areaCargo == 'computacao') {
+						expProfTotalMesesAreaComp = parseFloat(expProfTotalMesesAreaComp) + parseFloat(totalMeses); 
+					} else if (areaCargo == 'outras') {
+						expProfTotalMesesOutras = parseFloat(expProfTotalMesesOutras) + parseFloat(totalMeses);
+					}
+				}
+				
+				$("#expProfTotalMesesAreaComp").val(expProfTotalMesesAreaComp);
+				$("#expProfTotalMesesOutras").val(expProfTotalMesesOutras);
+				
+				var expProfPontuacaoTotal = (expProfTotalMesesAreaComp*2)+(expProfTotalMesesOutras*1);
+				$("#expProfPontuacaoTotal").val(expProfPontuacaoTotal);
+				
+				if (expProfPontuacaoTotal > 10) {
+					$('#expProfPontuacaoItem').val(10); //pontuação máxima	
+				} else {
+					$('#expProfPontuacaoItem').val(expProfPontuacaoTotal);
 				}
 			}
 			
