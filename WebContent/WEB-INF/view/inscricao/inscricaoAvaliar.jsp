@@ -31,10 +31,12 @@
 		
 		$(document).ready(function() {
 			
+			
 	       	$("#foneResidencial").mask("(99) 9999.9999");
 	    	$("#foneCelular").mask("(99) 9 9999.9999");
 	    	$("#dataNacimento").datepicker({ dateFormat: 'dd/mm/yy' });			
 			
+	    	
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
@@ -46,6 +48,7 @@
 			$('#gradQtdCursosOutros').change(function() {
 				calcularPontuacaoGraduacao();
 			});
+			
 			
 			function calcularPontuacaoGraduacao() {
 				
@@ -60,6 +63,8 @@
 				} else {
 					$('#gradPontuacaoItem').val(gradPontuacaoTotal);
 				}
+				
+				calcularNotaFinal();
 			}
 			
 			
@@ -84,6 +89,8 @@
 				} else {
 					$('#prodCientificaPontuacaoItem').val(prodCientificaPontuacaoTotal);
 				}
+				
+				calcularNotaFinal();
 			}
 			
 			
@@ -110,6 +117,8 @@
 				} else {
 					$('#historicoPontuacaoItem').val(historicoPontuacaoTotal);
 				}
+				
+				calcularNotaFinal();
 			}
 			
 			
@@ -199,6 +208,7 @@
 				}
 			}
 			
+			
 			function calcularPontuacaoItemExperienciaProfissional() {
 				
 				var expProfTotalMesesAreaComp = 0;
@@ -243,9 +253,49 @@
 				} else {
 					$('#expProfPontuacaoItem').val(parseFloat(expProfPontuacaoTotal).toFixed(2));
 				}
+				
+				calcularNotaFinal();
+			}
+			
+			
+			function calcularNotaFinal() {
+				
+				var IC01;
+				var IC02;
+				var IC03;
+				var IC04;
+				
+				if ($("#gradPontuacaoItem").val() == '') {
+					IC01 = 0;
+				} else {
+					IC01 = parseFloat($("#gradPontuacaoItem").val());
+				}
+				
+				if ($("#prodCientificaPontuacaoItem").val() == '') {
+					IC02 = 0;
+				} else {
+					IC02 = parseFloat($("#prodCientificaPontuacaoItem").val());
+				}
+				
+				if ($("#expProfPontuacaoItem").val() == '') {
+					IC03 = 0;
+				} else {
+					IC03 = parseFloat($("#expProfPontuacaoItem").val());
+				}
+				
+				if ($("#historicoPontuacaoItem").val() == '') {
+					IC04 = 0;
+				} else {
+					IC04 = parseFloat($("#historicoPontuacaoItem").val());
+				}
+				
+				var notaFinal = (((IC01 + IC02 + IC03) * 3.0) + (IC04 * 7.0)) / 10;
+				$("#notaFinal").val(parseFloat(notaFinal).toFixed(2));
 			}
 			
 		});
+		
+		
 		
 	</script>
 
@@ -259,7 +309,7 @@
 
         <div id="page-wrapper">
         
-        	<form role="form" action="" method="post">
+        	<form role="form" action="avaliacaoSave" method="post">
         	
         	<input type="hidden" name="idInscricao" value="${inscricao.id}">
         
@@ -392,14 +442,9 @@
       					<div class="panel-heading">Pontuação do Candidato</div>
                         <div class="panel-body">
                           	
-							<div class="col-lg-12">
-								<div class="form-group">
-									<label>Curso Escolhido: </label> ${inscricao.cursoEscolhido}
-								</div>
-							</div>
                            	<div class="col-lg-6">
 								<div class="form-group">
-                                   	<label>Documentação Completa</label>
+                                   	<label>Documentação Completa<span style="color: red;"> * </span></label>
                                    	<div class="radio">
                                      	<label><input type="radio" name="documentacaoCompleta" value="true" required="required">Sim</label> &nbsp;
                                        	<label><input type="radio" name="documentacaoCompleta" value="false">Não</label>
@@ -408,13 +453,14 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label>Nota Final: </label> 
-									<input class="form-control" name="notaFinal" id="notaFinal" readonly="readonly" style="width: 20%;">
+									<label>Nota Final<span style="color: red;"> * </span></label> 
+									<input class="form-control" name="notaFinal" id="notaFinal" readonly="readonly" style="width: 20%;" required="required">
+									<small id="passwordHelpBlock" class="form-text text-muted">Pontuação Final = (((IC01 + IC02 + IC03) * 3,0) + (IC04 * 7,0)) / 10</small>
 								</div>
 							</div>
 							<div class="col-lg-12">
 								<div class="form-group">
-                                   	<label>Tipo da Vaga</label>
+                                   	<label>Tipo da Vaga<span style="color: red;"> * </span></label>
                                    	<select name="tipoVaga" class="form-control" required="required">
 										<option value=""> Selecione </option>
 										<option value="VCG"> VCG - Vagas para concorrência geral </option>
@@ -435,7 +481,7 @@
 					</div>
                	</div>
 			</div>
-               	
+
             <div class="row">
             	<div class="col-lg-12">
 					<div class="panel panel-warning">
@@ -647,8 +693,16 @@
 			</div>
 				
 			<div class="row">
+			
 				<div class="col-lg-12">
-					<div class="col-lg-12"> &nbsp; </div>
+					<div class="form-group">
+                    	<small id="passwordHelpBlock" class="form-text text-muted"><span style="color: red;"> * </span> Campos de preenchimento obrigatório.</small>
+                  	</div>
+				</div>
+			
+				<div class="col-lg-12"> &nbsp; </div>
+			
+				<div class="col-lg-12">
 					<div class="col-lg-6">
 						<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
 					</div>

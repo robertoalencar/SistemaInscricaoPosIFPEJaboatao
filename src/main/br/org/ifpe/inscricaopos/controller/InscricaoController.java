@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
+import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 
@@ -113,6 +114,14 @@ public class InscricaoController {
 	model.addAttribute("inscricao", inscricaoDao.find(Inscricao.class, id));
 
 	return TELA_AVALIAR;
+    }
+    
+    @RequestMapping("/inscricao/avaliacaoSave")
+    public String saveAvaliacao(AvaliacaoVO avaliacaoVO) {
+
+	System.out.println(avaliacaoVO);
+	
+	return "forward:/inscricao/list";
     }
 
 }
