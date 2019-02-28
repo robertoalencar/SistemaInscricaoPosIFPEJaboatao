@@ -2,6 +2,8 @@ package main.br.org.ifpe.inscricaopos.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -11,10 +13,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import main.br.org.ifpe.inscricaopos.dao.AvaliacaoDao;
 import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
 import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
+import main.br.org.ifpe.inscricaopos.domain.Usuario;
+import main.br.org.ifpe.inscricaopos.util.Constantes;
 
 /**
  * @author Roberto Alencar
@@ -29,6 +34,9 @@ public class InscricaoController {
 
     @Autowired
     private InscricaoDao inscricaoDao;
+
+    @Autowired
+    private AvaliacaoDao avaliacaoDao;
 
     @RequestMapping("/inscricao/list")
     public String list(Model model) {
@@ -115,13 +123,16 @@ public class InscricaoController {
 
 	return TELA_AVALIAR;
     }
-    
-    @RequestMapping("/inscricao/avaliacaoSave")
-    public String saveAvaliacao(AvaliacaoVO avaliacaoVO) {
 
-	System.out.println(avaliacaoVO);
-	
-	return "forward:/inscricao/list";
+    @RequestMapping("/inscricao/avaliacaoSave")
+    public String saveAvaliacao(AvaliacaoVO avaliacaoVO, HttpSession session, Model model) {
+
+	avaliacaoDao.save(avaliacaoVO, (Usuario) session.getAttribute(Constantes.USUARIO_SESSAO));
+
+	model.addAttribute("mensagem", "Avaliação inserida com sucesso!");
+	model.addAttribute("operacao", "view");
+
+	return TELA_MANTER;
     }
 
 }

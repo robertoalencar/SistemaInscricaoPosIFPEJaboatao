@@ -14,7 +14,7 @@ public class AvaliacaoVO implements Serializable {
 
     private static final long serialVersionUID = -6518478767728327025L;
 
-    private int idInscricao;
+    private Long idInscricao;
     private String email;
     private String foneResidencial;
     private String foneCelular;
@@ -35,6 +35,11 @@ public class AvaliacaoVO implements Serializable {
     private Integer qtdAtigosOutras;
     private Double prodCientificaPontuacaoTotal;
     private Double prodCientificaPontuacaoItem;
+
+    private String[] areaCargo;
+    private String[] dataInicio;
+    private String[] dataFim;
+    private String[] totalMeses;
 
     private Double expProfTotalMesesAreaComp;
     private Double expProfTotalMesesOutras;

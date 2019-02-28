@@ -20,16 +20,8 @@
 	<script type="text/javascript">
 
 		$(document).ready(function() {
-			
+
 			ordenarRegistros('classificacao');
-			
-	    	$("#btNovo").click(function() {
-	    		window.location="<%=request.getContextPath()%>/inscricao/add";
-			});
-	    	
-			$("#btCancelar").click(function() {
-	    		window.location="<%=request.getContextPath()%>/home";
-			});
 			
 			$("#ordenaClassificacao").click(function() {
 				ordenarRegistros('classificacao');
@@ -112,10 +104,7 @@
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].avaliacoes.length + "</td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-      				linhas += "<a href='avaliar?id=" + dadosJSON[i].id + "' class='btn btn-success' title='Avaliar Candidato'>A</a> &nbsp; &nbsp;";
-      				linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>V</a> &nbsp; &nbsp;";
-  					linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar'>E</a> &nbsp; &nbsp;";
-					linhas += "<a href='#' class='btn btn-danger' role='button' title='Remover' onclick='removerRegistro("+dadosJSON[i].id+");'>R</a>";
+         			linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";
@@ -129,14 +118,7 @@
 	    	
 		});
 		
-		function removerRegistro(id) {
-			
-			var retorno = confirm("Tem certeza que deseja excluir esse registro?");
-        	
-        	if (retorno == true) {
-        		window.location.href = "delete?id="+id;
-        	}
-		}
+		
 		
 	
 	</script>
@@ -205,20 +187,20 @@
 									<tr>
 										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 40%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 50%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 25%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 40%; vertical-align: middle;">Nome</th>
+										<th style="width: 50%; vertical-align: middle;">Nome</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 25%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>

@@ -128,7 +128,7 @@
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Vínculo na área de</label>";
-				linhaNovoVinculo += "<select id='areaCargo"+qtdLinhasVinculoEmpregaticio+"' class='form-control'>";
+				linhaNovoVinculo += "<select id='areaCargo"+qtdLinhasVinculoEmpregaticio+"' name='areaCargo' class='form-control'>";
 				linhaNovoVinculo += "<option value=''> &nbsp; </option>";
 				linhaNovoVinculo += "<option value='computacao'> Computação </option>";
 				linhaNovoVinculo += "<option value='outras'> Outras Áreas </option>";
@@ -139,21 +139,21 @@
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Data de Início do Vínculo</label>";
-				linhaNovoVinculo += "<input type='text' id='dataInicio"+qtdLinhasVinculoEmpregaticio+"'>";
+				linhaNovoVinculo += "<input type='text' id='dataInicio"+qtdLinhasVinculoEmpregaticio+"' name='dataInicio'>";
 				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Data Final do Vínculo</label>";
-				linhaNovoVinculo += "<input type='text' id='dataFim"+qtdLinhasVinculoEmpregaticio+"'>";
+				linhaNovoVinculo += "<input type='text' id='dataFim"+qtdLinhasVinculoEmpregaticio+"' name='dataFim'>";
 				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
 				linhaNovoVinculo += "<div class='col-lg-3'>";
 				linhaNovoVinculo += "<div class='form-group'>";
 				linhaNovoVinculo += "<label>Total de Meses</label>";
-				linhaNovoVinculo += "<input class='form-control' id='totalMeses"+qtdLinhasVinculoEmpregaticio+"' readonly='readonly'>";
+				linhaNovoVinculo += "<input class='form-control' id='totalMeses"+qtdLinhasVinculoEmpregaticio+"' name='totalMeses' readonly='readonly'>";
 				linhaNovoVinculo += "</div>";
 				linhaNovoVinculo += "</div>";
 				
@@ -603,7 +603,7 @@
 							<div class="col-lg-3">
                             	<div class="form-group">
                                   	<label>(TAC) Total Área Computação</label>
-                                   	<input class="form-control" id="expProfTotalMesesAreaComp" readonly="readonly">
+                                   	<input class="form-control" id="expProfTotalMesesAreaComp" name="expProfTotalMesesAreaComp" readonly="readonly">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Total de Meses Computação / 12</small>
                                 </div>
 							</div>
@@ -611,7 +611,7 @@
 							<div class="col-lg-3">
                             	<div class="form-group">
                                   	<label>(TOA) Total Outras Áreas</label>
-                                   	<input class="form-control" id="expProfTotalMesesOutras" readonly="readonly">
+                                   	<input class="form-control" id="expProfTotalMesesOutras" name="expProfTotalMesesOutras" readonly="readonly">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Total de Meses Outras / 12</small>
                                 </div>
 							</div>
@@ -619,7 +619,7 @@
 							<div class="col-lg-3">
                             	<div class="form-group">
                                   	<label>Total Geral</label>
-                                   	<input class="form-control" id="expProfPontuacaoTotal" readonly="readonly">
+                                   	<input class="form-control" id="expProfPontuacaoTotal" name="expProfPontuacaoTotal" readonly="readonly">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Total Geral = (TAC * 2) + (TOA * 1)</small>
                                 </div>
 							</div>
@@ -627,7 +627,7 @@
 							<div class="col-lg-3">
                                	<div class="form-group">
                                  	<label>Pontuação Item</label>
-                                   	<input class="form-control" id="expProfPontuacaoItem" readonly="readonly">
+                                   	<input class="form-control" id="expProfPontuacaoItem" name="expProfPontuacaoItem" readonly="readonly">
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Até 10,0 pontos</small>
                                	</div>
 							</div>

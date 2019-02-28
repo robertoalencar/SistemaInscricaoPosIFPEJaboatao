@@ -42,11 +42,21 @@
 			$("#btEdit").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/edit?id="+$('#idInscricao').val();
 			});
+			
+			$("#btRemove").click(function() {
+	    		
+				var retorno = confirm("Tem certeza que deseja excluir esse registro?");
+	        	
+	        	if (retorno == true) {
+	        		window.location.href = "delete?id="+$('#idInscricao').val();
+	        	}
+	    		
+			});
 	    	
 			$("#btCancelar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
-	    	
+			
 		});
 	
 	</script>
@@ -89,7 +99,8 @@
                             <button type="button" class="btn btn-info" id="btNovo"> Novo </button> &nbsp;
                             <c:if test="${operacao ne 'save'}">
                             	<button type="button" class="btn btn-success" id="btAvaliar"> Avaliar </button> &nbsp;
-                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button>
+                        		<button type="button" class="btn btn-warning" id="btEdit"> Editar </button> &nbsp;
+                        		<button type="button" class="btn btn-danger" id="btRemove"> Remover </button>
                         	</c:if>
                         </div>
                         <div class="panel-body">
