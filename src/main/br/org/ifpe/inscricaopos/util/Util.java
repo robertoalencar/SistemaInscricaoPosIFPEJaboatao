@@ -1,6 +1,9 @@
 package main.br.org.ifpe.inscricaopos.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Util {
 
@@ -20,4 +23,18 @@ public class Util {
 	return momentoUpload;
     }
 
+    public static Date converterData(String param) {
+
+	Date retorno = null;
+	DateFormat data = DateFormat.getDateInstance();
+
+	try {
+	    data.parse(param);
+	    retorno = data.getCalendar().getTime();
+	} catch (ParseException e) {
+	    e.printStackTrace();
+	}
+
+	return retorno;
+    }
 }

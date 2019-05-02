@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import main.br.org.ifpe.inscricaopos.dao.AvaliacaoDao;
 import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
+import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
@@ -133,6 +134,13 @@ public class InscricaoController {
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
+    }
+
+    @RequestMapping("/inscricao/viewEvaluations")
+    public String viewEvaluations(@RequestParam Long id, Model model) {
+
+	model.addAttribute("listaAvaliacoes", avaliacaoDao.listar(id));
+	return TELA_LISTAR;
     }
 
 }

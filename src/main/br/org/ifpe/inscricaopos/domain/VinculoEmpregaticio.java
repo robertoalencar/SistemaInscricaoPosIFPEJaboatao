@@ -47,6 +47,6 @@ public class VinculoEmpregaticio implements Serializable {
     private Date dataFim;
 
     @Column
-    private Integer totalMeses;
+    private Double totalMeses;
 
 }

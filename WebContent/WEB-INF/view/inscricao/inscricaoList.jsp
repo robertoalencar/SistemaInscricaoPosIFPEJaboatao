@@ -104,7 +104,8 @@
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].avaliacoes.length + "</td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-         			linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a>";
+         			linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Inscrição'>Inscrição</a> &nbsp;";
+         			linhas += "<a href='viewEvaluations?id=" + dadosJSON[i].id + "' class='btn btn-success' title='Avaliações'>Avaliações</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";
@@ -140,6 +141,15 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
+            
+            <c:if test="${listaAvaliacoes.size() > 0}">
+				Teste: ${listaAvaliacoes.size()}
+				
+				TODO: implementar um pop para listar as avaliações numa tabela com as seguintes informações:
+				
+				Avaliador - Data Avaliação - Curso - Tipo Vaga - Pontuação
+				
+            </c:if>
             
 			<div class="row">
 				<div class="panel panel-default">
@@ -187,20 +197,20 @@
 									<tr>
 										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 50%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Visualizar</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
 										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 50%; vertical-align: middle;">Nome</th>
+										<th style="width: 45%; vertical-align: middle;">Nome</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Visualizar</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>
