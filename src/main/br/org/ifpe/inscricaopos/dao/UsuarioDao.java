@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -114,11 +115,18 @@ public class UsuarioDao extends HibernateDao {
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
 
-	Query query = manager.createQuery("FROM Usuario u JOIN FETCH u.tipo WHERE u.siape LIKE :paramSiape AND u.senha LIKE :paramSenha");
+	Query query = manager.createQuery(
+		"FROM Usuario u JOIN FETCH u.tipo WHERE u.siape LIKE :paramSiape AND u.senha LIKE :paramSenha");
 	query.setParameter("paramSiape", usuario.getSiape().trim());
 	query.setParameter("paramSenha", usuario.getSenha().trim());
 
-	Usuario obj = (Usuario) query.getSingleResult();
+	Usuario obj = null;
+
+	try {
+	    obj = (Usuario) query.getSingleResult();
+	} catch (NoResultException e) {
+	    obj = null;
+	}
 
 	manager.close();
 	factory.close();

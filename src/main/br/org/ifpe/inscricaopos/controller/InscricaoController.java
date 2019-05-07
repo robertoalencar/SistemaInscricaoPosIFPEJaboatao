@@ -171,5 +171,16 @@ public class InscricaoController {
 	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
 	return TELA_LISTAR;
     }
+    
+    @RequestMapping("/inscricao/aprovarAvaliacao")
+    public String aprovarAvaliacao(@RequestParam Long id, Model model) {
+
+	Avaliacao avaliacao = avaliacaoDao.find(id);
+	avaliacao.setAprovada(true);
+	avaliacaoDao.aprovarAvaliacao(avaliacao);
+	model.addAttribute("mensagem", "Avaliação aprovada com sucesso!");
+
+	return "forward:viewEvaluations";
+    }
 
 }

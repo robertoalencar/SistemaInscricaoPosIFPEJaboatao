@@ -106,7 +106,7 @@
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Inscrição'>Inscrição</a> &nbsp;";
+         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a> &nbsp;";
          			linhas += "<a href='viewEvaluations?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-success' title='Avaliações'>Avaliações</a>";
 					linhas += "</td>";
 						
@@ -164,11 +164,12 @@
 			          		<table class="table table-striped table-bordered table-hover">
 								<thead>
 									<tr>
-										<th style="width: 25%; vertical-align: middle;">Avaliador</th>
+										<th style="width: 20%; vertical-align: middle;">Avaliador</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Avaliação</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Curso Escolhido</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Curso Escolhido</th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Pontuação</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Aprovada</th>
 										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
@@ -180,7 +181,17 @@
 											<td style="vertical-align: middle; text-align: center;">${avaliacao.inscricao.cursoEscolhido}</td>
 											<td style="vertical-align: middle; text-align: center;">${avaliacao.tipoVaga}</td>
 											<td style="vertical-align: middle; text-align: center;">${avaliacao.notaFinal}</td>
-											<tD style="vertical-align: middle; text-align: center;">Ações</td>
+											<td style="vertical-align: middle; text-align: center;">
+												<c:choose>
+													<c:when test="${avaliacao.aprovada eq true}">Sim</c:when>
+													<c:otherwise>Não</c:otherwise>
+												</c:choose>
+											</td>
+											<td style="vertical-align: middle; text-align: center;">
+												<a href="#">Visualizar</a> <br/>
+												<span>-</span>  <br/>
+         										<a href="aprovarAvaliacao?id=${avaliacao.id}" style="color: green;" data-dismiss="modal">Aprovar</a>
+											</td>
 										</tr>
 									</c:forEach>
 								</tbody>
@@ -242,7 +253,7 @@
 										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Visualizar</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
 								<tfoot>
@@ -252,7 +263,7 @@
 										<th style="width: 45%; vertical-align: middle;">Nome</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Visualizar</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>

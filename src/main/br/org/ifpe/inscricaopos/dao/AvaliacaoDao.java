@@ -26,6 +26,19 @@ public class AvaliacaoDao extends HibernateDao {
 	return Avaliacao.class;
     }
 
+    public Avaliacao find(Long id) {
+
+	Avaliacao obj = null;
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	obj = manager.find(Avaliacao.class, id);
+	manager.close();
+	factory.close();
+
+	return obj;
+    }
+
     public Avaliacao save(AvaliacaoVO avaliacaoVO, Usuario avaliador) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -77,6 +90,27 @@ public class AvaliacaoDao extends HibernateDao {
 	factory.close();
 
 	return avaliacao;
+    }
+
+    public void aprovarAvaliacao(Avaliacao avaliacao) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	manager.getTransaction().begin();
+
+	Query query = manager.createQuery("SELECT a FROM Avaliacao a JOIN FETCH a.inscricao, Inscricao i WHERE a.inscricao.id = i.id AND a.inscricao.id = :paramIdInscricao");
+	query.setParameter("paramIdInscricao", avaliacao.getInscricao().getId());
+	List<Avaliacao> listaAvaliacao = query.getResultList();
+	for (Avaliacao a : listaAvaliacao) {
+	    a.setAprovada(false);
+	    manager.merge(a);
+	}
+
+	manager.merge(avaliacao);
+
+	manager.getTransaction().commit();
+	manager.close();
+	factory.close();
     }
 
     public List<Avaliacao> listar(Long idInscricao) {
