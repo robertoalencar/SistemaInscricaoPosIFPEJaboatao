@@ -183,14 +183,14 @@
 											<td style="vertical-align: middle; text-align: center;">${avaliacao.notaFinal}</td>
 											<td style="vertical-align: middle; text-align: center;">
 												<c:choose>
-													<c:when test="${avaliacao.aprovada eq true}">Sim</c:when>
+													<c:when test="${avaliacao.aprovada eq true}"><strong>Sim</strong></c:when>
 													<c:otherwise>Não</c:otherwise>
 												</c:choose>
 											</td>
 											<td style="vertical-align: middle; text-align: center;">
 												<a href="#">Visualizar</a> <br/>
 												<span>-</span>  <br/>
-         										<a href="aprovarAvaliacao?id=${avaliacao.id}" style="color: green;" data-dismiss="modal">Aprovar</a>
+         										<a href="aprovarAvaliacao?id=${avaliacao.id}" style="color: green;">Aprovar</a>
 											</td>
 										</tr>
 									</c:forEach>

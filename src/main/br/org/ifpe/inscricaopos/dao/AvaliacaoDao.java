@@ -28,15 +28,16 @@ public class AvaliacaoDao extends HibernateDao {
 
     public Avaliacao find(Long id) {
 
-	Avaliacao obj = null;
+	Avaliacao avaliacao = null;
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	obj = manager.find(Avaliacao.class, id);
+	avaliacao = manager.find(Avaliacao.class, id);
+	avaliacao.setInscricao(manager.find(Inscricao.class, avaliacao.getInscricao().getId()));
 	manager.close();
 	factory.close();
 
-	return obj;
+	return avaliacao;
     }
 
     public Avaliacao save(AvaliacaoVO avaliacaoVO, Usuario avaliador) {
@@ -98,7 +99,8 @@ public class AvaliacaoDao extends HibernateDao {
 	EntityManager manager = factory.createEntityManager();
 	manager.getTransaction().begin();
 
-	Query query = manager.createQuery("SELECT a FROM Avaliacao a JOIN FETCH a.inscricao, Inscricao i WHERE a.inscricao.id = i.id AND a.inscricao.id = :paramIdInscricao");
+	Query query = manager.createQuery(
+		"SELECT a FROM Avaliacao a JOIN FETCH a.inscricao, Inscricao i WHERE a.inscricao.id = i.id AND a.inscricao.id = :paramIdInscricao");
 	query.setParameter("paramIdInscricao", avaliacao.getInscricao().getId());
 	List<Avaliacao> listaAvaliacao = query.getResultList();
 	for (Avaliacao a : listaAvaliacao) {

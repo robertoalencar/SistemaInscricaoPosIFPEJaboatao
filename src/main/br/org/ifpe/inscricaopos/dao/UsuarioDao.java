@@ -4,7 +4,6 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 
@@ -120,12 +119,11 @@ public class UsuarioDao extends HibernateDao {
 	query.setParameter("paramSiape", usuario.getSiape().trim());
 	query.setParameter("paramSenha", usuario.getSenha().trim());
 
-	Usuario obj = null;
+	List<?> retorno = query.getResultList();
 
-	try {
-	    obj = (Usuario) query.getSingleResult();
-	} catch (NoResultException e) {
-	    obj = null;
+	Usuario obj = null;
+	if (retorno != null && retorno.size() != 0) {
+	    obj = (Usuario) retorno.get(0);
 	}
 
 	manager.close();
