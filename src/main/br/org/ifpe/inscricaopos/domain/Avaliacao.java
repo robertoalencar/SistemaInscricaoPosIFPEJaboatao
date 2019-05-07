@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,10 +34,10 @@ public class Avaliacao implements Serializable {
     @Column
     private boolean habilitado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario avaliador;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Inscricao inscricao;
 
     @Column
@@ -75,7 +76,7 @@ public class Avaliacao implements Serializable {
     @Column
     private Double prodCientificaPontuacaoItem;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY) 
     private List<VinculoEmpregaticio> empregos;
     
     @Column

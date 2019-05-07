@@ -42,10 +42,10 @@ public class Inscricao implements Serializable {
     @Column
     private boolean habilitado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Candidato candidato;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER) 
     private List<Avaliacao> avaliacoes;
 
     @Column

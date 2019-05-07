@@ -25,6 +25,19 @@ public class InscricaoDao extends HibernateDao {
 	return Inscricao.class;
     }
 
+    public Inscricao find(Long id) {
+
+	Inscricao obj = null;
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	obj = manager.find(Inscricao.class, id);
+	manager.close();
+	factory.close();
+
+	return obj;
+    }
+
     public Inscricao save(Candidato candidato, String cursoEscolhido) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -34,12 +47,8 @@ public class InscricaoDao extends HibernateDao {
 	candidato.setHabilitado(Boolean.TRUE);
 	manager.persist(candidato);
 
-	Inscricao inscricao = Inscricao.builder()
-		.numero(gerarNumeroInscricao())
-		.candidato(candidato)
-		.cursoEscolhido(cursoEscolhido)
-		.habilitado(Boolean.TRUE)
-		.dataInscricao(Calendar.getInstance().getTime())
+	Inscricao inscricao = Inscricao.builder().numero(gerarNumeroInscricao()).candidato(candidato)
+		.cursoEscolhido(cursoEscolhido).habilitado(Boolean.TRUE).dataInscricao(Calendar.getInstance().getTime())
 		.build();
 
 	manager.persist(inscricao);
@@ -93,6 +102,7 @@ public class InscricaoDao extends HibernateDao {
 	Query query = manager.createQuery("SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id ORDER BY "
 		+ criterioOrdenacao + " " + ordem);
 	List<Inscricao> lista = query.getResultList();
+
 	manager.close();
 	factory.close();
 

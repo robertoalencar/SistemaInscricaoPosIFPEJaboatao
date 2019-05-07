@@ -13,6 +13,6 @@ public class TipoUsuarioConverter implements Converter<String, TipoUsuario> {
 
     public TipoUsuario convert(String id) {
 
-	return (TipoUsuario) usuarioDao.find(TipoUsuario.class, Long.valueOf(id));
+	return usuarioDao.findTipoUsuario(Long.valueOf(id));
     }
 }

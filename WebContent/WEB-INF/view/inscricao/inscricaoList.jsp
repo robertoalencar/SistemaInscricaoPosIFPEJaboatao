@@ -18,7 +18,7 @@
 
 
 	<script type="text/javascript">
-
+	
 		$(document).ready(function() {
 
 			ordenarRegistros('classificacao');
@@ -85,6 +85,8 @@
 			}
 			
 			function carregaTabelaJSon(dadosJSON) {
+				
+				console.log(dadosJSON);
 
 				var linhas = '';
 				var qtdItens = 0;
@@ -94,18 +96,18 @@
                     linhas += "<tr>";
 
                     var classificacao = '';
-                    if (dadosJSON[i].classificacao != undefined) {
-                    	classificacao = dadosJSON[i].classificacao;
+                    if (dadosJSON[i].inscricao.classificacao != undefined) {
+                    	classificacao = dadosJSON[i].inscricao.classificacao;
                     }
                     
                     linhas += "<td style='vertical-align: middle; text-align: center;'>" + classificacao + "</td>";
-                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].numero + "</td>";
-                  	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].candidato.nome + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].avaliacoes.length + "</td>";
+                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.numero + "</td>";
+                  	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].inscricao.candidato.nome + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-         			linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Inscrição'>Inscrição</a> &nbsp;";
-         			linhas += "<a href='viewEvaluations?id=" + dadosJSON[i].id + "' class='btn btn-success' title='Avaliações'>Avaliações</a>";
+         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Inscrição'>Inscrição</a> &nbsp;";
+         			linhas += "<a href='viewEvaluations?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-success' title='Avaliações'>Avaliações</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";
@@ -116,12 +118,9 @@
                 $('#conteudoLista').html(linhas);
                 $('#totaLista').html(qtdItens);
 			}
-	    	
+			
 		});
 		
-		
-		
-	
 	</script>
 
 </head>
@@ -142,14 +141,57 @@
             </div>
             <!-- /.row -->
             
-            <c:if test="${listaAvaliacoes.size() > 0}">
-				Teste: ${listaAvaliacoes.size()}
-				
-				TODO: implementar um pop para listar as avaliações numa tabela com as seguintes informações:
-				
-				Avaliador - Data Avaliação - Curso - Tipo Vaga - Pontuação
-				
+            <c:if test="${exibirAvaliacoes eq true}">
+	            <script type="text/javascript">
+	            	$(document).ready(function() {
+						$("#modalAvaliacoes").modal();
+					});
+	            </script>
             </c:if>
+            
+            <!-- Modal -->
+			<div class="modal fade" id="modalAvaliacoes" role="dialog">
+				<div class="modal-dialog">
+			    
+					<!-- Modal content-->
+			      	<div class="modal-content">
+			        	<div class="modal-header">
+			          		<button type="button" class="close" data-dismiss="modal">&times;</button>
+			          		<h4 class="modal-title">Avaliações do Candidato: ${nomeCandidato}</h4>
+			        	</div>
+			        	
+			        	<div class="modal-body">
+			          		<table class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="width: 25%; vertical-align: middle;">Avaliador</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Avaliação</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Curso Escolhido</th>
+										<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Pontuação</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+            						</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="avaliacao" items="${listaAvaliacoes}">
+										<tr>
+											<td style="vertical-align: middle;">${avaliacao.avaliador.nome}</td>
+											<td style="vertical-align: middle; text-align: center;"><fmt:formatDate value="${avaliacao.dataAvaliacao}" pattern="dd/MM/yyyy" /></td>
+											<td style="vertical-align: middle; text-align: center;">${avaliacao.inscricao.cursoEscolhido}</td>
+											<td style="vertical-align: middle; text-align: center;">${avaliacao.tipoVaga}</td>
+											<td style="vertical-align: middle; text-align: center;">${avaliacao.notaFinal}</td>
+											<tD style="vertical-align: middle; text-align: center;">Ações</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+        					</table>
+			        	</div>
+			        	<div class="modal-footer">
+			          		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			        	</div>
+			      	</div>
+				</div>
+			</div>
             
 			<div class="row">
 				<div class="panel panel-default">

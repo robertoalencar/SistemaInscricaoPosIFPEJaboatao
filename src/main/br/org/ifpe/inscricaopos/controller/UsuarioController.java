@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
-import main.br.org.ifpe.inscricaopos.domain.TipoUsuario;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
 import main.br.org.ifpe.inscricaopos.util.Criptografia;
@@ -37,16 +36,15 @@ public class UsuarioController {
     @RequestMapping("/usuario/list")
     public String list(Model model) {
 
-	model.addAttribute("listaTipoUsuario", usuarioDao.list(TipoUsuario.class.getName(), "descricao", null));
+	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 	return TELA_LISTAR;
     }
 
-    @SuppressWarnings("unchecked")
     @RequestMapping(value = "/usuario/ordenarRegistros", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Usuario> ordenarRegistros(@RequestParam String criterioOrdenacao,
 	    @RequestParam String ordem) {
 
-	return (List<Usuario>) usuarioDao.list(Usuario.class.getName(), criterioOrdenacao, ordem);
+	return usuarioDao.list(criterioOrdenacao, ordem);
     }
 
     @RequestMapping(value = "/usuario/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -58,7 +56,7 @@ public class UsuarioController {
     @RequestMapping("/usuario/add")
     public String add(Model model) {
 
-	model.addAttribute("listaTipoUsuario", usuarioDao.list(TipoUsuario.class.getName(), "descricao", null));
+	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 	model.addAttribute("operacao", "save");
 	return TELA_MANTER;
     }
@@ -76,8 +74,8 @@ public class UsuarioController {
     @RequestMapping("/usuario/edit")
     public String edit(@RequestParam Long id, Model model) {
 
-	model.addAttribute("usuario", usuarioDao.find(Usuario.class, id));
-	model.addAttribute("listaTipoUsuario", usuarioDao.list(TipoUsuario.class.getName(), "descricao", null));
+	model.addAttribute("usuario", usuarioDao.find(id));
+	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 	model.addAttribute("operacao", "update");
 
 	return TELA_MANTER;
@@ -89,7 +87,7 @@ public class UsuarioController {
 	usuarioDao.update(usuario);
 	model.addAttribute("mensagem", "Usuário atualizado com sucesso!");
 	model.addAttribute("operacao", "update");
-	model.addAttribute("listaTipoUsuario", usuarioDao.list(TipoUsuario.class.getName(), "descricao", null));
+	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 
 	return TELA_MANTER;
     }
@@ -106,8 +104,8 @@ public class UsuarioController {
     @RequestMapping("/usuario/view")
     public String view(@RequestParam Long id, Model model) {
 
-	model.addAttribute("usuario", usuarioDao.find(Usuario.class, id));
-	model.addAttribute("listaTipoUsuario", usuarioDao.list(TipoUsuario.class.getName(), "descricao", null));
+	model.addAttribute("usuario", usuarioDao.find(id));
+	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;

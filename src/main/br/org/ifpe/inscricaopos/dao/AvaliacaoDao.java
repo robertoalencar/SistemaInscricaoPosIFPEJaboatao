@@ -78,12 +78,13 @@ public class AvaliacaoDao extends HibernateDao {
 
 	return avaliacao;
     }
-    
+
     public List<Avaliacao> listar(Long idInscricao) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	Query query = manager.createQuery("SELECT a FROM Avaliacao a, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ");
+	Query query = manager.createQuery(
+		"SELECT a FROM Avaliacao a JOIN FETCH a.inscricao JOIN FETCH a.avaliador, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ORDER BY a.dataAvaliacao ");
 	query.setParameter("paramIdInscricao", idInscricao);
 	List<Avaliacao> lista = query.getResultList();
 	manager.close();
@@ -97,17 +98,20 @@ public class AvaliacaoDao extends HibernateDao {
 	List<VinculoEmpregaticio> empregos = new ArrayList<VinculoEmpregaticio>();
 	VinculoEmpregaticio vinculoEmpregaticio = null;
 
-	for (int i = 0; i < avaliacaoVO.getAreaCargo().length; i++) {
+	if (avaliacaoVO.getAreaCargo() != null) {
 
-	    vinculoEmpregaticio = new VinculoEmpregaticio();
-	    vinculoEmpregaticio.setHabilitado(Boolean.TRUE);
-	    vinculoEmpregaticio.setAvaliacao(avaliacao);
-	    vinculoEmpregaticio.setAreaCargo(avaliacaoVO.getAreaCargo()[i]);
-	    vinculoEmpregaticio.setDataInicio(Util.converterData(avaliacaoVO.getDataInicio()[i]));
-	    vinculoEmpregaticio.setDataFim(Util.converterData(avaliacaoVO.getDataFim()[i]));
-	    vinculoEmpregaticio.setTotalMeses(Double.parseDouble(avaliacaoVO.getTotalMeses()[i]));
+	    for (int i = 0; i < avaliacaoVO.getAreaCargo().length; i++) {
 
-	    empregos.add(vinculoEmpregaticio);
+		vinculoEmpregaticio = new VinculoEmpregaticio();
+		vinculoEmpregaticio.setHabilitado(Boolean.TRUE);
+		vinculoEmpregaticio.setAvaliacao(avaliacao);
+		vinculoEmpregaticio.setAreaCargo(avaliacaoVO.getAreaCargo()[i]);
+		vinculoEmpregaticio.setDataInicio(Util.converterData(avaliacaoVO.getDataInicio()[i]));
+		vinculoEmpregaticio.setDataFim(Util.converterData(avaliacaoVO.getDataFim()[i]));
+		vinculoEmpregaticio.setTotalMeses(Double.parseDouble(avaliacaoVO.getTotalMeses()[i]));
+
+		empregos.add(vinculoEmpregaticio);
+	    }
 	}
 
 	return empregos;

@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,7 +35,7 @@ public class VinculoEmpregaticio implements Serializable {
     @Column
     private boolean habilitado;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Avaliacao avaliacao;
 
     @Column

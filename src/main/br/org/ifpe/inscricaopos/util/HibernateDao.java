@@ -1,11 +1,8 @@
 package main.br.org.ifpe.inscricaopos.util;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 
 public abstract class HibernateDao {
 
@@ -55,33 +52,6 @@ public abstract class HibernateDao {
 	factory.close();
     }
 
-    public Object find(Class<?> entidade, Long id) {
-
-	Object obj = null;
-
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-	EntityManager manager = factory.createEntityManager();
-	obj = manager.find(entidade, id);
-	manager.close();
-	factory.close();
-
-	return obj;
-    }
-
-    public List<?> list(String classe, String criterioOrdenacao, String ordem) {
-
-	criterioOrdenacao = (criterioOrdenacao == null) ? "id" : criterioOrdenacao;
-	ordem = (ordem == null) ? "ASC" : ordem;
-
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
-	EntityManager manager = factory.createEntityManager();
-	Query query = manager.createQuery("FROM " + classe + " ORDER BY " + criterioOrdenacao + " " + ordem);
-	List<?> lista = query.getResultList();
-	manager.close();
-	factory.close();
-
-	return lista;
-    }
-
     public abstract Class<?> getClassEntidade();
+
 }

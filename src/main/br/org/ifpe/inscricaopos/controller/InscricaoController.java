@@ -1,5 +1,6 @@
 package main.br.org.ifpe.inscricaopos.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -19,6 +20,7 @@ import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
+import main.br.org.ifpe.inscricaopos.domain.InscricoesVO;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
 
@@ -46,16 +48,32 @@ public class InscricaoController {
     }
 
     @RequestMapping(value = "/inscricao/ordenarRegistros", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Inscricao> ordenarRegistros(@RequestParam String criterioOrdenacao,
+    public @ResponseBody List<InscricoesVO> ordenarRegistros(@RequestParam String criterioOrdenacao,
 	    @RequestParam String ordem) {
 
-	return inscricaoDao.listar(criterioOrdenacao, ordem);
+	return montarVOInscricoes(inscricaoDao.listar(criterioOrdenacao, ordem));
     }
 
     @RequestMapping(value = "/inscricao/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<Inscricao> filter(@RequestParam String numInscricao, @RequestParam String nome) {
+    public @ResponseBody List<InscricoesVO> filter(@RequestParam String numInscricao, @RequestParam String nome) {
 
-	return inscricaoDao.filtrar(numInscricao, nome);
+	return montarVOInscricoes(inscricaoDao.filtrar(numInscricao, nome));
+    }
+
+    private List<InscricoesVO> montarVOInscricoes(List<Inscricao> inscricoes) {
+
+	List<InscricoesVO> listaInscricoesVO = new ArrayList<>();
+	InscricoesVO inscricoesVO;
+
+	for (Inscricao inscricao : inscricoes) {
+
+	    inscricoesVO = new InscricoesVO();
+	    inscricoesVO.setInscricao(inscricao);
+	    inscricoesVO.setQtdAvaliacoes(avaliacaoDao.listar(inscricao.getId()).size());
+	    listaInscricoesVO.add(inscricoesVO);
+	}
+
+	return listaInscricoesVO;
     }
 
     @RequestMapping("/inscricao/add")
@@ -77,7 +95,7 @@ public class InscricaoController {
     @RequestMapping("/inscricao/edit")
     public String edit(@RequestParam Long id, Model model) {
 
-	model.addAttribute("inscricao", inscricaoDao.find(Inscricao.class, id));
+	model.addAttribute("inscricao", inscricaoDao.find(id));
 	model.addAttribute("operacao", "update");
 
 	return TELA_MANTER;
@@ -87,7 +105,7 @@ public class InscricaoController {
     public String update(Candidato candidato, @RequestParam Long idInscricao, @RequestParam String cursoEscolhido,
 	    Model model) {
 
-	Inscricao inscricao = (Inscricao) inscricaoDao.find(Inscricao.class, idInscricao);
+	Inscricao inscricao = inscricaoDao.find(idInscricao);
 	inscricao.setCursoEscolhido(cursoEscolhido);
 
 	inscricaoDao.update(candidato, inscricao);
@@ -111,7 +129,7 @@ public class InscricaoController {
     @RequestMapping("/inscricao/view")
     public String view(@RequestParam Long id, Model model) {
 
-	model.addAttribute("inscricao", inscricaoDao.find(Inscricao.class, id));
+	model.addAttribute("inscricao", inscricaoDao.find(id));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
@@ -120,7 +138,7 @@ public class InscricaoController {
     @RequestMapping("/inscricao/avaliar")
     public String avaliar(@RequestParam Long id, Model model) {
 
-	model.addAttribute("inscricao", inscricaoDao.find(Inscricao.class, id));
+	model.addAttribute("inscricao", inscricaoDao.find(id));
 
 	return TELA_AVALIAR;
     }
@@ -132,6 +150,7 @@ public class InscricaoController {
 
 	model.addAttribute("mensagem", "Avaliação inserida com sucesso!");
 	model.addAttribute("operacao", "view");
+	model.addAttribute("inscricao", inscricaoDao.find(avaliacaoVO.getIdInscricao()));
 
 	return TELA_MANTER;
     }
@@ -139,7 +158,17 @@ public class InscricaoController {
     @RequestMapping("/inscricao/viewEvaluations")
     public String viewEvaluations(@RequestParam Long id, Model model) {
 
-	model.addAttribute("listaAvaliacoes", avaliacaoDao.listar(id));
+	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(id);
+
+	String nomeCandidato = null;
+	for (Avaliacao avaliacao : listaAvaliacoes) {
+	    nomeCandidato = avaliacao.getInscricao().getCandidato().getNome();
+	    break;
+	}
+
+	model.addAttribute("exibirAvaliacoes", true);
+	model.addAttribute("nomeCandidato", nomeCandidato);
+	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
 	return TELA_LISTAR;
     }
 
