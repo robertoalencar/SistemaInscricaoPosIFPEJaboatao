@@ -105,9 +105,18 @@
                   	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].inscricao.candidato.nome + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'><strong>"; 
+             		
+             		if (dadosJSON[i].status == 'Aprovada') {
+             			linhas += " <span style='color: green;'> ";
+             		} else if (dadosJSON[i].status == 'Pendente') {
+             			linhas += " <span style='color: red;'> ";
+             		}
+             		
+             		linhas += dadosJSON[i].status + "</span></strong></td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a> &nbsp;";
-         			linhas += "<a href='viewEvaluations?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-success' title='Avaliações'>Avaliações</a>";
+         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a> &nbsp; &nbsp;";
+         			linhas += "<a href='avaliar?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-success' title='Avaliar'>Avaliar</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";
@@ -140,69 +149,6 @@
                 <!-- /.col-lg-12 -->
             </div>
             <!-- /.row -->
-            
-            <c:if test="${exibirAvaliacoes eq true}">
-	            <script type="text/javascript">
-	            	$(document).ready(function() {
-						$("#modalAvaliacoes").modal();
-					});
-	            </script>
-            </c:if>
-            
-            <!-- Modal -->
-			<div class="modal fade" id="modalAvaliacoes" role="dialog">
-				<div class="modal-dialog">
-			    
-					<!-- Modal content-->
-			      	<div class="modal-content">
-			        	<div class="modal-header">
-			          		<button type="button" class="close" data-dismiss="modal">&times;</button>
-			          		<h4 class="modal-title">Avaliações do Candidato: ${nomeCandidato}</h4>
-			        	</div>
-			        	
-			        	<div class="modal-body">
-			          		<table class="table table-striped table-bordered table-hover">
-								<thead>
-									<tr>
-										<th style="width: 20%; vertical-align: middle;">Avaliador</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Avaliação</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Curso Escolhido</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Pontuação</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Aprovada</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
-            						</tr>
-								</thead>
-								<tbody>
-									<c:forEach var="avaliacao" items="${listaAvaliacoes}">
-										<tr>
-											<td style="vertical-align: middle;">${avaliacao.avaliador.nome}</td>
-											<td style="vertical-align: middle; text-align: center;"><fmt:formatDate value="${avaliacao.dataAvaliacao}" pattern="dd/MM/yyyy" /></td>
-											<td style="vertical-align: middle; text-align: center;">${avaliacao.inscricao.cursoEscolhido}</td>
-											<td style="vertical-align: middle; text-align: center;">${avaliacao.tipoVaga}</td>
-											<td style="vertical-align: middle; text-align: center;">${avaliacao.notaFinal}</td>
-											<td style="vertical-align: middle; text-align: center;">
-												<c:choose>
-													<c:when test="${avaliacao.aprovada eq true}"><strong>Sim</strong></c:when>
-													<c:otherwise>Não</c:otherwise>
-												</c:choose>
-											</td>
-											<td style="vertical-align: middle; text-align: center;">
-												<a href="#">Visualizar</a> <br/>
-												<span>-</span>  <br/>
-         										<a href="aprovarAvaliacao?id=${avaliacao.id}" style="color: green;">Aprovar</a>
-											</td>
-										</tr>
-									</c:forEach>
-								</tbody>
-        					</table>
-			        	</div>
-			        	<div class="modal-footer">
-			          		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			        	</div>
-			      	</div>
-				</div>
-			</div>
             
 			<div class="row">
 				<div class="panel panel-default">
@@ -250,20 +196,22 @@
 									<tr>
 										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
 										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 45%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 35%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
+										<th style="width: 10%%; vertical-align: middle; text-align: center;">Status</th>
 										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">Classificação</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="width: 45%; vertical-align: middle;">Nome</th>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Data Inscrição</th>
-										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th style="vertical-align: middle; text-align: center;">Classificação</th>
+										<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="vertical-align: middle;">Nome</th>
+										<th style="vertical-align: middle; text-align: center;">Data Inscrição</th>
+										<th style="vertical-align: middle; text-align: center;">QTD Avaliações</th>
+										<th style="vertical-align: middle; text-align: center;">Status</th>
+										<th style="vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>

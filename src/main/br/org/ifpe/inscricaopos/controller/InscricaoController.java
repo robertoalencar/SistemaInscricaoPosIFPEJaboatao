@@ -23,6 +23,7 @@ import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 import main.br.org.ifpe.inscricaopos.domain.InscricoesVO;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
+import main.br.org.ifpe.inscricaopos.util.Util;
 
 /**
  * @author Roberto Alencar
@@ -63,14 +64,19 @@ public class InscricaoController {
     private List<InscricoesVO> montarVOInscricoes(List<Inscricao> inscricoes) {
 
 	List<InscricoesVO> listaInscricoesVO = new ArrayList<>();
-	InscricoesVO inscricoesVO;
+	List<Avaliacao> listaAvaliacoes;
+	InscricoesVO inscricaoVO;
 
 	for (Inscricao inscricao : inscricoes) {
 
-	    inscricoesVO = new InscricoesVO();
-	    inscricoesVO.setInscricao(inscricao);
-	    inscricoesVO.setQtdAvaliacoes(avaliacaoDao.listar(inscricao.getId()).size());
-	    listaInscricoesVO.add(inscricoesVO);
+	    inscricaoVO = new InscricoesVO();
+	    inscricaoVO.setInscricao(inscricao);
+	    
+	    listaAvaliacoes = avaliacaoDao.listar(inscricao.getId());
+	    Util.definirStatusInscricao(listaAvaliacoes, inscricaoVO);
+	    
+	    inscricaoVO.setQtdAvaliacoes(listaAvaliacoes.size());
+	    listaInscricoesVO.add(inscricaoVO);
 	}
 
 	return listaInscricoesVO;
@@ -129,6 +135,16 @@ public class InscricaoController {
     @RequestMapping("/inscricao/view")
     public String view(@RequestParam Long id, Model model) {
 
+	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(id);
+
+	String nomeCandidato = null;
+	for (Avaliacao avaliacao : listaAvaliacoes) {
+	    nomeCandidato = avaliacao.getInscricao().getCandidato().getNome();
+	    break;
+	}
+
+	model.addAttribute("nomeCandidato", nomeCandidato);
+	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
 	model.addAttribute("inscricao", inscricaoDao.find(id));
 	model.addAttribute("operacao", "view");
 
@@ -155,32 +171,16 @@ public class InscricaoController {
 	return TELA_MANTER;
     }
 
-    @RequestMapping("/inscricao/viewEvaluations")
-    public String viewEvaluations(@RequestParam Long id, Model model) {
-
-	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(id);
-
-	String nomeCandidato = null;
-	for (Avaliacao avaliacao : listaAvaliacoes) {
-	    nomeCandidato = avaliacao.getInscricao().getCandidato().getNome();
-	    break;
-	}
-
-	model.addAttribute("exibirAvaliacoes", true);
-	model.addAttribute("nomeCandidato", nomeCandidato);
-	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
-	return TELA_LISTAR;
-    }
-    
     @RequestMapping("/inscricao/aprovarAvaliacao")
-    public String aprovarAvaliacao(@RequestParam Long id, Model model) {
+    public String aprovarAvaliacao(@RequestParam Long id, @RequestParam Long idAvaliacao, Model model) {
 
-	Avaliacao avaliacao = avaliacaoDao.find(id);
+	Avaliacao avaliacao = avaliacaoDao.find(idAvaliacao);
 	avaliacao.setAprovada(true);
 	avaliacaoDao.aprovarAvaliacao(avaliacao);
+	
 	model.addAttribute("mensagem", "Avaliação aprovada com sucesso!");
 
-	return "forward:viewEvaluations";
+	return "forward:view";
     }
 
 }

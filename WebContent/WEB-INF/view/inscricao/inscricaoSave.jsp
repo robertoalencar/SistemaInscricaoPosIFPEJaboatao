@@ -201,7 +201,7 @@
 									</div>
 									
                                  	<div class="col-lg-12"> &nbsp; </div>
-
+									
 									<div class="col-lg-6">
 										<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
 									</div>
@@ -221,6 +221,67 @@
                     <!-- /.panel -->
                 </div>
                 <!-- /.col-lg-12 -->
+                
+				<c:if test="${operacao eq 'view'}">
+				
+					 <div class="row">
+		                <div class="col-lg-12">
+		                    <h3 class="page-header"><strong> AVALIAÇÕES REALIZADAS </strong></h3>
+		                </div>
+		            </div>
+		            
+		            <c:choose>
+		            	<c:when test="${listaAvaliacoes.size() == 0}">
+							<div class="col-lg-12">
+								<div class="form-group">
+									<small id="passwordHelpBlock" class="form-text text-muted">Ainda não há avaliações realizadas para esse candidato.</small>
+								</div>
+							</div>
+						</c:when>
+						<c:otherwise>
+						
+							<table class="table table-striped table-bordered table-hover">
+								<thead>
+									<tr>
+										<th style="width: 25%; vertical-align: middle;">Avaliador</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">Data Avaliação</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Documentação Completa?</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">Pontuação</th>
+										<th style="width: 5%; vertical-align: middle; text-align: center;">Aprovada</th>
+										<th style="width: 25%; vertical-align: middle; text-align: center;">Observações</th>
+										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+		          						</tr>
+								</thead>
+								<tbody>
+								
+									<c:forEach var="avaliacao" items="${listaAvaliacoes}">
+										<tr>
+											<td style="vertical-align: middle;">${avaliacao.avaliador.nome}</td>
+											<td style="vertical-align: middle; text-align: center;"><fmt:formatDate value="${avaliacao.dataAvaliacao}" pattern="dd/MM/yyyy" /></td>
+											<td style="vertical-align: middle; text-align: center;">${avaliacao.tipoVaga}</td>
+											<td style="vertical-align: middle; text-align: center;">
+												<c:choose>
+													<c:when test="${avaliacao.documentacaoCompleta eq true}">Sim</c:when>
+													<c:otherwise>Não</c:otherwise>
+												</c:choose>
+											</td>
+											<td style="vertical-align: middle; text-align: center;"><strong>${avaliacao.notaFinal}</strong></td>
+											<td style="vertical-align: middle; text-align: center;"><c:if test="${avaliacao.aprovada eq true}">Sim</c:if></td>
+											<td style="vertical-align: middle;">${avaliacao.observacoes}</td>
+											<td style="vertical-align: middle; text-align: center;">
+												<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' >Visualizar</a> &nbsp;
+         										<a href='aprovarAvaliacao?id=${avaliacao.inscricao.id}&idAvaliacao=${avaliacao.id}' class='btn btn-success' >Aprovar</a>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+		      				</table>
+						
+						</c:otherwise>
+		            </c:choose>
+				
+				</c:if>
                 
                  <div class="row">
 					<div class="col-lg-12">
