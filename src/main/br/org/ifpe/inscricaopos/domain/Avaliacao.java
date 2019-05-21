@@ -50,7 +50,7 @@ public class Avaliacao implements Serializable {
     private String tipoVaga;
 
     @Column
-    private Boolean documentacaoCompleta;
+    private boolean documentacaoCompleta;
 
     @Column
     private String observacoes;

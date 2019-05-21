@@ -33,7 +33,6 @@ public class PrincipalController {
     public String home(Model model) {
 
 	model.addAttribute("listaInscricoes", inscricaoDao.listar(null, null));
-
 	return TELA_HOME;
     }
 

@@ -464,8 +464,7 @@
                                    	<select name="tipoVaga" class="form-control" required="required">
 										<option value=""> Selecione </option>
 										<option value="VCG"> VCG - Vagas para concorrência geral </option>
-										<option value="VPP"> VPP - Vagas para pretos e pardos </option>
-										<option value="VCI"> VCI - Vagas para indígenas </option>
+										<option value="PPI"> PPI - Vagas para pretos e pardos </option>
 										<option value="PCD"> PCD - Vagas para pessoas com deficiência </option>
 									</select>
 								</div>

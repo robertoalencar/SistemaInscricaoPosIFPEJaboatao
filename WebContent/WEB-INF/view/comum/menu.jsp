@@ -41,7 +41,9 @@
                         <li>
                             <a href="<%=request.getContextPath()%>/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                         </li>
-                        
+                        <li>
+                            <a href="<%=request.getContextPath()%>/exibirResultadoSelecao"><i class="fa fa-dashboard fa-fw"></i> Classificação </a>
+                        </li>
                         <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inscrições <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
