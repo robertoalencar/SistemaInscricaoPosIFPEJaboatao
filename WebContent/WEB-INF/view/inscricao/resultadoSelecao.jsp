@@ -49,7 +49,9 @@
                                     
                                     <div id="listaInovacao" class="panel-collapse collapse">
                                         <div class="panel-body">
-											<table class="table table-striped table-bordered table-hover">
+											
+											<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados VCG (vagas para concorrência geral) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
 														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
@@ -58,32 +60,172 @@
 														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
 							         						</tr>
 												</thead>
-												<tfoot>
-													<tr>
-														<th style="vertical-align: middle; text-align: center;">Classificação</th>
-														<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
-														<th style="vertical-align: middle;">Nome</th>
-														<th style="vertical-align: middle; text-align: center;">Nota</th>
-							         						</tr>
-												</tfoot>
 												<tbody>
-													<c:forEach var="resultadoInovacao" items="${listaResultadoCursoInovacao}" varStatus="i">
-														<c:choose>
-														<c:when test="${i.index < 30}">
-														<tr style="background-color: #A9F5E1;">
-														</c:when>
-														<c:otherwise>
-														<tr style="background-color: #F78181;">
-														</c:otherwise>
-														</c:choose>
-															<td style="vertical-align: middle; text-align: center;">${resultadoInovacao.inscricao.classificacao}</td>
-															<td style="vertical-align: middle; text-align: center;">${resultadoInovacao.inscricao.numero}</td>
-															<td style="vertical-align: middle;">${resultadoInovacao.inscricao.candidato.nome}</td>
-															<td style="vertical-align: middle; text-align: center;">${resultadoInovacao.notaCandidato}</td>
-							          					</tr>
-													</c:forEach>								
+													<c:forEach var="resultado" items="${classificadosInovacaoVCG}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
 												</tbody>
-							     			</table>                                        
+							     			</table>
+							     			
+							     			<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados PPI (vagas para pretos, pardos e indígenas) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${classificadosInovacaoPPI}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados PCD (vagas para pessoas com deficiência) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${classificadosInovacaoPCD}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento VCG (vagas para concorrência geral) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoInovacaoVCG}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento PPI (vagas para pretos, pardos e indígenas) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoInovacaoPPI}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento PCD (vagas para pessoas com deficiência) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoInovacaoPCD}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #BDBDBD;"><br/> &nbsp; <strong> Não Classificados </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${naoClassificadosInovacaoVCG}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F5A9A9;"><br/> &nbsp; <strong> Candidatos Desclassificados </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${desclassificadosInovacao}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+											                                     
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +241,7 @@
                                     <div id="listaGestao" class="panel-collapse collapse">
                                         <div class="panel-body">
                                         	
-                                        	<div style="background-color: #A9F5E1;"><br/><strong>CLASSIFICADOS VCG (vagas para concorrência geral)</strong><br/><br/></div>
+                                        	<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados VCG (vagas para concorrência geral) </strong><br/><br/></div>
                                         	<table class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
@@ -109,29 +251,19 @@
 														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
 							         						</tr>
 												</thead>
-												<tfoot>
-													<tr>
-														<th style="vertical-align: middle; text-align: center;">Classificação</th>
-														<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
-														<th style="vertical-align: middle;">Nome</th>
-														<th style="vertical-align: middle; text-align: center;">Nota</th>
-							         				</tr>
-												</tfoot>
 												<tbody>
-													<c:forEach var="resultadoGestao" items="${listaResultadoCursoGestao}" varStatus="i">
-														<c:if test="${i.index < 2}">
-															<tr>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.inscricao.classificacao}</td>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.inscricao.numero}</td>
-																<td style="vertical-align: middle;">${resultadoGestao.inscricao.candidato.nome}</td>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.notaCandidato}</td>
-							          						</tr>
-						          						</c:if>
+													<c:forEach var="resultado" items="${classificadosGestaoVCG}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
 													</c:forEach>
 												</tbody>
 							     			</table>
 							     			
-							     			<div style="background-color: red;"><br/><strong>Lista de Remanejamento VCG (vagas para concorrência geral)</strong><br/><br/></div>
+							     			<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados PPI (vagas para pretos, pardos e indígenas) </strong><br/><br/></div>
                                         	<table class="table table-striped table-bordered table-hover">
 												<thead>
 													<tr>
@@ -141,27 +273,150 @@
 														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
 							         						</tr>
 												</thead>
-												<tfoot>
-													<tr>
-														<th style="vertical-align: middle; text-align: center;">Classificação</th>
-														<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
-														<th style="vertical-align: middle;">Nome</th>
-														<th style="vertical-align: middle; text-align: center;">Nota</th>
-							         				</tr>
-												</tfoot>
 												<tbody>
-													<c:forEach var="resultadoGestao" items="${listaResultadoCursoGestao}" varStatus="i">
-														<c:if test="${i.index >= 2}">
-															<tr>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.inscricao.classificacao}</td>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.inscricao.numero}</td>
-																<td style="vertical-align: middle;">${resultadoGestao.inscricao.candidato.nome}</td>
-																<td style="vertical-align: middle; text-align: center;">${resultadoGestao.notaCandidato}</td>
-							          						</tr>
-						          						</c:if>
+													<c:forEach var="resultado" items="${classificadosGestaoPPI}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
 													</c:forEach>
 												</tbody>
 							     			</table>
+							     			
+							     			<div style="background-color: #82FA58;"><br/> &nbsp; <strong> Classificados PCD (vagas para pessoas com deficiência) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${classificadosGestaoPCD}">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento VCG (vagas para concorrência geral) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoGestaoVCG}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento PPI (vagas para pretos, pardos e indígenas) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoGestaoPPI}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F2F5A9;"><br/> &nbsp; <strong> Lista de Remanejamento PCD (vagas para pessoas com deficiência) </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${remanejamentoGestaoPCD}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #BDBDBD;"><br/> &nbsp; <strong> Não Classificados </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${naoClassificadosGestaoVCG}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
+							     			<div style="background-color: #F5A9A9;"><br/> &nbsp; <strong> Candidatos Desclassificados </strong><br/><br/></div>
+                                        	<table class="table table-striped table-bordered table-hover">
+												<thead>
+													<tr>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Classificação</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+														<th style="width: 55%; vertical-align: middle;">Nome</th>
+														<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+							         						</tr>
+												</thead>
+												<tbody>
+													<c:forEach var="resultado" items="${desclassificadosGestao}" varStatus="i">
+														<tr>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
+															<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+															<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
+						          						</tr>
+													</c:forEach>
+												</tbody>
+							     			</table>
+							     			
                                         </div>
                                     </div>
                                 </div>

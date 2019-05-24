@@ -40,7 +40,7 @@ public class InscricaoService {
 
 	for (Inscricao inscricao : listaInscricao) {
 
-	    List<Avaliacao> listaAvaliacao = avaliacaoDao.listar(inscricao.getId());
+	    List<Avaliacao> listaAvaliacao = avaliacaoDao.listar(inscricao.getId(), null);
 	    inscricao.setAvaliacoes(listaAvaliacao);
 
 	    for (Avaliacao avaliacao : listaAvaliacao) {
@@ -104,6 +104,10 @@ public class InscricaoService {
 	List<Inscricao> classificadosGestaoVCG = montarListaVCG(qtdVagasGestaoVCG, listaOrdemDecrescentePosGestao);
 	List<Inscricao> classificadosGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaOrdemDecrescentePosGestao);
 	List<Inscricao> classificadosGestaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasGestaoPCD, listaOrdemDecrescentePosGestao);
+	List<Inscricao> remanejamentoGestaoVCG = montarListaVCG(qtdVagasGestaoVCG, listaOrdemDecrescentePosGestao);
+	List<Inscricao> remanejamentoGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaOrdemDecrescentePosGestao);
+	List<Inscricao> remanejamentoGestaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasGestaoPCD, listaOrdemDecrescentePosGestao);
+	List<Inscricao> naoClassificadosGestaoVCG = montarListaVCG(1000, listaOrdemDecrescentePosGestao);
 
 	// ----------------------------------------------------------------
 	// Montas as listas de acordo com as vagas para o curso de Inovação
@@ -116,6 +120,10 @@ public class InscricaoService {
 	List<Inscricao> classificadosInovacaoVCG = montarListaVCG(qtdVagasInovacaoVCG, listaOrdemDecrescentePosInovacao);
 	List<Inscricao> classificadosInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaOrdemDecrescentePosInovacao);
 	List<Inscricao> classificadosInovacaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasInovacaoPCD, listaOrdemDecrescentePosInovacao);
+	List<Inscricao> remanejamentoInovacaoVCG = montarListaVCG(qtdVagasInovacaoVCG, listaOrdemDecrescentePosInovacao);
+	List<Inscricao> remanejamentoInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaOrdemDecrescentePosInovacao);
+	List<Inscricao> remanejamentoInovacaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasInovacaoPCD, listaOrdemDecrescentePosInovacao);
+	List<Inscricao> naoClassificadosInovacaoVCG = montarListaVCG(1000, listaOrdemDecrescentePosInovacao);
 
 	// ---------------------------------------------------------------------------------
 	// Carrega o mapa que será utilizaro no controlador para enviar as listas para o JSP
@@ -126,10 +134,18 @@ public class InscricaoService {
 	retorno.put("classificadosGestaoVCG", classificadosGestaoVCG);
 	retorno.put("classificadosGestaoPPI", classificadosGestaoPPI);
 	retorno.put("classificadosGestaoPCD", classificadosGestaoPCD);
+	retorno.put("remanejamentoGestaoVCG", remanejamentoGestaoVCG);
+	retorno.put("remanejamentoGestaoPPI", remanejamentoGestaoPPI);
+	retorno.put("remanejamentoGestaoPCD", remanejamentoGestaoPCD);
+	retorno.put("naoClassificadosGestaoVCG", naoClassificadosGestaoVCG);
 
 	retorno.put("classificadosInovacaoVCG", classificadosInovacaoVCG);
 	retorno.put("classificadosInovacaoPPI", classificadosInovacaoPPI);
 	retorno.put("classificadosInovacaoPCD", classificadosInovacaoPCD);
+	retorno.put("remanejamentoInovacaoVCG", remanejamentoInovacaoVCG);
+	retorno.put("remanejamentoInovacaoPPI", remanejamentoInovacaoPPI);
+	retorno.put("remanejamentoInovacaoPCD", remanejamentoInovacaoPCD);
+	retorno.put("naoClassificadosInovacaoVCG", naoClassificadosInovacaoVCG);
 
 	retorno.put("desclassificadosGestao", desclassificadosGestao);
 	retorno.put("desclassificadosInovacao", desclassificadosInovacao);
@@ -155,6 +171,7 @@ public class InscricaoService {
 	
 	List<Inscricao> classificadosVCG = new ArrayList<Inscricao>();
 	Inscricao inscricao;
+	ArrayList<Integer> removerItensDaLista = new ArrayList<Integer>();
 	
 	int classificao = 1;
 	for (Integer chave : listaOrdemDecrescente.keySet()) {
@@ -167,8 +184,12 @@ public class InscricaoService {
 		classificadosVCG.add(inscricao);
 		classificao++;
 
-		listaOrdemDecrescente.remove(chave);
+		removerItensDaLista.add(chave);
 	    }
+	}
+	
+	for (Integer chave : removerItensDaLista) {
+	    listaOrdemDecrescente.remove(chave);
 	}
 	
 	return classificadosVCG;
@@ -178,6 +199,7 @@ public class InscricaoService {
 	
 	List<Inscricao> classificados = new ArrayList<Inscricao>();
 	Inscricao inscricao;
+	ArrayList<Integer> removerItensDaLista = new ArrayList<Integer>();
 	int classificao = 1;
 	
 	for (Integer chave : listaOrdemDecrescente.keySet()) {
@@ -195,13 +217,17 @@ public class InscricaoService {
 			    classificados.add(inscricao);
 			    classificao++;
 
-			    listaOrdemDecrescente.remove(chave);
+			    removerItensDaLista.add(chave);
 			}
 
 			break;
 		    }
 		}
 	    }
+	}
+	
+	for (Integer chave : removerItensDaLista) {
+	    listaOrdemDecrescente.remove(chave);
 	}
 	
 	return classificados;

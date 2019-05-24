@@ -115,20 +115,31 @@ public class AvaliacaoDao extends HibernateDao {
 	factory.close();
     }
 
-    public List<Avaliacao> listar(Long idInscricao) {
+    public List<Avaliacao> listar(Long idInscricao, Long idUsuario) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	Query query = manager.createQuery(
-		"SELECT a FROM Avaliacao a JOIN FETCH a.inscricao JOIN FETCH a.avaliador, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ORDER BY a.dataAvaliacao ");
-	query.setParameter("paramIdInscricao", idInscricao);
+	Query query;
+	
+	if (idInscricao != null && idUsuario == null) {
+	
+	    query = manager.createQuery("SELECT a FROM Avaliacao a JOIN FETCH a.inscricao JOIN FETCH a.avaliador, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ORDER BY a.dataAvaliacao ");
+	    query.setParameter("paramIdInscricao", idInscricao);
+	    
+	} else {
+	    
+	    query = manager.createQuery("SELECT a FROM Avaliacao a WHERE a.avaliador.id = :paramIdUsuario ");
+	    query.setParameter("paramIdUsuario", idUsuario);
+	}
+	
+	
 	List<Avaliacao> lista = query.getResultList();
 	manager.close();
 	factory.close();
 
 	return lista;
     }
-
+    
     private List<VinculoEmpregaticio> montarListaEmpregos(AvaliacaoVO avaliacaoVO, Avaliacao avaliacao) {
 
 	List<VinculoEmpregaticio> empregos = new ArrayList<VinculoEmpregaticio>();

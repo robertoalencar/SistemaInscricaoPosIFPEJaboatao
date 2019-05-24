@@ -48,5 +48,8 @@ public class Usuario implements Serializable {
 
     @Column
     private String email;
+    
+    @Column
+    private int avaliacoesRealizadas;
 
 }

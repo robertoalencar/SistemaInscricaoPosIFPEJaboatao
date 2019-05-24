@@ -80,7 +80,7 @@ public class InscricaoController {
 	    inscricaoVO = new InscricoesVO();
 	    inscricaoVO.setInscricao(inscricao);
 
-	    listaAvaliacoes = avaliacaoDao.listar(inscricao.getId());
+	    listaAvaliacoes = avaliacaoDao.listar(inscricao.getId(), null);
 	    Util.definirStatusInscricao(listaAvaliacoes, inscricaoVO);
 
 	    inscricaoVO.setQtdAvaliacoes(listaAvaliacoes.size());
@@ -100,8 +100,20 @@ public class InscricaoController {
     @RequestMapping("/inscricao/save")
     public String save(Candidato candidato, @RequestParam String cursoEscolhido, Model model) {
 
-	model.addAttribute("inscricao", inscricaoDao.save(candidato, cursoEscolhido));
+	Inscricao inscricao = inscricaoDao.save(candidato, cursoEscolhido);
+	model.addAttribute("inscricao", inscricao);
 	model.addAttribute("mensagem", "Inscrição inserida com sucesso!");
+	
+	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(inscricao.getId(), null);
+
+	String nomeCandidato = null;
+	for (Avaliacao avaliacao : listaAvaliacoes) {
+	    nomeCandidato = avaliacao.getInscricao().getCandidato().getNome();
+	    break;
+	}
+
+	model.addAttribute("nomeCandidato", nomeCandidato);
+	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
@@ -144,7 +156,7 @@ public class InscricaoController {
     @RequestMapping("/inscricao/view")
     public String view(@RequestParam Long id, Model model) {
 
-	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(id);
+	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(id, null);
 
 	String nomeCandidato = null;
 	for (Avaliacao avaliacao : listaAvaliacoes) {
@@ -201,9 +213,21 @@ public class InscricaoController {
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
 	model.addAttribute("classificadosGestaoPCD", montaVoResultados(mapaListas, "classificadosGestaoPCD"));
+	
+	model.addAttribute("remanejamentoGestaoVCG", montaVoResultados(mapaListas, "remanejamentoGestaoVCG"));
+	model.addAttribute("remanejamentoGestaoPPI", montaVoResultados(mapaListas, "remanejamentoGestaoPPI"));
+	model.addAttribute("remanejamentoGestaoPCD", montaVoResultados(mapaListas, "remanejamentoGestaoPCD"));
+	model.addAttribute("naoClassificadosGestaoVCG", montaVoResultados(mapaListas, "naoClassificadosGestaoVCG"));
+	
 	model.addAttribute("classificadosInovacaoVCG", montaVoResultados(mapaListas, "classificadosInovacaoVCG"));
 	model.addAttribute("classificadosInovacaoPPI", montaVoResultados(mapaListas, "classificadosInovacaoPPI"));
 	model.addAttribute("classificadosInovacaoPCD", montaVoResultados(mapaListas, "classificadosInovacaoPCD"));
+	
+	model.addAttribute("remanejamentoInovacaoVCG", montaVoResultados(mapaListas, "remanejamentoInovacaoVCG"));
+	model.addAttribute("remanejamentoInovacaoPPI", montaVoResultados(mapaListas, "remanejamentoInovacaoPPI"));
+	model.addAttribute("remanejamentoInovacaoPCD", montaVoResultados(mapaListas, "remanejamentoInovacaoPCD"));
+	model.addAttribute("naoClassificadosInovacaoVCG", montaVoResultados(mapaListas, "naoClassificadosInovacaoVCG"));
+	
 	model.addAttribute("desclassificadosGestao", montaVoResultados(mapaListas, "desclassificadosGestao"));
 	model.addAttribute("desclassificadosInovacao", montaVoResultados(mapaListas, "desclassificadosInovacao"));
 

@@ -23,8 +23,8 @@
 
 			ordenarRegistros('classificacao');
 			
-			$("#ordenaClassificacao").click(function() {
-				ordenarRegistros('classificacao');
+			$("#ordenaCursoEscolhido").click(function() {
+				ordenarRegistros('cursoEscolhido');
 			});
 			
 			$("#ordenaNome").click(function() {
@@ -100,8 +100,8 @@
                     	classificacao = dadosJSON[i].inscricao.classificacao;
                     }
                     
-                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + classificacao + "</td>";
                    	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.numero + "</td>";
+                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.cursoEscolhido + "</td>";
                   	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].inscricao.candidato.nome + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
@@ -194,8 +194,8 @@
 							<table class="table table-striped table-bordered table-hover" id="tabelaLista">
 								<thead>
 									<tr>
-										<th style="width: 5%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaClassificacao">Classificação</a></th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaCursoEscolhido">Curso Escolhido</a></th>
 										<th style="width: 35%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
@@ -205,8 +205,8 @@
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="vertical-align: middle; text-align: center;">Classificação</th>
 										<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
+										<th style="vertical-align: middle; text-align: center;">Curso Escolhido</th>
 										<th style="vertical-align: middle;">Nome</th>
 										<th style="vertical-align: middle; text-align: center;">Data Inscrição</th>
 										<th style="vertical-align: middle; text-align: center;">QTD Avaliações</th>

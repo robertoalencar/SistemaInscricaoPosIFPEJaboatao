@@ -42,7 +42,7 @@
                             <a href="<%=request.getContextPath()%>/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                         </li>
                         <li>
-                            <a href="<%=request.getContextPath()%>/exibirResultadoSelecao"><i class="fa fa-dashboard fa-fw"></i> Classificação </a>
+                            <a href="<%=request.getContextPath()%>/exibirResultadoSelecao"><i class="fa fa-sort-amount-desc"></i> Classificação </a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inscrições <span class="fa arrow"></span></a>
@@ -58,7 +58,7 @@
                         </li>
                         
                         <li>
-                            <a href="#"><i class="fa fa-files-o fa-fw"></i> Usuário <span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-user"></i> Usuário <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
                                     <a href="<%=request.getContextPath()%>/usuario/list"><i class="fa fa-table fa-fw"></i> Listar</a>

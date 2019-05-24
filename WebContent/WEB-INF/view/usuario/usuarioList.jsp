@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
@@ -100,7 +100,7 @@
                    	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].nome + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].fone + "</td>";
              		linhas += "<td style='vertical-align: middle;'>"  + dadosJSON[i].email + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'> 3 </td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'> "  + dadosJSON[i].avaliacoesRealizadas + " </td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
       				linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>V</a> &nbsp; &nbsp;";
   					linhas += "<a href='edit?id=" + dadosJSON[i].id + "' class='btn btn-warning' role='button' title='Editar'>E</a> &nbsp; &nbsp;";

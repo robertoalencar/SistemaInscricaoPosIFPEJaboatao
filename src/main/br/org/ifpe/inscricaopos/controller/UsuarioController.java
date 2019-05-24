@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import main.br.org.ifpe.inscricaopos.dao.AvaliacaoDao;
 import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
+import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
 import main.br.org.ifpe.inscricaopos.util.Criptografia;
@@ -33,6 +35,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioDao usuarioDao;
 
+    @Autowired
+    private AvaliacaoDao avaliacaoDao;
+
     @RequestMapping("/usuario/list")
     public String list(Model model) {
 
@@ -44,13 +49,19 @@ public class UsuarioController {
     public @ResponseBody List<Usuario> ordenarRegistros(@RequestParam String criterioOrdenacao,
 	    @RequestParam String ordem) {
 
-	return usuarioDao.list(criterioOrdenacao, ordem);
+	List<Usuario> listaUsuarios = usuarioDao.list(criterioOrdenacao, ordem);
+	consultarAvaliacoesUsuarios(listaUsuarios);
+
+	return listaUsuarios;
     }
 
     @RequestMapping(value = "/usuario/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Usuario> filter(@RequestParam Long tipoUsuarioId, @RequestParam String nome) {
 
-	return usuarioDao.filtrar(tipoUsuarioId, nome);
+	List<Usuario> listaUsuarios = usuarioDao.filtrar(tipoUsuarioId, nome);
+	consultarAvaliacoesUsuarios(listaUsuarios);
+
+	return listaUsuarios;
     }
 
     @RequestMapping("/usuario/add")
@@ -157,6 +168,19 @@ public class UsuarioController {
     public String dadosUsuario() {
 
 	return TELA_DADOS_USUARIO;
+    }
+
+    private void consultarAvaliacoesUsuarios(List<Usuario> listaUsuarios) {
+
+	List<Avaliacao> avaliacoes;
+	for (Usuario usuario : listaUsuarios) {
+
+	    avaliacoes = avaliacaoDao.listar(null, usuario.getId());
+
+	    if (avaliacoes != null) {
+		usuario.setAvaliacoesRealizadas(avaliacoes.size());
+	    }
+	}
     }
 
 }

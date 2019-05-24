@@ -95,6 +95,11 @@
 			
 			
 			$('#historicoMediaGeral').change(function() {
+				
+				var notaHistorico = $('#historicoMediaGeral').val();
+				notaHistorico = notaHistorico.replace(',','.');
+				$('#historicoMediaGeral').val(notaHistorico);
+				
 				calcularPontuacaoHistoricoEscolar();
 			});
 			$('#historicoFatorCargaHoraria').change(function() {
@@ -654,7 +659,7 @@
 							<div class="col-lg-3">
                                	<div class="form-group">
                                    	<label>(IC04.1) Média Histórico</label>
-                                   	<input type="text" class="form-control" name="historicoMediaGeral" id="historicoMediaGeral" placeholder="Ex.: 8.5">
+                                   	<input type="text" class="form-control" name="historicoMediaGeral" id="historicoMediaGeral" placeholder="Ex.: 8.5"> 
                                    	<small id="passwordHelpBlock" class="form-text text-muted">Em caso de número decimal, utilizar PONTO ao invés de vírgula.</small>
                                	</div>
 							</div>
