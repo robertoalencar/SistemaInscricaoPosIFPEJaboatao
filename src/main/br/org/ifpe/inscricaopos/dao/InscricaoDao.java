@@ -38,7 +38,7 @@ public class InscricaoDao extends HibernateDao {
 	return obj;
     }
 
-    public Inscricao save(Candidato candidato, String cursoEscolhido) {
+    public Inscricao save(Candidato candidato, String cursoEscolhido, String avaliadorAlocado) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
@@ -47,8 +47,13 @@ public class InscricaoDao extends HibernateDao {
 	candidato.setHabilitado(Boolean.TRUE);
 	manager.persist(candidato);
 
-	Inscricao inscricao = Inscricao.builder().numero(gerarNumeroInscricao()).candidato(candidato)
-		.cursoEscolhido(cursoEscolhido).habilitado(Boolean.TRUE).dataInscricao(Calendar.getInstance().getTime())
+	Inscricao inscricao = Inscricao.builder()
+		.numero(gerarNumeroInscricao())
+		.avaliadorAlocado(avaliadorAlocado)
+		.candidato(candidato)
+		.cursoEscolhido(cursoEscolhido)
+		.habilitado(Boolean.TRUE)
+		.dataInscricao(Calendar.getInstance().getTime())
 		.build();
 
 	manager.persist(inscricao);

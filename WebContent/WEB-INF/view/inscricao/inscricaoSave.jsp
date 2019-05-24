@@ -195,6 +195,18 @@
 									</div>
 									
 									<div class="col-lg-12">
+	                                   	<div class="form-group">
+	                                    	<label>Avaliador Alocado</label>
+	                                    	<select id="avaliadorAlocado" name="avaliadorAlocado" class="form-control" required="required">
+												<option value=""> Selecione </option>
+												<c:forEach items="${listaAvaliadores}" var="obj">
+													<option value="${obj.nome}" <c:if test="${obj.nome eq inscricao.avaliadorAlocado}">selected="selected"</c:if>> ${obj.nome} </option>
+												</c:forEach> 
+											</select>
+										</div>
+									</div>
+									
+									<div class="col-lg-12">
                                      	<div class="form-group">
                                         	<small id="passwordHelpBlock" class="form-text text-muted"><span style="color: red;"> * </span> Campos de preenchimento obrigatório.</small>
                                       	</div>

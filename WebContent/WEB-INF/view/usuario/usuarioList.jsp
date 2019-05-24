@@ -32,7 +32,7 @@
 			});
 			
 			$("#ordenaTipo").click(function() {
-				ordenarRegistros('tipo');
+				ordenarRegistros('tipo.descricao');
 			});
 			
 			$("#ordenaNome").click(function() {
@@ -206,12 +206,12 @@
 								</thead>
 								<tfoot>
 									<tr>
-										<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo</th>
-										<th style="width: 25%; vertical-align: middle;">Nome</th>
-										<th style="width: 15%; vertical-align: middle; text-align: center;">Fone</th>
-										<th style="width: 25%; vertical-align: middle;">E-mail</th>
-										<th style="width: 5%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
+										<th vertical-align: middle; text-align: center;">Tipo</th>
+										<th vertical-align: middle;">Nome</th>
+										<th vertical-align: middle; text-align: center;">Fone</th>
+										<th vertical-align: middle;">E-mail</th>
+										<th vertical-align: middle; text-align: center;">QTD Avaliações</th>
+										<th vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</tfoot>
 								<tbody id="conteudoLista"></tbody>

@@ -23,6 +23,10 @@
 
 			ordenarRegistros('classificacao');
 			
+			$("#ordenaAvaliador").click(function() {
+				ordenarRegistros('avaliadorAlocado');
+			});
+			
 			$("#ordenaCursoEscolhido").click(function() {
 				ordenarRegistros('cursoEscolhido');
 			});
@@ -100,10 +104,16 @@
                     	classificacao = dadosJSON[i].inscricao.classificacao;
                     }
                     
+                    var avaliadorAlocado = '';
+                    if (dadosJSON[i].inscricao.avaliadorAlocado != undefined) {
+                    	avaliadorAlocado = dadosJSON[i].inscricao.avaliadorAlocado;
+                    }
+                    
                    	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.numero + "</td>";
                     linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.cursoEscolhido + "</td>";
                   	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].inscricao.candidato.nome + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + avaliadorAlocado + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'><strong>"; 
              		
@@ -196,24 +206,14 @@
 									<tr>
 										<th style="width: 10%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaCursoEscolhido">Curso Escolhido</a></th>
-										<th style="width: 35%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
+										<th style="width: 25%; vertical-align: middle;"><a href="#" id="ordenaNome">Nome</a></th>
 										<th style="width: 10%; vertical-align: middle; text-align: center;"><a href="#" id="ordenaDataInscricao">Data Inscrição</a></th>
+										<th style="width: 10%; vertical-align: middle;"><a href="#" id="ordenaAvaliador">Atribuído Para</a></th>
 										<th style="width: 5%%; vertical-align: middle; text-align: center;">QTD Avaliações</th>
 										<th style="width: 10%%; vertical-align: middle; text-align: center;">Status</th>
 										<th style="width: 20%; vertical-align: middle; text-align: center;">Ações</th>
             						</tr>
 								</thead>
-								<tfoot>
-									<tr>
-										<th style="vertical-align: middle; text-align: center;">Nº Inscrição</th>
-										<th style="vertical-align: middle; text-align: center;">Curso Escolhido</th>
-										<th style="vertical-align: middle;">Nome</th>
-										<th style="vertical-align: middle; text-align: center;">Data Inscrição</th>
-										<th style="vertical-align: middle; text-align: center;">QTD Avaliações</th>
-										<th style="vertical-align: middle; text-align: center;">Status</th>
-										<th style="vertical-align: middle; text-align: center;">Ações</th>
-            						</tr>
-								</tfoot>
 								<tbody id="conteudoLista"></tbody>
         					</table>
         					

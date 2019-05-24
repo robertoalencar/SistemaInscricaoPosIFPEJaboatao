@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import main.br.org.ifpe.inscricaopos.dao.AvaliacaoDao;
 import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
+import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
 import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
@@ -49,6 +50,9 @@ public class InscricaoController {
 
     @Autowired
     private InscricaoService inscricaoService;
+
+    @Autowired
+    private UsuarioDao usuarioDao;
 
     @RequestMapping("/inscricao/list")
     public String list(Model model) {
@@ -93,17 +97,20 @@ public class InscricaoController {
     @RequestMapping("/inscricao/add")
     public String add(Model model) {
 
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "save");
+
 	return TELA_MANTER;
     }
 
     @RequestMapping("/inscricao/save")
-    public String save(Candidato candidato, @RequestParam String cursoEscolhido, Model model) {
+    public String save(Candidato candidato, @RequestParam String cursoEscolhido, @RequestParam String avaliadorAlocado,
+	    Model model) {
 
-	Inscricao inscricao = inscricaoDao.save(candidato, cursoEscolhido);
+	Inscricao inscricao = inscricaoDao.save(candidato, cursoEscolhido, avaliadorAlocado);
 	model.addAttribute("inscricao", inscricao);
 	model.addAttribute("mensagem", "Inscrição inserida com sucesso!");
-	
+
 	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(inscricao.getId(), null);
 
 	String nomeCandidato = null;
@@ -114,6 +121,7 @@ public class InscricaoController {
 
 	model.addAttribute("nomeCandidato", nomeCandidato);
 	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
@@ -123,6 +131,7 @@ public class InscricaoController {
     public String edit(@RequestParam Long id, Model model) {
 
 	model.addAttribute("inscricao", inscricaoDao.find(id));
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "update");
 
 	return TELA_MANTER;
@@ -130,15 +139,17 @@ public class InscricaoController {
 
     @RequestMapping("/inscricao/update")
     public String update(Candidato candidato, @RequestParam Long idInscricao, @RequestParam String cursoEscolhido,
-	    Model model) {
+	    @RequestParam String avaliadorAlocado, Model model) {
 
 	Inscricao inscricao = inscricaoDao.find(idInscricao);
 	inscricao.setCursoEscolhido(cursoEscolhido);
+	inscricao.setAvaliadorAlocado(avaliadorAlocado);
 
 	inscricaoDao.update(candidato, inscricao);
 
 	model.addAttribute("mensagem", "Inscrição atualizada com sucesso!");
 	model.addAttribute("inscricao", inscricaoDao.obterInscricaoCandidato(candidato.getId()));
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "update");
 
 	return TELA_MANTER;
@@ -167,6 +178,7 @@ public class InscricaoController {
 	model.addAttribute("nomeCandidato", nomeCandidato);
 	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
 	model.addAttribute("inscricao", inscricaoDao.find(id));
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
@@ -213,21 +225,21 @@ public class InscricaoController {
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
 	model.addAttribute("classificadosGestaoPCD", montaVoResultados(mapaListas, "classificadosGestaoPCD"));
-	
+
 	model.addAttribute("remanejamentoGestaoVCG", montaVoResultados(mapaListas, "remanejamentoGestaoVCG"));
 	model.addAttribute("remanejamentoGestaoPPI", montaVoResultados(mapaListas, "remanejamentoGestaoPPI"));
 	model.addAttribute("remanejamentoGestaoPCD", montaVoResultados(mapaListas, "remanejamentoGestaoPCD"));
 	model.addAttribute("naoClassificadosGestaoVCG", montaVoResultados(mapaListas, "naoClassificadosGestaoVCG"));
-	
+
 	model.addAttribute("classificadosInovacaoVCG", montaVoResultados(mapaListas, "classificadosInovacaoVCG"));
 	model.addAttribute("classificadosInovacaoPPI", montaVoResultados(mapaListas, "classificadosInovacaoPPI"));
 	model.addAttribute("classificadosInovacaoPCD", montaVoResultados(mapaListas, "classificadosInovacaoPCD"));
-	
+
 	model.addAttribute("remanejamentoInovacaoVCG", montaVoResultados(mapaListas, "remanejamentoInovacaoVCG"));
 	model.addAttribute("remanejamentoInovacaoPPI", montaVoResultados(mapaListas, "remanejamentoInovacaoPPI"));
 	model.addAttribute("remanejamentoInovacaoPCD", montaVoResultados(mapaListas, "remanejamentoInovacaoPCD"));
 	model.addAttribute("naoClassificadosInovacaoVCG", montaVoResultados(mapaListas, "naoClassificadosInovacaoVCG"));
-	
+
 	model.addAttribute("desclassificadosGestao", montaVoResultados(mapaListas, "desclassificadosGestao"));
 	model.addAttribute("desclassificadosInovacao", montaVoResultados(mapaListas, "desclassificadosInovacao"));
 

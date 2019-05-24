@@ -49,6 +49,9 @@ public class Inscricao implements Serializable {
     private List<Avaliacao> avaliacoes;
 
     @Column
+    private String avaliadorAlocado;
+    
+    @Column
     private String numero;
 
     @Column
