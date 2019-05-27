@@ -148,6 +148,21 @@ public class AvaliacaoDao extends HibernateDao {
 	return lista;
     }
 
+    public List<VinculoEmpregaticio> listarVinculosEmpregaticios(Long idAvaliacao) {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Query query = manager
+		.createQuery("SELECT v FROM VinculoEmpregaticio v WHERE v.avaliacao.id = :paramIdAvaliacao ");
+	query.setParameter("paramIdAvaliacao", idAvaliacao);
+
+	List<VinculoEmpregaticio> lista = query.getResultList();
+	manager.close();
+	factory.close();
+
+	return lista;
+    }
+
     private List<VinculoEmpregaticio> montarListaEmpregos(AvaliacaoVO avaliacaoVO, Avaliacao avaliacao) {
 
 	List<VinculoEmpregaticio> empregos = new ArrayList<VinculoEmpregaticio>();

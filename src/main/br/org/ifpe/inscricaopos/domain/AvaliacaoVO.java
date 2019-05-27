@@ -34,6 +34,7 @@ public class AvaliacaoVO implements Serializable {
     private String[] dataInicio;
     private String[] dataFim;
     private String[] totalMeses;
+    private int totalVinculosEmpregaticios;
 
     private Double expProfTotalMesesAreaComp;
     private Double expProfTotalMesesOutras;

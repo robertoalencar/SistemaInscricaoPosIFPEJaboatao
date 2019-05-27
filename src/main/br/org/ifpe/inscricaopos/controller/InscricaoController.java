@@ -25,8 +25,10 @@ import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 import main.br.org.ifpe.inscricaopos.domain.ResultadoSelecaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
+import main.br.org.ifpe.inscricaopos.domain.VinculoEmpregaticio;
 import main.br.org.ifpe.inscricaopos.service.InscricaoService;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
+import main.br.org.ifpe.inscricaopos.util.Util;
 
 /**
  * @author Roberto Alencar
@@ -341,18 +343,24 @@ public class InscricaoController {
 	String[] dataFim = null;
 	String[] totalMeses = null;
 
-	if (avaliacao.getEmpregos() != null && !avaliacao.getEmpregos().isEmpty()) {
+	List<VinculoEmpregaticio> listaVinculoEmpregaticio = avaliacaoDao
+		.listarVinculosEmpregaticios(avaliacao.getId());
 
-	    areaCargo = new String[avaliacao.getEmpregos().size()];
-	    dataInicio = new String[avaliacao.getEmpregos().size()];
-	    dataFim = new String[avaliacao.getEmpregos().size()];
-	    totalMeses = new String[avaliacao.getEmpregos().size()];
+	if (listaVinculoEmpregaticio != null && !listaVinculoEmpregaticio.isEmpty()) {
 
-	    for (int i = 0; i < avaliacao.getEmpregos().size(); i++) {
-		areaCargo[i] = avaliacao.getEmpregos().get(i).getAreaCargo();
-		dataInicio[i] = String.valueOf(avaliacao.getEmpregos().get(i).getDataInicio());
-		dataFim[i] = String.valueOf(avaliacao.getEmpregos().get(i).getDataFim());
-		totalMeses[i] = String.valueOf(avaliacao.getEmpregos().get(i).getTotalMeses());
+	    int tamanhoLista = listaVinculoEmpregaticio.size();
+	    avaliacaoVO.setTotalVinculosEmpregaticios(tamanhoLista - 1);
+
+	    areaCargo = new String[tamanhoLista];
+	    dataInicio = new String[tamanhoLista];
+	    dataFim = new String[tamanhoLista];
+	    totalMeses = new String[tamanhoLista];
+
+	    for (int i = 0; i < tamanhoLista; i++) {
+		areaCargo[i] = listaVinculoEmpregaticio.get(i).getAreaCargo();
+		dataInicio[i] = Util.converterData(listaVinculoEmpregaticio.get(i).getDataInicio());
+		dataFim[i] = Util.converterData(listaVinculoEmpregaticio.get(i).getDataFim());
+		totalMeses[i] = String.valueOf(listaVinculoEmpregaticio.get(i).getTotalMeses());
 	    }
 	}
 

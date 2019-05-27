@@ -2,6 +2,7 @@ package main.br.org.ifpe.inscricaopos.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,6 +37,11 @@ public class Util {
 	}
 
 	return retorno;
+    }
+
+    public static String converterData(Date param) {
+
+	return new SimpleDateFormat("dd/MM/yyyy").format(param);
     }
 
 }
