@@ -10,8 +10,10 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Repository;
 
+import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
+import main.br.org.ifpe.inscricaopos.domain.VinculoEmpregaticio;
 import main.br.org.ifpe.inscricaopos.util.HibernateDao;
 
 /**
@@ -44,7 +46,6 @@ public class InscricaoDao extends HibernateDao {
 	EntityManager manager = factory.createEntityManager();
 	manager.getTransaction().begin();
 
-	candidato.setHabilitado(Boolean.TRUE);
 	manager.persist(candidato);
 
 	Inscricao inscricao = Inscricao.builder()
@@ -52,10 +53,10 @@ public class InscricaoDao extends HibernateDao {
 		.avaliadorAlocado(avaliadorAlocado)
 		.candidato(candidato)
 		.cursoEscolhido(cursoEscolhido)
-		.habilitado(Boolean.TRUE)
 		.dataInscricao(Calendar.getInstance().getTime())
+		.status(Inscricao.STATUS_INSCRICAO_PENDENTE)
 		.build();
-
+	
 	manager.persist(inscricao);
 
 	manager.getTransaction().commit();
@@ -85,12 +86,31 @@ public class InscricaoDao extends HibernateDao {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
+	
 	Inscricao inscricao = manager.find(getClassEntidade(), id);
 	Candidato candidato = manager.find(Candidato.class, inscricao.getCandidato().getId());
-
+	Query query = manager.createQuery("FROM Avaliacao a WHERE a.inscricao.id = :paramIdInscricao");
+	query.setParameter("paramIdInscricao", id);
+	List<Avaliacao> avaliacoes = query.getResultList();
+	
 	manager.getTransaction().begin();
+	
+	//Remove as avaliações associadas:
+	for (Avaliacao avaliacao : avaliacoes) {
+	    
+	    for (VinculoEmpregaticio emprego : avaliacao.getEmpregos()) {
+		manager.remove(emprego);
+	    }
+	    
+	    manager.remove(avaliacao);
+	}
+
+	//Remove a inscrição
 	manager.remove(inscricao);
+	
+	//Remove o candidato
 	manager.remove(candidato);
+	
 	manager.getTransaction().commit();
 
 	manager.close();

@@ -32,9 +32,6 @@ public class VinculoEmpregaticio implements Serializable {
     @GeneratedValue(generator = "VINCULO_EMPREGATICIO_SEQUENCE", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
-    private boolean habilitado;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Avaliacao avaliacao;
 

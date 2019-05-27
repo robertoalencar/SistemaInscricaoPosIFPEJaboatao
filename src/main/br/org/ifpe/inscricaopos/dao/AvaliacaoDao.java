@@ -46,10 +46,11 @@ public class AvaliacaoDao extends HibernateDao {
 	EntityManager manager = factory.createEntityManager();
 	manager.getTransaction().begin();
 
+	Inscricao inscricao = manager.find(Inscricao.class, avaliacaoVO.getIdInscricao());
+
 	Avaliacao avaliacao = new Avaliacao();
-	avaliacao.setHabilitado(Boolean.TRUE);
 	avaliacao.setAvaliador(manager.find(Usuario.class, avaliador.getId()));
-	avaliacao.setInscricao(manager.find(Inscricao.class, avaliacaoVO.getIdInscricao()));
+	avaliacao.setInscricao(inscricao);
 	avaliacao.setDataAvaliacao(Calendar.getInstance().getTime());
 
 	avaliacao.setTipoVaga(avaliacaoVO.getTipoVaga());
@@ -86,6 +87,9 @@ public class AvaliacaoDao extends HibernateDao {
 
 	manager.merge(avaliacao);
 
+	inscricao.setQtdAvaliacoes(inscricao.getQtdAvaliacoes() + 1);
+	manager.merge(inscricao);
+
 	manager.getTransaction().commit();
 	manager.close();
 	factory.close();
@@ -110,6 +114,10 @@ public class AvaliacaoDao extends HibernateDao {
 
 	manager.merge(avaliacao);
 
+	Inscricao inscricao = manager.find(Inscricao.class, avaliacao.getInscricao().getId());
+	inscricao.setStatus(Inscricao.STATUS_INSCRICAO_APROVADA);
+	manager.merge(inscricao);
+
 	manager.getTransaction().commit();
 	manager.close();
 	factory.close();
@@ -120,26 +128,26 @@ public class AvaliacaoDao extends HibernateDao {
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
 	Query query;
-	
+
 	if (idInscricao != null && idUsuario == null) {
-	
-	    query = manager.createQuery("SELECT a FROM Avaliacao a JOIN FETCH a.inscricao JOIN FETCH a.avaliador, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ORDER BY a.dataAvaliacao ");
+
+	    query = manager.createQuery(
+		    "SELECT a FROM Avaliacao a JOIN FETCH a.inscricao JOIN FETCH a.avaliador, Inscricao i WHERE a.inscricao.id = i.id AND i.id = :paramIdInscricao ORDER BY a.dataAvaliacao ");
 	    query.setParameter("paramIdInscricao", idInscricao);
-	    
+
 	} else {
-	    
+
 	    query = manager.createQuery("SELECT a FROM Avaliacao a WHERE a.avaliador.id = :paramIdUsuario ");
 	    query.setParameter("paramIdUsuario", idUsuario);
 	}
-	
-	
+
 	List<Avaliacao> lista = query.getResultList();
 	manager.close();
 	factory.close();
 
 	return lista;
     }
-    
+
     private List<VinculoEmpregaticio> montarListaEmpregos(AvaliacaoVO avaliacaoVO, Avaliacao avaliacao) {
 
 	List<VinculoEmpregaticio> empregos = new ArrayList<VinculoEmpregaticio>();
@@ -150,7 +158,6 @@ public class AvaliacaoDao extends HibernateDao {
 	    for (int i = 0; i < avaliacaoVO.getAreaCargo().length; i++) {
 
 		vinculoEmpregaticio = new VinculoEmpregaticio();
-		vinculoEmpregaticio.setHabilitado(Boolean.TRUE);
 		vinculoEmpregaticio.setAvaliacao(avaliacao);
 		vinculoEmpregaticio.setAreaCargo(avaliacaoVO.getAreaCargo()[i]);
 		vinculoEmpregaticio.setDataInicio(Util.converterData(avaliacaoVO.getDataInicio()[i]));

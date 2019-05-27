@@ -1,7 +1,6 @@
 package main.br.org.ifpe.inscricaopos.domain;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import lombok.Data;
 
@@ -15,11 +14,6 @@ public class AvaliacaoVO implements Serializable {
     private static final long serialVersionUID = -6518478767728327025L;
 
     private Long idInscricao;
-    private String email;
-    private String foneResidencial;
-    private String foneCelular;
-    private Date dataNacimento;
-    private String sexo;
 
     private Boolean documentacaoCompleta;
     private Double notaFinal;

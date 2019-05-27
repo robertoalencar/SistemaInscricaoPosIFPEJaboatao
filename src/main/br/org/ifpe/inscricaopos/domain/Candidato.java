@@ -30,9 +30,6 @@ public class Candidato implements Serializable {
     private Long id;
 
     @Column
-    private boolean habilitado;
-
-    @Column
     private String nome;
 
     @Column
@@ -43,7 +40,7 @@ public class Candidato implements Serializable {
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column
-    private Date dataNacimento;
+    private Date dataNascimento;
 
     @Column(name = "email")
     private String email;

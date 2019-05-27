@@ -28,9 +28,6 @@ public class Usuario implements Serializable {
     @GeneratedValue(generator = "USUARIO_SEQUENCE", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column
-    private boolean habilitado;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private TipoUsuario tipo;
 

@@ -16,7 +16,15 @@ import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 
 @Service
 public class InscricaoService {
-
+    
+    public static final int CURSO_GESTAO_VAGAS_EDITAL_VCG = 30;
+    public static final int CURSO_GESTAO_VAGAS_EDITAL_PPI = 5;
+    public static final int CURSO_GESTAO_VAGAS_EDITAL_PCD = 2;
+    
+    public static final int CURSO_INOVACAO_VAGAS_EDITAL_VCG = 30;
+    public static final int CURSO_INOVACAO_VAGAS_EDITAL_PPI = 5;
+    public static final int CURSO_INOVACAO_VAGAS_EDITAL_PCD = 2;
+    
     @Autowired
     private AvaliacaoDao avaliacaoDao;
 
@@ -97,9 +105,9 @@ public class InscricaoService {
 	// Montas as listas de acordo com as vagas para o curso de Gestão
 	// --------------------------------------------------------------
 
-	int qtdVagasGestaoPCD = qtdCandidatosGestaoPCD > 2 ? 2 : qtdCandidatosGestaoPCD;
-	int qtdVagasGestaoPPI = qtdCandidatosGestaoPPI > 5 ? 5 : qtdCandidatosGestaoPPI;
-	int qtdVagasGestaoVCG = 30 - qtdCandidatosGestaoPPI - qtdCandidatosGestaoPCD;
+	int qtdVagasGestaoPCD = qtdCandidatosGestaoPCD > CURSO_GESTAO_VAGAS_EDITAL_PCD ? CURSO_GESTAO_VAGAS_EDITAL_PCD : qtdCandidatosGestaoPCD;
+	int qtdVagasGestaoPPI = qtdCandidatosGestaoPPI > CURSO_GESTAO_VAGAS_EDITAL_PPI ? CURSO_GESTAO_VAGAS_EDITAL_PPI : qtdCandidatosGestaoPPI;
+	int qtdVagasGestaoVCG = CURSO_GESTAO_VAGAS_EDITAL_VCG - qtdCandidatosGestaoPPI - qtdCandidatosGestaoPCD;
 
 	List<Inscricao> classificadosGestaoVCG = montarListaVCG(qtdVagasGestaoVCG, listaOrdemDecrescentePosGestao);
 	List<Inscricao> classificadosGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaOrdemDecrescentePosGestao);
@@ -113,9 +121,9 @@ public class InscricaoService {
 	// Montas as listas de acordo com as vagas para o curso de Inovação
 	// ----------------------------------------------------------------
 
-	int qtdVagasInovacaoPCD = qtdCandidatosInovacaoPCD > 2 ? 2 : qtdCandidatosInovacaoPCD;
-	int qtdVagasInovacaoPPI = qtdCandidatosInovacaoPPI > 5 ? 5 : qtdCandidatosInovacaoPPI;
-	int qtdVagasInovacaoVCG = 30 - qtdCandidatosInovacaoPPI - qtdCandidatosInovacaoPCD;
+	int qtdVagasInovacaoPCD = qtdCandidatosInovacaoPCD > CURSO_INOVACAO_VAGAS_EDITAL_PCD ? CURSO_INOVACAO_VAGAS_EDITAL_PCD : qtdCandidatosInovacaoPCD;
+	int qtdVagasInovacaoPPI = qtdCandidatosInovacaoPPI > CURSO_INOVACAO_VAGAS_EDITAL_PPI ? CURSO_INOVACAO_VAGAS_EDITAL_PPI : qtdCandidatosInovacaoPPI;
+	int qtdVagasInovacaoVCG = CURSO_INOVACAO_VAGAS_EDITAL_VCG - qtdCandidatosInovacaoPPI - qtdCandidatosInovacaoPCD;
 
 	List<Inscricao> classificadosInovacaoVCG = montarListaVCG(qtdVagasInovacaoVCG, listaOrdemDecrescentePosInovacao);
 	List<Inscricao> classificadosInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaOrdemDecrescentePosInovacao);

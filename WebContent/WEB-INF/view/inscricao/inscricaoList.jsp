@@ -100,19 +100,19 @@
                     linhas += "<tr>";
 
                     var classificacao = '';
-                    if (dadosJSON[i].inscricao.classificacao != undefined) {
-                    	classificacao = dadosJSON[i].inscricao.classificacao;
+                    if (dadosJSON[i].classificacao != undefined) {
+                    	classificacao = dadosJSON[i].classificacao;
                     }
                     
                     var avaliadorAlocado = '';
-                    if (dadosJSON[i].inscricao.avaliadorAlocado != undefined) {
-                    	avaliadorAlocado = dadosJSON[i].inscricao.avaliadorAlocado;
+                    if (dadosJSON[i].avaliadorAlocado != undefined) {
+                    	avaliadorAlocado = dadosJSON[i].avaliadorAlocado;
                     }
                     
-                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.numero + "</td>";
-                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].inscricao.cursoEscolhido + "</td>";
-                  	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].inscricao.candidato.nome + "</td>";
-             		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].inscricao.dataInscricao).toLocaleDateString() + "</td>";
+                   	linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].numero + "</td>";
+                    linhas += "<td style='vertical-align: middle; text-align: center;'>" + dadosJSON[i].cursoEscolhido + "</td>";
+                  	linhas += "<td style='vertical-align: middle;'>" + dadosJSON[i].candidato.nome + "</td>";
+             		linhas += "<td style='vertical-align: middle; text-align: center;'>" + new Date(dadosJSON[i].dataInscricao).toLocaleDateString() + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + avaliadorAlocado + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'>"  + dadosJSON[i].qtdAvaliacoes + "</td>";
              		linhas += "<td style='vertical-align: middle; text-align: center;'><strong>"; 
@@ -125,8 +125,8 @@
              		
              		linhas += dadosJSON[i].status + "</span></strong></td>";
          			linhas += "<td style='vertical-align: middle; text-align: center;'>";
-         			linhas += "<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a> &nbsp; &nbsp;";
-         			linhas += "<a href='avaliar?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-success' title='Avaliar'>Avaliar</a>";
+         			linhas += "<a href='view?id=" + dadosJSON[i].id + "' class='btn btn-primary' title='Visualizar'>Visualizar</a> &nbsp; &nbsp;";
+         			linhas += "<a href='avaliar?id=" + dadosJSON[i].id + "' class='btn btn-success' title='Avaliar'>Avaliar</a>";
 					linhas += "</td>";
 						
 					linhas += "</tr>";

@@ -32,9 +32,6 @@ public class Avaliacao implements Serializable {
     private Long id;
 
     @Column
-    private boolean habilitado;
-    
-    @Column
     private boolean aprovada;
 
     @ManyToOne(fetch = FetchType.LAZY)

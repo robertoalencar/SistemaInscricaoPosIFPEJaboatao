@@ -29,7 +29,7 @@
 			$("#cpf").mask("999.999.999-99");
 	       	$("#foneResidencial").mask("(99) 9999.9999");
 	    	$("#foneCelular").mask("(99) 9 9999.9999");
-	    	$("#dataNacimento").datepicker({ dateFormat: 'dd/mm/yy' });
+	    	$("#dataNascimento").datepicker({ dateFormat: 'dd/mm/yy' });
 	    	
 	    	$("#btAvaliar").click(function() {
 	    		window.location="<%=request.getContextPath()%>/inscricao/avaliar?id="+$('#idInscricao').val();
@@ -178,8 +178,8 @@
                                      
                                     <div class="col-lg-6">
                                      	<div class="form-group">
-                                         	<label>Data de Nascimento</label>
-                                         	<input class="form-control" name="dataNacimento" id="dataNacimento" value="<fmt:formatDate value='${inscricao.candidato.dataNacimento}' pattern='dd/MM/yyyy' />">
+                                         	<label>Data de Nascimento<span style="color: red;"> * </span></label>
+                                         	<input class="form-control" name="dataNascimento" id="dataNascimento" value="<fmt:formatDate value='${inscricao.candidato.dataNascimento}' pattern='dd/MM/yyyy' />" required="required">
 										</div>
                                     </div>
                                      
@@ -197,7 +197,7 @@
 									<div class="col-lg-12">
 	                                   	<div class="form-group">
 	                                    	<label>Avaliador Alocado</label>
-	                                    	<select id="avaliadorAlocado" name="avaliadorAlocado" class="form-control" required="required">
+	                                    	<select id="avaliadorAlocado" name="avaliadorAlocado" class="form-control">
 												<option value=""> Selecione </option>
 												<c:forEach items="${listaAvaliadores}" var="obj">
 													<option value="${obj.nome}" <c:if test="${obj.nome eq inscricao.avaliadorAlocado}">selected="selected"</c:if>> ${obj.nome} </option>
@@ -282,7 +282,7 @@
 											<td style="vertical-align: middle; text-align: center;"><c:if test="${avaliacao.aprovada eq true}">Sim</c:if></td>
 											<td style="vertical-align: middle;">${avaliacao.observacoes}</td>
 											<td style="vertical-align: middle; text-align: center;">
-												<a href='view?id=" + dadosJSON[i].inscricao.id + "' class='btn btn-primary' >Visualizar</a> &nbsp;
+												<a href='avaliacaoView?id=${avaliacao.inscricao.id}&idAvaliacao=${avaliacao.id}' class='btn btn-primary' >Visualizar</a> &nbsp;
          										<a href='aprovarAvaliacao?id=${avaliacao.inscricao.id}&idAvaliacao=${avaliacao.id}' class='btn btn-success' >Aprovar</a>
 											</td>
 										</tr>

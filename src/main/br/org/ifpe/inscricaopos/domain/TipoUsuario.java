@@ -27,9 +27,6 @@ public class TipoUsuario implements Serializable {
     private Long id;
 
     @Column
-    private boolean habilitado;
-
-    @Column
     private String descricao;
 
 }

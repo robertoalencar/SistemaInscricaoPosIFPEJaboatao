@@ -12,7 +12,7 @@ public class AutorizadorInterceptor extends HandlerInterceptorAdapter {
 	    throws Exception {
 
 	String uri = request.getRequestURI();
-	if (uri.contains("resources") || uri.endsWith("inscricao-pos-jaboatao") || uri.endsWith("efetuarLogin") || uri.endsWith("usuario/add") || uri.endsWith("usuario/save")) {
+	if (uri.contains("resources") || uri.endsWith("inscricao-pos-jaboatao") || uri.endsWith("efetuarLogin")) {
 
 	    request.getSession().setAttribute("msg", null);
 	    return true;

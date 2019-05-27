@@ -4,10 +4,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-
-import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
-import main.br.org.ifpe.inscricaopos.domain.InscricoesVO;
 
 public class Util {
 
@@ -41,27 +37,5 @@ public class Util {
 
 	return retorno;
     }
-    
-    public static void definirStatusInscricao(List<Avaliacao> avaliacoes, InscricoesVO inscricaoVO) {
-	
-	if (avaliacoes == null || avaliacoes.isEmpty()) {
-	    inscricaoVO.setStatus(InscricoesVO.STATUS_INSCRICAO_PENDENTE);
-	} else {
-	    
-	    boolean temAprovacao = false;
-	    
-	    for (Avaliacao avaliacao : avaliacoes) {
-		if (avaliacao.isAprovada()) {
-		    temAprovacao = true;
-		    break;
-		}
-	    }
-	    
-	    if (temAprovacao) {
-		inscricaoVO.setStatus(InscricoesVO.STATUS_INSCRICAO_APROVADA);
-	    } else {
-		inscricaoVO.setStatus(InscricoesVO.STATUS_INSCRICAO_PENDENTE);
-	    }
-	}
-    }
+
 }

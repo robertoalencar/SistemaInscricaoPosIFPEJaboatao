@@ -31,6 +31,9 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 public class Inscricao implements Serializable {
+    
+    public static final String STATUS_INSCRICAO_APROVADA = "Aprovada";
+    public static final String STATUS_INSCRICAO_PENDENTE = "Pendente";
 
     private static final long serialVersionUID = -1781786170928437751L;
 
@@ -38,9 +41,6 @@ public class Inscricao implements Serializable {
     @SequenceGenerator(name = "INSCRICAO_SEQUENCE", sequenceName = "inscricao_id_seq ", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "INSCRICAO_SEQUENCE", strategy = GenerationType.SEQUENCE)
     private Long id;
-
-    @Column
-    private boolean habilitado;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Candidato candidato;
@@ -63,5 +63,11 @@ public class Inscricao implements Serializable {
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dataInscricao;
+    
+    @Column
+    private String status;
+    
+    @Column
+    private int qtdAvaliacoes;
 
 }

@@ -41,9 +41,20 @@
                         <li>
                             <a href="<%=request.getContextPath()%>/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
                         </li>
+                                                
                         <li>
-                            <a href="<%=request.getContextPath()%>/exibirResultadoSelecao"><i class="fa fa-sort-amount-desc"></i> Classificação </a>
+                            <a href="#"><i class="fa fa-user"></i> Usuário <span class="fa arrow"></span></a>
+                            <ul class="nav nav-second-level">
+                                <li>
+                                    <a href="<%=request.getContextPath()%>/usuario/list"><i class="fa fa-table fa-fw"></i> Listar</a>
+                                </li>
+                                <li>
+                                	<a href="<%=request.getContextPath()%>/usuario/add"><i class="fa fa-edit fa-fw"></i> Nova</a>
+                                </li>
+                            </ul>
+                            <!-- /.nav-second-level -->
                         </li>
+                        
                         <li>
                             <a href="#"><i class="fa fa-files-o fa-fw"></i> Inscrições <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
@@ -58,17 +69,21 @@
                         </li>
                         
                         <li>
-                            <a href="#"><i class="fa fa-user"></i> Usuário <span class="fa arrow"></span></a>
+                            <a href="#"><i class="fa fa-sort-amount-desc"></i> Classificação <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="<%=request.getContextPath()%>/usuario/list"><i class="fa fa-table fa-fw"></i> Listar</a>
+                                    <a href="<%=request.getContextPath()%>/exibirResultadoSelecaoGestao"><i class="fa fa-table fa-fw"></i> Curso Gestão</a>
                                 </li>
                                 <li>
-                                	<a href="<%=request.getContextPath()%>/usuario/add"><i class="fa fa-edit fa-fw"></i> Nova</a>
+                                	<a href="<%=request.getContextPath()%>/exibirResultadoSelecaoInovacao"><i class="fa fa-table fa-fw"></i> Curso Inovacao</a>
+                                </li>
+                                <li>
+                                	<a href="<%=request.getContextPath()%>/exibirResultadoSelecao"><i class="fa fa-table fa-fw"></i> Ambos os Cursos</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
                         </li>
+                        
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
