@@ -38,7 +38,7 @@
                             <!-- /input-group -->
                         </li>
                         <li>
-                            <a href="<%=request.getContextPath()%>/home"><i class="fa fa-dashboard fa-fw"></i> Dashboard </a>
+                            <a href="<%=request.getContextPath()%>/home"><i class="fa fa-dashboard fa-fw"></i> Dados Seleção </a>
                         </li>
                                                 
                         <li>
