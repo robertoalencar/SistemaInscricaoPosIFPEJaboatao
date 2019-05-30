@@ -81,6 +81,8 @@ public class AvaliacaoDao extends HibernateDao {
 	manager.persist(avaliacao);
 
 	avaliacao.setEmpregos(montarListaEmpregos(avaliacaoVO, avaliacao));
+	avaliacao.setQuantidadeVinculosEmpregaticios(avaliacao.getEmpregos().size());
+	
 	for (VinculoEmpregaticio emprego : avaliacao.getEmpregos()) {
 	    manager.persist(emprego);
 	}

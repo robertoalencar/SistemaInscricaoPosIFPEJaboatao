@@ -1,7 +1,6 @@
 package main.br.org.ifpe.inscricaopos.controller;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -225,7 +224,7 @@ public class InscricaoController {
     @RequestMapping("/exibirResultadoSelecao")
     public String exibirResultadoSelecao(Model model) {
 
-	Map<String, Collection<Inscricao>> mapaListas = inscricaoService
+	Map<String, List<Inscricao>> mapaListas = inscricaoService
 		.classificarInscricoes(inscricaoDao.listar(null, null));
 
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
@@ -255,7 +254,7 @@ public class InscricaoController {
     @RequestMapping("/exibirResultadoSelecaoGestao")
     public String exibirResultadoSelecaoGestao(Model model) {
 
-	Map<String, Collection<Inscricao>> mapaListas = inscricaoService
+	Map<String, List<Inscricao>> mapaListas = inscricaoService
 		.classificarInscricoes(inscricaoDao.listar(null, null));
 
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
@@ -275,7 +274,7 @@ public class InscricaoController {
     @RequestMapping("/exibirResultadoSelecaoInovacao")
     public String exibirResultadoSelecaoInovacao(Model model) {
 
-	Map<String, Collection<Inscricao>> mapaListas = inscricaoService
+	Map<String, List<Inscricao>> mapaListas = inscricaoService
 		.classificarInscricoes(inscricaoDao.listar(null, null));
 
 	model.addAttribute("classificadosInovacaoVCG", montaVoResultados(mapaListas, "classificadosInovacaoVCG"));
@@ -292,7 +291,7 @@ public class InscricaoController {
 	return TELA_RESULTADO_INOVACAO;
     }
 
-    private List<ResultadoSelecaoVO> montaVoResultados(Map<String, Collection<Inscricao>> mapaListas,
+    private List<ResultadoSelecaoVO> montaVoResultados(Map<String, List<Inscricao>> mapaListas,
 	    String tipoLista) {
 
 	List<ResultadoSelecaoVO> listaResultado = new ArrayList<ResultadoSelecaoVO>();

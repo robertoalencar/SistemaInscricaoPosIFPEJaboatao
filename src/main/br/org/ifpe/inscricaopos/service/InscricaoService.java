@@ -1,7 +1,6 @@
 package main.br.org.ifpe.inscricaopos.service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +27,7 @@ public class InscricaoService {
     @Autowired
     private AvaliacaoDao avaliacaoDao;
 
-    public Map<String, Collection<Inscricao>> classificarInscricoes(List<Inscricao> listaInscricao) {
+    public Map<String, List<Inscricao>> classificarInscricoes(List<Inscricao> listaInscricao) {
 
 	List<Inscricao> desclassificadosGestao = new ArrayList<Inscricao>();
 	List<Inscricao> desclassificadosInovacao = new ArrayList<Inscricao>();
@@ -137,7 +136,7 @@ public class InscricaoService {
 	// Carrega o mapa que será utilizaro no controlador para enviar as listas para o JSP
 	// ---------------------------------------------------------------------------------
 
-	Map<String, Collection<Inscricao>> retorno = new HashMap<String, Collection<Inscricao>>();
+	Map<String, List<Inscricao>> retorno = new HashMap<String, List<Inscricao>>();
 
 	retorno.put("classificadosGestaoVCG", classificadosGestaoVCG);
 	retorno.put("classificadosGestaoPPI", classificadosGestaoPPI);

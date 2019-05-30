@@ -79,6 +79,9 @@ public class Avaliacao implements Serializable {
     @OneToMany(fetch = FetchType.LAZY) 
     private List<VinculoEmpregaticio> empregos;
     
+    @Column 
+    private int quantidadeVinculosEmpregaticios;
+    
     @Column
     private Double expProfTotalMesesAreaComp;
     
