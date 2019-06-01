@@ -15,18 +15,6 @@
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
 
-	<script type="text/javascript">
-
-		$(document).ready(function() {
-			
-			$("#btCancelar").click(function() {
-	    		window.location="<%=request.getContextPath()%>/home";
-			});
-	    	
-		});
-	
-	</script>
-
 </head>
 
 <body>
@@ -77,16 +65,8 @@
 									</div>
 									
 									<div class="col-lg-12"> &nbsp; </div>
-									
 								</div>
 								
-								<!-- /.row (nested) -->
-                            	<div class="row">
-									<div class="col-lg-6">
-										<button type="button" class="btn btn-danger" id="btCancelar">Cancelar</button> &nbsp;
-									</div>
-                            	</div>
-                            	<!-- /.row (nested) -->
                             </form>
                         </div>
                         <!-- /.panel-body -->

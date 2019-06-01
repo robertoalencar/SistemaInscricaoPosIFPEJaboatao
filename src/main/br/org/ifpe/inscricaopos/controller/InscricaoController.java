@@ -1,6 +1,8 @@
 package main.br.org.ifpe.inscricaopos.controller;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +23,7 @@ import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
 import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.AvaliacaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Candidato;
+import main.br.org.ifpe.inscricaopos.domain.DadosSelecaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 import main.br.org.ifpe.inscricaopos.domain.ResultadoSelecaoVO;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
@@ -43,6 +46,7 @@ public class InscricaoController {
     public static final String TELA_RESULTADO = "inscricao/resultadoSelecao";
     public static final String TELA_RESULTADO_GESTAO = "inscricao/resultadoSelecaoGestao";
     public static final String TELA_RESULTADO_INOVACAO = "inscricao/resultadoSelecaoInovacao";
+    public static final String TELA_DADOS_SELECAO = "inscricao/dadosSelecao";
 
     @Autowired
     private InscricaoDao inscricaoDao;
@@ -221,12 +225,34 @@ public class InscricaoController {
 	return TELA_VISUALIZAR_AVALIACAO;
     }
 
+    @RequestMapping(value = "atualizarDadosSelecao", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void atualizarDadosSelecao(HttpSession session) {
+
+	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
+	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
+	
+	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
+	    
+	    session.setAttribute(Constantes.MAPA_RESULTADOS_SESSAO, inscricaoService.classificarInscricoes());
+	    session.setAttribute(Constantes.DADOS_SELECAO_VO_SESSAO, montarDadosSelecaoVO());
+	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
+	}
+    }
+    
     @RequestMapping("/exibirResultadoSelecao")
-    public String exibirResultadoSelecao(Model model) {
-
-	Map<String, List<Inscricao>> mapaListas = inscricaoService
-		.classificarInscricoes(inscricaoDao.listar(null, null));
-
+    public String exibirResultadoSelecao(HttpSession session, Model model) {
+	
+	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
+	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
+	Map<String, List<Inscricao>> mapaListas = null;
+	
+	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
+	    mapaListas = inscricaoService.classificarInscricoes();
+	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
+	} else {
+	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
+	}
+	
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
 	model.addAttribute("classificadosGestaoPCD", montaVoResultados(mapaListas, "classificadosGestaoPCD"));
@@ -252,10 +278,18 @@ public class InscricaoController {
     }
 
     @RequestMapping("/exibirResultadoSelecaoGestao")
-    public String exibirResultadoSelecaoGestao(Model model) {
+    public String exibirResultadoSelecaoGestao(HttpSession session, Model model) {
 
-	Map<String, List<Inscricao>> mapaListas = inscricaoService
-		.classificarInscricoes(inscricaoDao.listar(null, null));
+	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
+	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
+	Map<String, List<Inscricao>> mapaListas = null;
+	
+	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
+	    mapaListas = inscricaoService.classificarInscricoes();
+	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
+	} else {
+	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
+	}
 
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
@@ -272,10 +306,18 @@ public class InscricaoController {
     }
 
     @RequestMapping("/exibirResultadoSelecaoInovacao")
-    public String exibirResultadoSelecaoInovacao(Model model) {
+    public String exibirResultadoSelecaoInovacao(HttpSession session, Model model) {
 
-	Map<String, List<Inscricao>> mapaListas = inscricaoService
-		.classificarInscricoes(inscricaoDao.listar(null, null));
+	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
+	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
+	Map<String, List<Inscricao>> mapaListas = null;
+	
+	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
+	    mapaListas = inscricaoService.classificarInscricoes();
+	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
+	} else {
+	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
+	}
 
 	model.addAttribute("classificadosInovacaoVCG", montaVoResultados(mapaListas, "classificadosInovacaoVCG"));
 	model.addAttribute("classificadosInovacaoPPI", montaVoResultados(mapaListas, "classificadosInovacaoPPI"));
@@ -289,6 +331,94 @@ public class InscricaoController {
 	model.addAttribute("desclassificadosInovacao", montaVoResultados(mapaListas, "desclassificadosInovacao"));
 
 	return TELA_RESULTADO_INOVACAO;
+    }
+    
+    @RequestMapping("/dadosSelecao")
+    public String exibirDadosSelecao(HttpSession session, Model model) {
+	
+	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
+	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
+	DadosSelecaoVO dadosSelecaoVo = new DadosSelecaoVO();
+	
+	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
+	    dadosSelecaoVo = montarDadosSelecaoVO();
+	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
+	} else {
+	    dadosSelecaoVo = (DadosSelecaoVO) session.getAttribute(Constantes.DADOS_SELECAO_VO_SESSAO);
+	}
+
+	model.addAttribute("dadosSelecaoVo", dadosSelecaoVo);
+
+	return TELA_DADOS_SELECAO;
+    }
+    
+    private DadosSelecaoVO montarDadosSelecaoVO() {
+	
+	DadosSelecaoVO dadosSelecaoVo = new DadosSelecaoVO();
+	
+	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
+
+	List<Inscricao> classificadosGestaoVCG = mapaListas.get("classificadosGestaoVCG");
+	List<Inscricao> classificadosGestaoPPI = mapaListas.get("classificadosGestaoPPI");
+	List<Inscricao> classificadosGestaoPCD = mapaListas.get("classificadosGestaoPCD");
+	List<Inscricao> remanejamentoGestaoVCG = mapaListas.get("remanejamentoGestaoVCG");
+	List<Inscricao> remanejamentoGestaoPPI = mapaListas.get("remanejamentoGestaoPPI");
+	List<Inscricao> remanejamentoGestaoPCD = mapaListas.get("remanejamentoGestaoPCD");
+	List<Inscricao> naoClassificadosGestaoVCG = mapaListas.get("naoClassificadosGestaoVCG");
+	List<Inscricao> desclassificadosGestao = mapaListas.get("desclassificadosGestao");
+	List<Inscricao> classificadosInovacaoVCG = mapaListas.get("classificadosInovacaoVCG");
+	List<Inscricao> classificadosInovacaoPPI = mapaListas.get("classificadosInovacaoPPI");
+	List<Inscricao> classificadosInovacaoPCD = mapaListas.get("classificadosInovacaoPCD");
+	List<Inscricao> remanejamentoInovacaoVCG = mapaListas.get("remanejamentoInovacaoVCG");
+	List<Inscricao> remanejamentoInovacaoPPI = mapaListas.get("remanejamentoInovacaoPPI");
+	List<Inscricao> remanejamentoInovacaoPCD = mapaListas.get("remanejamentoInovacaoPCD");
+	List<Inscricao> naoClassificadosInovacaoVCG = mapaListas.get("naoClassificadosInovacaoVCG");
+	List<Inscricao> desclassificadosInovacao = mapaListas.get("desclassificadosInovacao");
+
+	int quantidadeInscritos = 24; //TODO temp:
+	int quantidadeInscritosPosGestao = classificadosGestaoVCG.size() + classificadosGestaoPPI.size()
+		+ classificadosGestaoPCD.size() + remanejamentoGestaoVCG.size() + remanejamentoGestaoPPI.size()
+		+ remanejamentoGestaoPCD.size() + naoClassificadosGestaoVCG.size() + desclassificadosGestao.size();
+	int quantidadeInscritosPosInovacao = classificadosInovacaoVCG.size() + classificadosInovacaoPPI.size()
+		+ classificadosInovacaoPCD.size() + remanejamentoInovacaoVCG.size() + remanejamentoInovacaoPPI.size()
+		+ remanejamentoInovacaoPCD.size() + naoClassificadosInovacaoVCG.size()
+		+ desclassificadosInovacao.size();
+	int quantidadeDesclassificados = desclassificadosGestao.size() + desclassificadosInovacao.size();
+
+	dadosSelecaoVo.setQuantidadeInscritos(quantidadeInscritos);
+	dadosSelecaoVo.setQuantidadeDesclassificados(quantidadeDesclassificados);
+	dadosSelecaoVo.setQuantidadeInscritosPosGestao(quantidadeInscritosPosGestao);
+	dadosSelecaoVo.setQuantidadeInscritosPosInovacao(quantidadeInscritosPosInovacao);
+	dadosSelecaoVo.setQuantitativoClassificadosGestaoVCG(classificadosGestaoVCG.size());
+	dadosSelecaoVo.setQuantitativoClassificadosGestaoPPI(classificadosGestaoPPI.size());
+	dadosSelecaoVo.setQuantitativoClassificadosGestaoPCD(classificadosGestaoPCD.size());
+	dadosSelecaoVo.setQuantitativoClassificadosInovacaoVCG(classificadosInovacaoVCG.size());
+	dadosSelecaoVo.setQuantitativoClassificadosInovacaoPPI(classificadosInovacaoPPI.size());
+	dadosSelecaoVo.setQuantitativoClassificadosInovacaoPCD(classificadosInovacaoPCD.size());
+
+	if (classificadosGestaoVCG != null && !classificadosGestaoVCG.isEmpty()
+		&& classificadosGestaoVCG.get(0).getAvaliacoes() != null
+		&& !classificadosGestaoVCG.get(0).getAvaliacoes().isEmpty()) {
+
+	    dadosSelecaoVo.setMaiorNotaGestao(classificadosGestaoVCG.get(0).getAvaliacoes().get(0).getNotaFinal());
+	}
+
+	preencherVo(classificadosGestaoVCG, dadosSelecaoVo, "Gestao");
+	preencherVo(classificadosGestaoPPI, dadosSelecaoVo, "Gestao");
+	preencherVo(classificadosGestaoPCD, dadosSelecaoVo, "Gestao");
+
+	if (classificadosInovacaoVCG != null && !classificadosInovacaoVCG.isEmpty()
+		&& classificadosInovacaoVCG.get(0).getAvaliacoes() != null
+		&& !classificadosInovacaoVCG.get(0).getAvaliacoes().isEmpty()) {
+
+	    dadosSelecaoVo.setMaiorNotaInovacao(classificadosInovacaoVCG.get(0).getAvaliacoes().get(0).getNotaFinal());
+	}
+
+	preencherVo(classificadosInovacaoVCG, dadosSelecaoVo, "Inovacao");
+	preencherVo(classificadosInovacaoPPI, dadosSelecaoVo, "Inovacao");
+	preencherVo(classificadosInovacaoPCD, dadosSelecaoVo, "Inovacao");
+	
+	return dadosSelecaoVo;
     }
 
     private List<ResultadoSelecaoVO> montaVoResultados(Map<String, List<Inscricao>> mapaListas,
@@ -379,7 +509,143 @@ public class InscricaoController {
 	avaliacaoVO.setHistoricoPontuacaoItem(avaliacao.getHistoricoPontuacaoItem());
 
 	return avaliacaoVO;
+    }
+    
+    private void preencherVo(List<Inscricao> inscricoes, DadosSelecaoVO dadosSelecaoVo, String curso) {
 
+	double menorNota = "Gestao".equals(curso) ? dadosSelecaoVo.getMenorNotaGestao() : dadosSelecaoVo.getMenorNotaInovacao();
+	menorNota = menorNota == 0.0 ? 1000 : menorNota;
+	
+	double somaNotas = "Gestao".equals(curso) ? dadosSelecaoVo.getSomaNotasGestao() : dadosSelecaoVo.getSomaNotasInovacao();
+	int perfilCandidatosAreaTI = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaTI() : dadosSelecaoVo.getPerfilCandidatosInovaAreaTI();
+	int perfilCandidatosAreaOutras = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaOutras() : dadosSelecaoVo.getPerfilCandidatosInovaAreaOutras();
+	int perfilCandidatosExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoExpProf() : dadosSelecaoVo.getPerfilCandidatosInovaExpProf();
+	int perfilCandidatosNaoExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoNaoExpProf() : dadosSelecaoVo.getPerfilCandidatosInovaNaoExpProf();
+	int perfilCandidatosQtdHomens = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdHomens() : dadosSelecaoVo.getPerfilCandidatosInovaQtdHomens();
+	int perfilCandidatosQtdMulheres = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdMulheres() : dadosSelecaoVo.getPerfilCandidatosInovaQtdMulheres();
+	int perfilCandidatosMenor30 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMenor30() : dadosSelecaoVo.getPerfilCandidatosInovaMenor30();
+	int perfilCandidatosMaior30Menor40 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior30Menor40() : dadosSelecaoVo.getPerfilCandidatosInovaMaior30Menor40();
+	int perfilCandidatosMaior40Menor50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50() : dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50();
+	int perfilCandidatosMaior50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior50() : dadosSelecaoVo.getPerfilCandidatosGestaoMaior50();
+
+	Calendar calendar;
+	Date data1;
+	Date data2;
+	
+	for (Inscricao inscricao : inscricoes) {
+
+	    if ("Masculino".equals(inscricao.getCandidato().getSexo())) {
+		perfilCandidatosQtdHomens++;
+	    } else {
+		perfilCandidatosQtdMulheres++;
+	    }
+	    
+	    if (inscricao.getCandidato().getDataNascimento() != null) {
+
+		calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 30));
+		data1 = calendar.getTime(); // data atual - 30 anos
+
+		if (inscricao.getCandidato().getDataNascimento().after(data1)) {
+
+		    perfilCandidatosMenor30++;
+
+		} else {
+
+		    calendar = Calendar.getInstance();
+		    calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 40));
+		    data1 = calendar.getTime(); // data atual - 40 anos
+
+		    calendar = Calendar.getInstance();
+		    calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 30));
+		    data2 = calendar.getTime(); // data atual - 30 anos
+
+		    if (inscricao.getCandidato().getDataNascimento().after(data1)
+			    && inscricao.getCandidato().getDataNascimento().before(data2)) {
+
+			perfilCandidatosMaior30Menor40++;
+
+		    } else {
+
+			calendar = Calendar.getInstance();
+			calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 50));
+			data1 = calendar.getTime(); // data atual - 50 anos
+
+			calendar = Calendar.getInstance();
+			calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 40));
+			data2 = calendar.getTime(); // data atual - 40 anos
+
+			if (inscricao.getCandidato().getDataNascimento().after(data1)
+				&& inscricao.getCandidato().getDataNascimento().before(data2)) {
+
+			    perfilCandidatosMaior40Menor50++;
+
+			} else {
+
+			    calendar = Calendar.getInstance();
+			    calendar.set(Calendar.YEAR, (Calendar.getInstance().get(Calendar.YEAR) - 50));
+			    data1 = calendar.getTime(); // data atual - 50 anos
+
+			    if (inscricao.getCandidato().getDataNascimento().before(data1)) {
+				perfilCandidatosMaior50++;
+			    }
+			}
+		    }
+		}
+	    }
+
+	    for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
+
+		somaNotas = somaNotas + avaliacao.getNotaFinal();
+
+		if (avaliacao.getNotaFinal() < menorNota) {
+		    menorNota = avaliacao.getNotaFinal();
+		}
+
+		if (avaliacao.getGradQtdCursosComputacao() != null && avaliacao.getGradQtdCursosComputacao() > 0) {
+		    perfilCandidatosAreaTI++;
+		} else {
+		    perfilCandidatosAreaOutras++;
+		}
+
+		if (avaliacao.getQuantidadeVinculosEmpregaticios() > 0) {
+		    perfilCandidatosExpProf++;
+		} else {
+		    perfilCandidatosNaoExpProf++;
+		}
+	    }
+	}
+
+	if ("Gestao".equals(curso)) {
+
+	    dadosSelecaoVo.setMenorNotaGestao(menorNota);
+	    dadosSelecaoVo.setNotaMediaGestao(somaNotas / 30);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoAreaTI(perfilCandidatosAreaTI);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoAreaOutras(perfilCandidatosAreaOutras);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoExpProf(perfilCandidatosExpProf);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoNaoExpProf(perfilCandidatosNaoExpProf);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoQtdHomens(perfilCandidatosQtdHomens);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoQtdMulheres(perfilCandidatosQtdMulheres);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoMenor30(perfilCandidatosMenor30);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoMaior30Menor40(perfilCandidatosMaior30Menor40);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoMaior40Menor50(perfilCandidatosMaior40Menor50);
+	    dadosSelecaoVo.setPerfilCandidatosGestaoMaior50(perfilCandidatosMaior50);
+
+	} else {
+
+	    dadosSelecaoVo.setMenorNotaInovacao(menorNota);
+	    dadosSelecaoVo.setNotaMediaInovacao(somaNotas / 30);
+	    dadosSelecaoVo.setPerfilCandidatosInovaAreaTI(perfilCandidatosAreaTI);
+	    dadosSelecaoVo.setPerfilCandidatosInovaAreaOutras(perfilCandidatosAreaOutras);
+	    dadosSelecaoVo.setPerfilCandidatosInovaExpProf(perfilCandidatosExpProf);
+	    dadosSelecaoVo.setPerfilCandidatosInovaNaoExpProf(perfilCandidatosNaoExpProf);
+	    dadosSelecaoVo.setPerfilCandidatosInovaQtdHomens(perfilCandidatosQtdHomens);
+	    dadosSelecaoVo.setPerfilCandidatosInovaQtdMulheres(perfilCandidatosQtdMulheres);
+	    dadosSelecaoVo.setPerfilCandidatosInovaMenor30(perfilCandidatosMenor30);
+	    dadosSelecaoVo.setPerfilCandidatosInovaMaior30Menor40(perfilCandidatosMaior30Menor40);
+	    dadosSelecaoVo.setPerfilCandidatosInovaMaior40Menor50(perfilCandidatosMaior40Menor50);
+	    dadosSelecaoVo.setPerfilCandidatosInovaMaior50(perfilCandidatosMaior50);
+	}
     }
 
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import main.br.org.ifpe.inscricaopos.dao.AvaliacaoDao;
+import main.br.org.ifpe.inscricaopos.dao.InscricaoDao;
 import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 
@@ -26,8 +27,13 @@ public class InscricaoService {
     
     @Autowired
     private AvaliacaoDao avaliacaoDao;
+    
+    @Autowired
+    private InscricaoDao inscricaoDao;
 
-    public Map<String, List<Inscricao>> classificarInscricoes(List<Inscricao> listaInscricao) {
+    public Map<String, List<Inscricao>> classificarInscricoes() {
+	
+	List<Inscricao> listaInscricao = inscricaoDao.listar(null, null);
 
 	List<Inscricao> desclassificadosGestao = new ArrayList<Inscricao>();
 	List<Inscricao> desclassificadosInovacao = new ArrayList<Inscricao>();

@@ -82,7 +82,7 @@ public class AvaliacaoDao extends HibernateDao {
 
 	avaliacao.setEmpregos(montarListaEmpregos(avaliacaoVO, avaliacao));
 	avaliacao.setQuantidadeVinculosEmpregaticios(avaliacao.getEmpregos().size());
-	
+
 	for (VinculoEmpregaticio emprego : avaliacao.getEmpregos()) {
 	    manager.persist(emprego);
 	}
@@ -148,6 +148,18 @@ public class AvaliacaoDao extends HibernateDao {
 	factory.close();
 
 	return lista;
+    }
+
+    public Long listarQuantidadeAvaliacoes() {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Query query = manager.createQuery("SELECT count(a) FROM Avaliacao a");
+	Long quantidadeAvaliacoes = (Long) query.getSingleResult();
+	manager.close();
+	factory.close();
+
+	return quantidadeAvaliacoes;
     }
 
     public List<VinculoEmpregaticio> listarVinculosEmpregaticios(Long idAvaliacao) {
