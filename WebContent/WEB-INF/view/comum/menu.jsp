@@ -37,6 +37,11 @@
                             </div>
                             <!-- /input-group -->
                         </li>
+                        
+                        <li>
+                            <a href="<%=request.getContextPath()%>/home"><i class="fa fa fa-calendar fa-fw"></i> Cronograma </a>
+                        </li>
+                        
                         <li>
                             <a href="<%=request.getContextPath()%>/dadosSelecao"><i class="fa fa-dashboard fa-fw"></i> Dados Seleção </a>
                         </li>

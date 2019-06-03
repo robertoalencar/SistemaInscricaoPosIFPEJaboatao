@@ -81,7 +81,7 @@ public class InscricaoController {
 
     @RequestMapping("/inscricao/add")
     public String add(Model model) {
-
+	
 	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "save");
 
@@ -124,13 +124,20 @@ public class InscricaoController {
 
     @RequestMapping("/inscricao/update")
     public String update(Candidato candidato, @RequestParam Long idInscricao, @RequestParam String cursoEscolhido,
-	    @RequestParam String avaliadorAlocado, Model model) {
+	    @RequestParam String avaliadorAlocado, HttpSession session, Model model) {
 
 	Inscricao inscricao = inscricaoDao.find(idInscricao);
 	inscricao.setCursoEscolhido(cursoEscolhido);
 	inscricao.setAvaliadorAlocado(avaliadorAlocado);
 
 	inscricaoDao.update(candidato, inscricao);
+	
+	// a linha abaixo limpa a quantidade de avaliações carregadas na sessão para
+	// forçar que os dados da seleção sejam atualizados quando da abertura da tela
+	// de resultados. Foi necessário forçar essa atualização porque ao alterar uma
+	// inscrição o perfil do candidato pode ser alterado influenciando nos
+	// resultados da seleção.
+	session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, null);
 
 	model.addAttribute("mensagem", "Inscrição atualizada com sucesso!");
 	model.addAttribute("inscricao", inscricaoDao.obterInscricaoCandidato(candidato.getId()));
@@ -141,8 +148,13 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/delete")
-    public String delete(@RequestParam Long id, Model model) {
+    public String delete(@RequestParam Long id, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	inscricaoDao.remove(id);
 	model.addAttribute("mensagem", "Inscrição Removida com Sucesso");
 
@@ -170,8 +182,13 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/avaliar")
-    public String avaliar(@RequestParam Long id, Model model) {
+    public String avaliar(@RequestParam Long id, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	model.addAttribute("inscricao", inscricaoDao.find(id));
 
 	return TELA_AVALIAR;
@@ -180,6 +197,11 @@ public class InscricaoController {
     @RequestMapping("/inscricao/avaliacaoSave")
     public String saveAvaliacao(AvaliacaoVO avaliacaoVO, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	avaliacaoDao.save(avaliacaoVO, (Usuario) session.getAttribute(Constantes.USUARIO_SESSAO));
 
 	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(avaliacaoVO.getIdInscricao(), null);
@@ -202,8 +224,13 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/aprovarAvaliacao")
-    public String aprovarAvaliacao(@RequestParam Long id, @RequestParam Long idAvaliacao, Model model) {
+    public String aprovarAvaliacao(@RequestParam Long id, @RequestParam Long idAvaliacao, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	Avaliacao avaliacao = avaliacaoDao.find(idAvaliacao);
 	avaliacao.setAprovada(true);
 	avaliacaoDao.aprovarAvaliacao(avaliacao);
@@ -375,7 +402,7 @@ public class InscricaoController {
 	List<Inscricao> naoClassificadosInovacaoVCG = mapaListas.get("naoClassificadosInovacaoVCG");
 	List<Inscricao> desclassificadosInovacao = mapaListas.get("desclassificadosInovacao");
 
-	int quantidadeInscritos = 24; //TODO temp:
+	long quantidadeInscritos = inscricaoDao.listarQuantidadeInscricao();
 	int quantidadeInscritosPosGestao = classificadosGestaoVCG.size() + classificadosGestaoPPI.size()
 		+ classificadosGestaoPCD.size() + remanejamentoGestaoVCG.size() + remanejamentoGestaoPPI.size()
 		+ remanejamentoGestaoPCD.size() + naoClassificadosGestaoVCG.size() + desclassificadosGestao.size();
@@ -525,8 +552,8 @@ public class InscricaoController {
 	int perfilCandidatosQtdMulheres = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdMulheres() : dadosSelecaoVo.getPerfilCandidatosInovaQtdMulheres();
 	int perfilCandidatosMenor30 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMenor30() : dadosSelecaoVo.getPerfilCandidatosInovaMenor30();
 	int perfilCandidatosMaior30Menor40 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior30Menor40() : dadosSelecaoVo.getPerfilCandidatosInovaMaior30Menor40();
-	int perfilCandidatosMaior40Menor50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50() : dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50();
-	int perfilCandidatosMaior50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior50() : dadosSelecaoVo.getPerfilCandidatosGestaoMaior50();
+	int perfilCandidatosMaior40Menor50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50() : dadosSelecaoVo.getPerfilCandidatosInovaMaior40Menor50();
+	int perfilCandidatosMaior50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior50() : dadosSelecaoVo.getPerfilCandidatosInovaMaior50();
 
 	Calendar calendar;
 	Date data1;
@@ -616,6 +643,8 @@ public class InscricaoController {
 	    }
 	}
 
+	menorNota = menorNota == 1000 ? 0.0 : menorNota;
+	
 	if ("Gestao".equals(curso)) {
 
 	    dadosSelecaoVo.setMenorNotaGestao(menorNota);

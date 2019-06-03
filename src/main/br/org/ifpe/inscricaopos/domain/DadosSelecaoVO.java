@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class DadosSelecaoVO {
 
-    private int quantidadeInscritos;
+    private long quantidadeInscritos;
     private int quantidadeDesclassificados;
     private int quantidadeInscritosPosGestao;
     private int quantidadeInscritosPosInovacao;

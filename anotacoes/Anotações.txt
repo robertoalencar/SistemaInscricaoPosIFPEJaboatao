@@ -1,8 +1,6 @@
 
 TODO List:
 
- - Implementar dashboard;
- - Implementar permissões de acesso;
  - Fazer testes no sistema;
  - Disponibilizar versão para os professores;
  - Fazer carga no sistema;

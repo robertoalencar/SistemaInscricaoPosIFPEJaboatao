@@ -1,11 +1,14 @@
 package main.br.org.ifpe.inscricaopos.util;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.servlet.http.HttpSession;
+
+import main.br.org.ifpe.inscricaopos.domain.Usuario;
 
 public class Util {
 
@@ -43,6 +46,21 @@ public class Util {
     public static String converterData(Date param) {
 
 	return new SimpleDateFormat("dd/MM/yyyy").format(param);
+    }
+    
+    public static boolean validaPerfilUsuario(HttpSession session, long[] autorizacao) {
+
+	boolean permiteAcesso = false;
+	
+	Usuario usuarioLogado = (Usuario) session.getAttribute(Constantes.USUARIO_SESSAO);
+	for (int i = 0; i < autorizacao.length; i++) {
+	
+	    if (autorizacao[i] == usuarioLogado.getTipo().getId()) {
+		permiteAcesso = true;
+	    }
+	}
+	
+	return permiteAcesso;
     }
 
 }

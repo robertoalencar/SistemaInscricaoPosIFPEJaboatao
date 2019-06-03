@@ -165,6 +165,18 @@ public class InscricaoDao extends HibernateDao {
 
 	return lista;
     }
+    
+    public Long listarQuantidadeInscricao() {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Query query = manager.createQuery("SELECT count(i) FROM Inscricao i");
+	Long quantidadeAvaliacoes = (Long) query.getSingleResult();
+	manager.close();
+	factory.close();
+
+	return quantidadeAvaliacoes;
+    }
 
     public Inscricao obterInscricaoCandidato(Long id) {
 

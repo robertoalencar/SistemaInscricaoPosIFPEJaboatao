@@ -19,6 +19,7 @@ import main.br.org.ifpe.inscricaopos.domain.Avaliacao;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
 import main.br.org.ifpe.inscricaopos.util.Criptografia;
+import main.br.org.ifpe.inscricaopos.util.Util;
 
 /**
  * @author Roberto Alencar
@@ -65,15 +66,25 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/add")
-    public String add(Model model) {
+    public String add(HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
 	model.addAttribute("operacao", "save");
 	return TELA_MANTER;
     }
 
     @RequestMapping("/usuario/save")
-    public String save(Usuario usuario, Model model) {
+    public String save(Usuario usuario, HttpSession session, Model model) {
+	
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
 
 	usuario.setSenha(Criptografia.criptografar(usuario.getSenha()));
 	model.addAttribute("usuario", usuarioDao.save(usuario));
@@ -83,7 +94,12 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/edit")
-    public String edit(@RequestParam Long id, Model model) {
+    public String edit(@RequestParam Long id, HttpSession session, Model model) {
+	
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
 
 	model.addAttribute("usuario", usuarioDao.find(id));
 	model.addAttribute("listaTipoUsuario", usuarioDao.listarTipoUsuario("descricao", null));
@@ -93,8 +109,13 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/update")
-    public String update(Usuario usuario, Model model) {
+    public String update(Usuario usuario, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	usuarioDao.update(usuario);
 	model.addAttribute("mensagem", "Usuário atualizado com sucesso!");
 	model.addAttribute("operacao", "update");
@@ -104,8 +125,13 @@ public class UsuarioController {
     }
 
     @RequestMapping("/usuario/delete")
-    public String delete(@RequestParam Long id, Model model) {
+    public String delete(@RequestParam Long id, HttpSession session, Model model) {
 
+	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
+	    return PrincipalController.TELA_HOME;
+	}
+	
 	usuarioDao.remove(new Long[] { id });
 	model.addAttribute("mensagem", "Usuário Removido com Sucesso");
 
