@@ -2,6 +2,5 @@
 TODO List:
 
  - Fazer testes no sistema;
- - Disponibilizar versão para os professores;
  - Fazer carga no sistema;
  - Fazer testes no sistema; 

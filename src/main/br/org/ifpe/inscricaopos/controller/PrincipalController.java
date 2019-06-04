@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import main.br.org.ifpe.inscricaopos.dao.AtividadeCronogramaDao;
 import main.br.org.ifpe.inscricaopos.dao.UsuarioDao;
 import main.br.org.ifpe.inscricaopos.domain.Usuario;
 import main.br.org.ifpe.inscricaopos.util.Constantes;
@@ -25,9 +26,14 @@ public class PrincipalController {
     @Autowired
     private UsuarioDao usuarioDao;
     
+    @Autowired
+    private AtividadeCronogramaDao atividadeCronogramaDao;
+    
     @RequestMapping("/home")
-    public String home() {
+    public String home(Model model) {
 
+	model.addAttribute("listaAtividadesCronograma", atividadeCronogramaDao.listar());
+	
 	return TELA_HOME;
     }
 

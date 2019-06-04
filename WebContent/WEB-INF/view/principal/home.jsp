@@ -63,70 +63,45 @@
 							    </tr>
 							</thead>
 							<tbody>
-								<tr>
-									<td style="vertical-align: middle;">Elaboração do Edital</td>
-									<td style="vertical-align: middle; text-align: center;">02/01/19 - 29/03/19</td>
-									<td style="vertical-align: middle; text-align: center;">OK</td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Aprovação do Edital (Reitoria)</td>
-									<td style="vertical-align: middle; text-align: center;">01/04/19 - 31/05/19</td>
-									<td style="vertical-align: middle; text-align: center;">OK</td>
-						    	</tr>
-						    	<tr style="background-color: #F5A9A9;">
-									<td style="vertical-align: middle;">Divulgação do Edital</td>
-									<td style="vertical-align: middle; text-align: center;">04/06/19 - 14/06/19</td>
-									<td style="vertical-align: middle; text-align: center;">Em andamento</td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Período de Inscrições</td>
-									<td style="vertical-align: middle; text-align: center;">17/06/19 - 05/07/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Período de Avaliação dos Candidatos (comissão de seleção)</td>
-									<td style="vertical-align: middle; text-align: center;">18/06/19 - 19/07/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Divulgação do Resultado Preliminar</td>
-									<td style="vertical-align: middle; text-align: center;">31/07/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Interposição de Recurso</td>
-									<td style="vertical-align: middle; text-align: center;">02/08/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Divulgação do Resultado Final</td>
-									<td style="vertical-align: middle; text-align: center;">14/08/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Matrícula dos(as) Aprovados(as)</td>
-									<td style="vertical-align: middle; text-align: center;">19/08/19 - 21/08/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Divulgação dos(as) Reclassificados(as)</td>
-									<td style="vertical-align: middle; text-align: center;">23/08/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Matrícula dos(as) Reclassificados(as)</td>
-									<td style="vertical-align: middle; text-align: center;">27/08/19 - 28/08/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
-						    	<tr>
-									<td style="vertical-align: middle;">Aula Inaugural e início das aulas</td>
-									<td style="vertical-align: middle; text-align: center;">01/10/19</td>
-									<td style="vertical-align: middle; text-align: center;"></td>
-						    	</tr>
+								<c:forEach var="atividadeCronograma" items="${listaAtividadesCronograma}">
+								
+									<c:choose>
+									<c:when test="${atividadeCronograma.status eq 'Em Andamento'}">
+										<tr style="background-color: #F5A9A9;">
+									</c:when>
+									<c:otherwise>
+										<tr>
+									</c:otherwise>
+									</c:choose>
+									
+										<td style="vertical-align: middle;">${atividadeCronograma.atividade}</td>
+										<td style="vertical-align: middle; text-align: center;">${atividadeCronograma.periodo}</td>
+										<td style="vertical-align: middle; text-align: center;">${atividadeCronograma.status}</td>
+						    		</tr>
+								
+								</c:forEach>
 							</tbody>
 						</table>
 						
-						<div style="color: #0080FF; margin-bottom: 3%; font-size: 16px;"><strong> Edital: </strong></div>
+						<div class="row">
+                			<div class="col-lg-12">
+								<div style="color: #0080FF; margin-top: 2%; font-size: 16px;"><strong> Edital: </strong></div>
+							</div>
+						</div>
+						
+						<div class="row"><div class="col-lg-12">&nbsp;</div></div>
+						<div class="row"><div class="col-lg-12">&nbsp;</div></div>
+						
+						<div class="row">
+                			<div class="col-lg-12">
+                				<a href="<%=request.getContextPath()%>/resources/EditalSeleção2019.pdf" target="_blank">
+                    				<img src="<%=request.getContextPath()%>/resources/img/iconePDF.png" style="width: 10%;">
+                    			</a>
+                			</div>
+            			</div>
+            			
+            			<div class="row"><div class="col-lg-12">&nbsp;</div></div>
+            			<div class="row"><div class="col-lg-12">&nbsp;</div></div>
 						
 					</div>	
 				</div>
