@@ -41,7 +41,6 @@
 	    		window.location="<%=request.getContextPath()%>/inscricao/list";
 			});
 			
-			
 			$('#gradQtdCursosComputacao').change(function() {
 				calcularPontuacaoGraduacao();
 			});
@@ -451,8 +450,14 @@
 								<div class="form-group">
                                    	<label>Documentação Completa<span style="color: red;"> * </span></label>
                                    	<div class="radio">
-                                     	<label><input type="radio" name="documentacaoCompleta" value="true" required="required">Sim</label> &nbsp;
-                                       	<label><input type="radio" name="documentacaoCompleta" value="false">Não</label>
+                                     	<label><input type="radio" id="documentacaoCompleta" name="documentacaoCompleta" value="true" required="required">Sim</label> &nbsp;
+                                       	<label><input type="radio" id="documentacaoCompleta" name="documentacaoCompleta" value="false">Não</label> <br/>
+                                       	<small id="passwordHelpBlock" class="form-text text-muted">
+                                       		Para considerar que a documentação do candidato está incompleta deve-se verificar: <br>
+                                       		- Ficha de inscrição não entregue ou preenchida incorretamente ou <br/>
+											- Não entrega da cópia do RG e CPF, ou da carteira nacional de habilitação (CNH) ou <br/>
+											- Não entrega da cópia do diploma da graduação ou da declaração de conclusão de curso
+                                       	</small>
                                    	</div>
 								</div>
 							</div>

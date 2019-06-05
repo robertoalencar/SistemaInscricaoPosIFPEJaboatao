@@ -45,6 +45,7 @@ public class PrincipalController {
 
 	if (usuarioLogado != null) {
 	    session.setAttribute(Constantes.USUARIO_SESSAO, usuarioLogado);
+	    model.addAttribute("listaAtividadesCronograma", atividadeCronogramaDao.listar());
 	    return TELA_HOME;
 	}
 

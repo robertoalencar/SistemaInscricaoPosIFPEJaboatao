@@ -124,7 +124,7 @@ public class InscricaoController {
 
     @RequestMapping("/inscricao/update")
     public String update(Candidato candidato, @RequestParam Long idInscricao, @RequestParam String cursoEscolhido,
-	    @RequestParam String avaliadorAlocado, HttpSession session, Model model) {
+	    @RequestParam String avaliadorAlocado, Model model) {
 
 	Inscricao inscricao = inscricaoDao.find(idInscricao);
 	inscricao.setCursoEscolhido(cursoEscolhido);
@@ -132,13 +132,6 @@ public class InscricaoController {
 
 	inscricaoDao.update(candidato, inscricao);
 	
-	// a linha abaixo limpa a quantidade de avaliações carregadas na sessão para
-	// forçar que os dados da seleção sejam atualizados quando da abertura da tela
-	// de resultados. Foi necessário forçar essa atualização porque ao alterar uma
-	// inscrição o perfil do candidato pode ser alterado influenciando nos
-	// resultados da seleção.
-	session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, null);
-
 	model.addAttribute("mensagem", "Inscrição atualizada com sucesso!");
 	model.addAttribute("inscricao", inscricaoDao.obterInscricaoCandidato(candidato.getId()));
 	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
@@ -252,33 +245,10 @@ public class InscricaoController {
 	return TELA_VISUALIZAR_AVALIACAO;
     }
 
-    @RequestMapping(value = "atualizarDadosSelecao", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody void atualizarDadosSelecao(HttpSession session) {
-
-	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
-	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
-	
-	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
-	    
-	    session.setAttribute(Constantes.MAPA_RESULTADOS_SESSAO, inscricaoService.classificarInscricoes());
-	    session.setAttribute(Constantes.DADOS_SELECAO_VO_SESSAO, montarDadosSelecaoVO());
-	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
-	}
-    }
-    
     @RequestMapping("/exibirResultadoSelecao")
-    public String exibirResultadoSelecao(HttpSession session, Model model) {
+    public String exibirResultadoSelecao(Model model) {
 	
-	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
-	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
-	Map<String, List<Inscricao>> mapaListas = null;
-	
-	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
-	    mapaListas = inscricaoService.classificarInscricoes();
-	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
-	} else {
-	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
-	}
+	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
 	
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
@@ -305,18 +275,9 @@ public class InscricaoController {
     }
 
     @RequestMapping("/exibirResultadoSelecaoGestao")
-    public String exibirResultadoSelecaoGestao(HttpSession session, Model model) {
+    public String exibirResultadoSelecaoGestao(Model model) {
 
-	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
-	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
-	Map<String, List<Inscricao>> mapaListas = null;
-	
-	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
-	    mapaListas = inscricaoService.classificarInscricoes();
-	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
-	} else {
-	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
-	}
+	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
 
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
@@ -333,18 +294,9 @@ public class InscricaoController {
     }
 
     @RequestMapping("/exibirResultadoSelecaoInovacao")
-    public String exibirResultadoSelecaoInovacao(HttpSession session, Model model) {
+    public String exibirResultadoSelecaoInovacao(Model model) {
 
-	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
-	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
-	Map<String, List<Inscricao>> mapaListas = null;
-	
-	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
-	    mapaListas = inscricaoService.classificarInscricoes();
-	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
-	} else {
-	    mapaListas = (Map<String, List<Inscricao>>) session.getAttribute(Constantes.MAPA_RESULTADOS_SESSAO);
-	}
+	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
 
 	model.addAttribute("classificadosInovacaoVCG", montaVoResultados(mapaListas, "classificadosInovacaoVCG"));
 	model.addAttribute("classificadosInovacaoPPI", montaVoResultados(mapaListas, "classificadosInovacaoPPI"));
@@ -361,19 +313,9 @@ public class InscricaoController {
     }
     
     @RequestMapping("/dadosSelecao")
-    public String exibirDadosSelecao(HttpSession session, Model model) {
+    public String exibirDadosSelecao(Model model) {
 	
-	Long qtdAvaliacoes = (Long) session.getAttribute(Constantes.QTD_AVALICOES_SESSAO);
-	Long qtdAvaliacoesBanco = avaliacaoDao.listarQuantidadeAvaliacoes();
-	DadosSelecaoVO dadosSelecaoVo = new DadosSelecaoVO();
-	
-	if (qtdAvaliacoes == null || (!qtdAvaliacoes.equals(qtdAvaliacoesBanco))) {
-	    dadosSelecaoVo = montarDadosSelecaoVO();
-	    session.setAttribute(Constantes.QTD_AVALICOES_SESSAO, qtdAvaliacoesBanco);
-	} else {
-	    dadosSelecaoVo = (DadosSelecaoVO) session.getAttribute(Constantes.DADOS_SELECAO_VO_SESSAO);
-	}
-
+	DadosSelecaoVO dadosSelecaoVo = montarDadosSelecaoVO();
 	model.addAttribute("dadosSelecaoVo", dadosSelecaoVo);
 
 	return TELA_DADOS_SELECAO;

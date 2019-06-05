@@ -12,16 +12,6 @@
 	<c:import url="/WEB-INF/view/comum/arquivosJS.jsp" />
 	<c:import url="/WEB-INF/view/comum/arquivosCSS.jsp" />
 
-
-	<script type="text/javascript">
-	
-		$(document).ready(function() {
-
-			$.post("atualizarDadosSelecao", function(dados) { });
-		});
-		
-	</script>
-
 </head>
 
 <body>
