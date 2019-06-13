@@ -455,6 +455,7 @@ public class InscricaoController {
 	    totalMeses = new String[tamanhoLista];
 
 	    for (int i = 0; i < tamanhoLista; i++) {
+
 		areaCargo[i] = listaVinculoEmpregaticio.get(i).getAreaCargo();
 		dataInicio[i] = Util.converterData(listaVinculoEmpregaticio.get(i).getDataInicio());
 		dataFim[i] = Util.converterData(listaVinculoEmpregaticio.get(i).getDataFim());
@@ -565,22 +566,28 @@ public class InscricaoController {
 
 	    for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
 
-		somaNotas = somaNotas + avaliacao.getNotaFinal();
+		if (avaliacao != null) {
 
-		if (avaliacao.getNotaFinal() < menorNota) {
-		    menorNota = avaliacao.getNotaFinal();
-		}
+		    if (avaliacao.getNotaFinal() != null) {
 
-		if (avaliacao.getGradQtdCursosComputacao() != null && avaliacao.getGradQtdCursosComputacao() > 0) {
-		    perfilCandidatosAreaTI++;
-		} else {
-		    perfilCandidatosAreaOutras++;
-		}
+			somaNotas = somaNotas + avaliacao.getNotaFinal();
 
-		if (avaliacao.getQuantidadeVinculosEmpregaticios() > 0) {
-		    perfilCandidatosExpProf++;
-		} else {
-		    perfilCandidatosNaoExpProf++;
+			if (avaliacao.getNotaFinal() < menorNota) {
+			    menorNota = avaliacao.getNotaFinal();
+			}
+		    }
+
+		    if (avaliacao.getGradQtdCursosComputacao() != null && avaliacao.getGradQtdCursosComputacao() > 0) {
+			perfilCandidatosAreaTI++;
+		    } else {
+			perfilCandidatosAreaOutras++;
+		    }
+
+		    if (avaliacao.getQuantidadeVinculosEmpregaticios() > 0) {
+			perfilCandidatosExpProf++;
+		    } else {
+			perfilCandidatosNaoExpProf++;
+		    }
 		}
 	    }
 	}

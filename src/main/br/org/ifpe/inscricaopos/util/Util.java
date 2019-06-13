@@ -45,7 +45,11 @@ public class Util {
 
     public static String converterData(Date param) {
 
-	return new SimpleDateFormat("dd/MM/yyyy").format(param);
+	if (param != null) {
+	    return new SimpleDateFormat("dd/MM/yyyy").format(param);
+	} else {
+	    return "";
+	}
     }
     
     public static boolean validaPerfilUsuario(HttpSession session, long[] autorizacao) {

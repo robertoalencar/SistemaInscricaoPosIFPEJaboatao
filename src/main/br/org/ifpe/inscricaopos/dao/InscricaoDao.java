@@ -133,6 +133,19 @@ public class InscricaoDao extends HibernateDao {
 
 	return lista;
     }
+    
+    public List<Inscricao> listar() {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+	Query query = manager.createQuery("FROM Inscricao ORDER BY id DESC");
+	List<Inscricao> lista = query.getResultList();
+
+	manager.close();
+	factory.close();
+
+	return lista;
+    }
 
     public List<Inscricao> filtrar(String numInscricao, String nome) {
 
@@ -193,17 +206,18 @@ public class InscricaoDao extends HibernateDao {
 	return inscricao;
     }
 
-    private String gerarNumeroInscricao() {
+    private Integer gerarNumeroInscricao() {
+	
+	Integer numero = 137;
+	List<Inscricao> inscricoes = listar();
+	
+	if (inscricoes != null && !inscricoes.isEmpty()) {
+	    for (Inscricao inscricao : inscricoes) {
+		numero = inscricao.getNumero() + 1;
+		break;
+	    }
+	}
 
-	Calendar c = Calendar.getInstance();
-
-	int ano = c.get(Calendar.YEAR);
-	int mes = c.get(Calendar.MONTH);
-	int dia = c.get(Calendar.DAY_OF_MONTH);
-	int hora = c.get(Calendar.HOUR_OF_DAY);
-	int minuto = c.get(Calendar.MINUTE);
-	int segundo = c.get(Calendar.SECOND);
-
-	return (String.valueOf(ano)).substring(2, 4) + (mes + 1) + dia + "-" + hora + minuto + segundo;
+	return numero;
     }
 }

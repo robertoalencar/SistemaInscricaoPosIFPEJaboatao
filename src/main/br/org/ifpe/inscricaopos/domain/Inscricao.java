@@ -52,7 +52,7 @@ public class Inscricao implements Serializable {
     private String avaliadorAlocado;
     
     @Column
-    private String numero;
+    private Integer numero;
 
     @Column
     private String cursoEscolhido;
