@@ -463,8 +463,8 @@
 							</div>
 							<div class="col-lg-6">
 								<div class="form-group">
-									<label>Nota Final<span style="color: red;"> * </span></label> 
-									<input class="form-control" name="notaFinal" id="notaFinal" readonly="readonly" style="width: 20%;" required="required">
+									<label>Nota Final</label> 
+									<input class="form-control" name="notaFinal" id="notaFinal" readonly="readonly" style="width: 20%;">
 									<small id="passwordHelpBlock" class="form-text text-muted">Pontuação Final = (((IC01 + IC02 + IC03) * 3,0) + (IC04 * 7,0)) / 10</small>
 								</div>
 							</div>

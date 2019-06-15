@@ -76,12 +76,20 @@ public class InscricaoController {
     @RequestMapping(value = "/inscricao/filter", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Inscricao> filter(@RequestParam String numInscricao, @RequestParam String nome) {
 
-	return inscricaoDao.filtrar(numInscricao, nome);
+	Integer numInscricaoConvertido = null;
+	
+	try {
+	    numInscricaoConvertido = Integer.parseInt(numInscricao);
+	} catch (NumberFormatException e) {
+	    System.out.println(e.getMessage());
+	}
+	
+	return inscricaoDao.filtrar(numInscricaoConvertido, nome);
     }
 
     @RequestMapping("/inscricao/add")
     public String add(Model model) {
-	
+
 	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "save");
 
@@ -92,8 +100,23 @@ public class InscricaoController {
     public String save(Candidato candidato, @RequestParam String cursoEscolhido, @RequestParam String avaliadorAlocado,
 	    Model model) {
 
-	Inscricao inscricao = inscricaoDao.save(candidato, cursoEscolhido, avaliadorAlocado);
+	Inscricao inscricao = Inscricao.builder().avaliadorAlocado(avaliadorAlocado)
+		.candidato(candidato).cursoEscolhido(cursoEscolhido).dataInscricao(Calendar.getInstance().getTime())
+		.status(Inscricao.STATUS_INSCRICAO_PENDENTE).build();
+
+	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("inscricao", inscricao);
+	
+	if (inscricaoDao.verificaDuplicidadeCpfCandidato(candidato)) {
+
+	    model.addAttribute("mensagemErro", "Não é permitido duas inscrições para o mesmo candidato. Já existe um candidato inscrito para o CPF " + candidato.getCpf());
+	    model.addAttribute("operacao", "save");
+	    return TELA_MANTER;
+	}
+
+	inscricao.setNumero(gerarNumeroInscricao());
+	
+	inscricao = inscricaoDao.save(inscricao);
 	model.addAttribute("mensagem", "Inscrição inserida com sucesso!");
 
 	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(inscricao.getId(), null);
@@ -106,7 +129,6 @@ public class InscricaoController {
 
 	model.addAttribute("nomeCandidato", nomeCandidato);
 	model.addAttribute("listaAvaliacoes", listaAvaliacoes);
-	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
 	model.addAttribute("operacao", "view");
 
 	return TELA_MANTER;
@@ -131,7 +153,7 @@ public class InscricaoController {
 	inscricao.setAvaliadorAlocado(avaliadorAlocado);
 
 	inscricaoDao.update(candidato, inscricao);
-	
+
 	model.addAttribute("mensagem", "Inscrição atualizada com sucesso!");
 	model.addAttribute("inscricao", inscricaoDao.obterInscricaoCandidato(candidato.getId()));
 	model.addAttribute("listaAvaliadores", usuarioDao.list("nome", null));
@@ -143,11 +165,11 @@ public class InscricaoController {
     @RequestMapping("/inscricao/delete")
     public String delete(@RequestParam Long id, HttpSession session, Model model) {
 
-	if (!Util.validaPerfilUsuario(session, new long[]{1})) {
+	if (!Util.validaPerfilUsuario(session, new long[] { 1 })) {
 	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
 	    return PrincipalController.TELA_HOME;
 	}
-	
+
 	inscricaoDao.remove(id);
 	model.addAttribute("mensagem", "Inscrição Removida com Sucesso");
 
@@ -177,11 +199,11 @@ public class InscricaoController {
     @RequestMapping("/inscricao/avaliar")
     public String avaliar(@RequestParam Long id, HttpSession session, Model model) {
 
-	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	if (!Util.validaPerfilUsuario(session, new long[] { 1, 2 })) {
 	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
 	    return PrincipalController.TELA_HOME;
 	}
-	
+
 	model.addAttribute("inscricao", inscricaoDao.find(id));
 
 	return TELA_AVALIAR;
@@ -190,11 +212,11 @@ public class InscricaoController {
     @RequestMapping("/inscricao/avaliacaoSave")
     public String saveAvaliacao(AvaliacaoVO avaliacaoVO, HttpSession session, Model model) {
 
-	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	if (!Util.validaPerfilUsuario(session, new long[] { 1, 2 })) {
 	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
 	    return PrincipalController.TELA_HOME;
 	}
-	
+
 	avaliacaoDao.save(avaliacaoVO, (Usuario) session.getAttribute(Constantes.USUARIO_SESSAO));
 
 	List<Avaliacao> listaAvaliacoes = avaliacaoDao.listar(avaliacaoVO.getIdInscricao(), null);
@@ -217,13 +239,14 @@ public class InscricaoController {
     }
 
     @RequestMapping("/inscricao/aprovarAvaliacao")
-    public String aprovarAvaliacao(@RequestParam Long id, @RequestParam Long idAvaliacao, HttpSession session, Model model) {
+    public String aprovarAvaliacao(@RequestParam Long id, @RequestParam Long idAvaliacao, HttpSession session,
+	    Model model) {
 
-	if (!Util.validaPerfilUsuario(session, new long[]{1,2})) {
+	if (!Util.validaPerfilUsuario(session, new long[] { 1, 2 })) {
 	    model.addAttribute("mensagem", "Este usuário não tem o perfil de acesso necessário para esta função.");
 	    return PrincipalController.TELA_HOME;
 	}
-	
+
 	Avaliacao avaliacao = avaliacaoDao.find(idAvaliacao);
 	avaliacao.setAprovada(true);
 	avaliacaoDao.aprovarAvaliacao(avaliacao);
@@ -247,9 +270,9 @@ public class InscricaoController {
 
     @RequestMapping("/exibirResultadoSelecao")
     public String exibirResultadoSelecao(Model model) {
-	
+
 	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
-	
+
 	model.addAttribute("classificadosGestaoVCG", montaVoResultados(mapaListas, "classificadosGestaoVCG"));
 	model.addAttribute("classificadosGestaoPPI", montaVoResultados(mapaListas, "classificadosGestaoPPI"));
 	model.addAttribute("classificadosGestaoPCD", montaVoResultados(mapaListas, "classificadosGestaoPCD"));
@@ -311,20 +334,20 @@ public class InscricaoController {
 
 	return TELA_RESULTADO_INOVACAO;
     }
-    
+
     @RequestMapping("/dadosSelecao")
     public String exibirDadosSelecao(Model model) {
-	
+
 	DadosSelecaoVO dadosSelecaoVo = montarDadosSelecaoVO();
 	model.addAttribute("dadosSelecaoVo", dadosSelecaoVo);
 
 	return TELA_DADOS_SELECAO;
     }
-    
+
     private DadosSelecaoVO montarDadosSelecaoVO() {
-	
+
 	DadosSelecaoVO dadosSelecaoVo = new DadosSelecaoVO();
-	
+
 	Map<String, List<Inscricao>> mapaListas = inscricaoService.classificarInscricoes();
 
 	List<Inscricao> classificadosGestaoVCG = mapaListas.get("classificadosGestaoVCG");
@@ -386,12 +409,11 @@ public class InscricaoController {
 	preencherVo(classificadosInovacaoVCG, dadosSelecaoVo, "Inovacao");
 	preencherVo(classificadosInovacaoPPI, dadosSelecaoVo, "Inovacao");
 	preencherVo(classificadosInovacaoPCD, dadosSelecaoVo, "Inovacao");
-	
+
 	return dadosSelecaoVo;
     }
 
-    private List<ResultadoSelecaoVO> montaVoResultados(Map<String, List<Inscricao>> mapaListas,
-	    String tipoLista) {
+    private List<ResultadoSelecaoVO> montaVoResultados(Map<String, List<Inscricao>> mapaListas, String tipoLista) {
 
 	List<ResultadoSelecaoVO> listaResultado = new ArrayList<ResultadoSelecaoVO>();
 	ResultadoSelecaoVO resultadoSelecaoVO = new ResultadoSelecaoVO();
@@ -480,28 +502,42 @@ public class InscricaoController {
 
 	return avaliacaoVO;
     }
-    
+
     private void preencherVo(List<Inscricao> inscricoes, DadosSelecaoVO dadosSelecaoVo, String curso) {
 
-	double menorNota = "Gestao".equals(curso) ? dadosSelecaoVo.getMenorNotaGestao() : dadosSelecaoVo.getMenorNotaInovacao();
+	double menorNota = "Gestao".equals(curso) ? dadosSelecaoVo.getMenorNotaGestao()
+		: dadosSelecaoVo.getMenorNotaInovacao();
 	menorNota = menorNota == 0.0 ? 1000 : menorNota;
-	
-	double somaNotas = "Gestao".equals(curso) ? dadosSelecaoVo.getSomaNotasGestao() : dadosSelecaoVo.getSomaNotasInovacao();
-	int perfilCandidatosAreaTI = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaTI() : dadosSelecaoVo.getPerfilCandidatosInovaAreaTI();
-	int perfilCandidatosAreaOutras = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaOutras() : dadosSelecaoVo.getPerfilCandidatosInovaAreaOutras();
-	int perfilCandidatosExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoExpProf() : dadosSelecaoVo.getPerfilCandidatosInovaExpProf();
-	int perfilCandidatosNaoExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoNaoExpProf() : dadosSelecaoVo.getPerfilCandidatosInovaNaoExpProf();
-	int perfilCandidatosQtdHomens = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdHomens() : dadosSelecaoVo.getPerfilCandidatosInovaQtdHomens();
-	int perfilCandidatosQtdMulheres = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdMulheres() : dadosSelecaoVo.getPerfilCandidatosInovaQtdMulheres();
-	int perfilCandidatosMenor30 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMenor30() : dadosSelecaoVo.getPerfilCandidatosInovaMenor30();
-	int perfilCandidatosMaior30Menor40 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior30Menor40() : dadosSelecaoVo.getPerfilCandidatosInovaMaior30Menor40();
-	int perfilCandidatosMaior40Menor50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50() : dadosSelecaoVo.getPerfilCandidatosInovaMaior40Menor50();
-	int perfilCandidatosMaior50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior50() : dadosSelecaoVo.getPerfilCandidatosInovaMaior50();
+
+	double somaNotas = "Gestao".equals(curso) ? dadosSelecaoVo.getSomaNotasGestao()
+		: dadosSelecaoVo.getSomaNotasInovacao();
+	int perfilCandidatosAreaTI = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaTI()
+		: dadosSelecaoVo.getPerfilCandidatosInovaAreaTI();
+	int perfilCandidatosAreaOutras = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoAreaOutras()
+		: dadosSelecaoVo.getPerfilCandidatosInovaAreaOutras();
+	int perfilCandidatosExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoExpProf()
+		: dadosSelecaoVo.getPerfilCandidatosInovaExpProf();
+	int perfilCandidatosNaoExpProf = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoNaoExpProf()
+		: dadosSelecaoVo.getPerfilCandidatosInovaNaoExpProf();
+	int perfilCandidatosQtdHomens = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdHomens()
+		: dadosSelecaoVo.getPerfilCandidatosInovaQtdHomens();
+	int perfilCandidatosQtdMulheres = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoQtdMulheres()
+		: dadosSelecaoVo.getPerfilCandidatosInovaQtdMulheres();
+	int perfilCandidatosMenor30 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMenor30()
+		: dadosSelecaoVo.getPerfilCandidatosInovaMenor30();
+	int perfilCandidatosMaior30Menor40 = "Gestao".equals(curso)
+		? dadosSelecaoVo.getPerfilCandidatosGestaoMaior30Menor40()
+		: dadosSelecaoVo.getPerfilCandidatosInovaMaior30Menor40();
+	int perfilCandidatosMaior40Menor50 = "Gestao".equals(curso)
+		? dadosSelecaoVo.getPerfilCandidatosGestaoMaior40Menor50()
+		: dadosSelecaoVo.getPerfilCandidatosInovaMaior40Menor50();
+	int perfilCandidatosMaior50 = "Gestao".equals(curso) ? dadosSelecaoVo.getPerfilCandidatosGestaoMaior50()
+		: dadosSelecaoVo.getPerfilCandidatosInovaMaior50();
 
 	Calendar calendar;
 	Date data1;
 	Date data2;
-	
+
 	for (Inscricao inscricao : inscricoes) {
 
 	    if ("Masculino".equals(inscricao.getCandidato().getSexo())) {
@@ -509,7 +545,7 @@ public class InscricaoController {
 	    } else {
 		perfilCandidatosQtdMulheres++;
 	    }
-	    
+
 	    if (inscricao.getCandidato().getDataNascimento() != null) {
 
 		calendar = Calendar.getInstance();
@@ -593,7 +629,7 @@ public class InscricaoController {
 	}
 
 	menorNota = menorNota == 1000 ? 0.0 : menorNota;
-	
+
 	if ("Gestao".equals(curso)) {
 
 	    dadosSelecaoVo.setMenorNotaGestao(menorNota);
@@ -626,4 +662,18 @@ public class InscricaoController {
 	}
     }
 
+    private Integer gerarNumeroInscricao() {
+
+	Integer numero = 137;
+	List<Inscricao> inscricoes = inscricaoDao.listar();
+
+	if (inscricoes != null && !inscricoes.isEmpty()) {
+	    for (Inscricao inscricao : inscricoes) {
+		numero = inscricao.getNumero() + 1;
+		break;
+	    }
+	}
+
+	return numero;
+    }
 }

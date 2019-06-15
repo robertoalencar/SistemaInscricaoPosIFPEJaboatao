@@ -69,7 +69,11 @@ public class InscricaoService {
 			    } else if ("PCD".equals(avaliacao.getTipoVaga())) {
 				qtdCandidatosGestaoPCD++;
 			    }
-
+			    
+			    if (avaliacao.getNotaFinal() == null) {
+				avaliacao.setNotaFinal(0.0);
+			    }
+			    
 			    listaOrdemCrescentePosGestao.put(avaliacao.getNotaFinal(), inscricao);
 
 			} else {
@@ -86,6 +90,10 @@ public class InscricaoService {
 				qtdCandidatosInovacaoPCD++;
 			    }
 
+			    if (avaliacao.getNotaFinal() == null) {
+				avaliacao.setNotaFinal(0.0);
+			    }
+			    
 			    listaOrdemCrescentePosInovacao.put(avaliacao.getNotaFinal(), inscricao);
 
 			} else {

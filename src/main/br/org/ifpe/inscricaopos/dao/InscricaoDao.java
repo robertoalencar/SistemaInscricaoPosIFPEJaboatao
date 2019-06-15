@@ -1,6 +1,5 @@
 package main.br.org.ifpe.inscricaopos.dao;
 
-import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -40,23 +39,13 @@ public class InscricaoDao extends HibernateDao {
 	return obj;
     }
 
-    public Inscricao save(Candidato candidato, String cursoEscolhido, String avaliadorAlocado) {
+    public Inscricao save(Inscricao inscricao) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
 	manager.getTransaction().begin();
 
-	manager.persist(candidato);
-
-	Inscricao inscricao = Inscricao.builder()
-		.numero(gerarNumeroInscricao())
-		.avaliadorAlocado(avaliadorAlocado)
-		.candidato(candidato)
-		.cursoEscolhido(cursoEscolhido)
-		.dataInscricao(Calendar.getInstance().getTime())
-		.status(Inscricao.STATUS_INSCRICAO_PENDENTE)
-		.build();
-	
+	manager.persist(inscricao.getCandidato());
 	manager.persist(inscricao);
 
 	manager.getTransaction().commit();
@@ -86,31 +75,31 @@ public class InscricaoDao extends HibernateDao {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
-	
+
 	Inscricao inscricao = manager.find(getClassEntidade(), id);
 	Candidato candidato = manager.find(Candidato.class, inscricao.getCandidato().getId());
 	Query query = manager.createQuery("FROM Avaliacao a WHERE a.inscricao.id = :paramIdInscricao");
 	query.setParameter("paramIdInscricao", id);
 	List<Avaliacao> avaliacoes = query.getResultList();
-	
+
 	manager.getTransaction().begin();
-	
-	//Remove as avaliações associadas:
+
+	// Remove as avaliações associadas:
 	for (Avaliacao avaliacao : avaliacoes) {
-	    
+
 	    for (VinculoEmpregaticio emprego : avaliacao.getEmpregos()) {
 		manager.remove(emprego);
 	    }
-	    
+
 	    manager.remove(avaliacao);
 	}
 
-	//Remove a inscrição
+	// Remove a inscrição
 	manager.remove(inscricao);
-	
-	//Remove o candidato
+
+	// Remove o candidato
 	manager.remove(candidato);
-	
+
 	manager.getTransaction().commit();
 
 	manager.close();
@@ -133,7 +122,7 @@ public class InscricaoDao extends HibernateDao {
 
 	return lista;
     }
-    
+
     public List<Inscricao> listar() {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -147,24 +136,24 @@ public class InscricaoDao extends HibernateDao {
 	return lista;
     }
 
-    public List<Inscricao> filtrar(String numInscricao, String nome) {
+    public List<Inscricao> filtrar(Integer numInscricao, String nome) {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
 	EntityManager manager = factory.createEntityManager();
 	Query query = null;
 
-	if ((numInscricao != null && !numInscricao.equals("")) && (nome == null || nome.equals(""))) {
+	if (numInscricao != null && (nome == null || nome.equals(""))) {
 	    query = manager.createQuery(
-		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero like :paramNumInscricao ORDER BY c.nome");
-	    query.setParameter("paramNumInscricao", "%" + numInscricao + "%");
-	} else if ((numInscricao == null || numInscricao.equals("")) && (nome != null && !nome.equals(""))) {
+		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero = :paramNumInscricao ORDER BY c.nome");
+	    query.setParameter("paramNumInscricao", numInscricao);
+	} else if (numInscricao == null && (nome != null && !nome.equals(""))) {
 	    query = manager.createQuery(
 		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND c.nome like :paramNome ORDER BY c.nome");
 	    query.setParameter("paramNome", "%" + nome + "%");
-	} else if ((numInscricao != null && !numInscricao.equals("")) && (nome != null && !nome.equals(""))) {
+	} else if (numInscricao != null && (nome != null && !nome.equals(""))) {
 	    query = manager.createQuery(
-		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero like :paramNumInscricao AND c.nome like :paramNome ORDER BY c.nome");
-	    query.setParameter("paramNumInscricao", "%" + numInscricao + "%");
+		    "SELECT i FROM Inscricao i, Candidato c WHERE i.candidato.id = c.id AND i.numero = :paramNumInscricao AND c.nome like :paramNome ORDER BY c.nome");
+	    query.setParameter("paramNumInscricao", numInscricao);
 	    query.setParameter("paramNome", "%" + nome + "%");
 	} else {
 	    query = manager
@@ -178,7 +167,7 @@ public class InscricaoDao extends HibernateDao {
 
 	return lista;
     }
-    
+
     public Long listarQuantidadeInscricao() {
 
 	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
@@ -206,18 +195,26 @@ public class InscricaoDao extends HibernateDao {
 	return inscricao;
     }
 
-    private Integer gerarNumeroInscricao() {
-	
-	Integer numero = 137;
-	List<Inscricao> inscricoes = listar();
-	
-	if (inscricoes != null && !inscricoes.isEmpty()) {
-	    for (Inscricao inscricao : inscricoes) {
-		numero = inscricao.getNumero() + 1;
-		break;
-	    }
+    public boolean verificaDuplicidadeCpfCandidato(Candidato candidato) {
+
+	boolean existeCpf = false;
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+	EntityManager manager = factory.createEntityManager();
+
+	Query query = manager.createQuery("SELECT c.nome FROM Candidato c WHERE c.cpf = :paramCpf");
+	query.setParameter("paramCpf", candidato.getCpf());
+
+	List<String> candidatos = query.getResultList();
+
+	if (candidatos != null && !candidatos.isEmpty()) {
+	    existeCpf = true;
 	}
 
-	return numero;
+	manager.close();
+	factory.close();
+
+	return existeCpf;
     }
+
 }

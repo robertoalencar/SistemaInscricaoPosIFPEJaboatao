@@ -119,6 +119,13 @@
 											${mensagem}
 										</div>
 									</c:if>
+									
+									<c:if test="${mensagemErro ne null}">
+                                 		<div class="alert alert-danger alert-dismissible">
+                                 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+											${mensagemErro}
+										</div>
+									</c:if>
                                  
                                  	<div class="col-lg-12">
 	                                  	<div class="form-group">
