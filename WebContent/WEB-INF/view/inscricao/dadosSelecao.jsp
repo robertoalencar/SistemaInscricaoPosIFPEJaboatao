@@ -72,7 +72,7 @@
           						</tr>
           						<tr>
 									<td> &nbsp; -  &nbsp; Relação candidato/vaga </td>
-									<td style="vertical-align: middle; text-align: center; color: red;"><fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritos/30}" pattern="#,#0.0#"/></td>
+									<td style="vertical-align: middle; text-align: center; color: red;"><fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritos/60}" pattern="#,#0.0#"/></td>
 									<td style="vertical-align: middle; text-align: center;"> 2.4 </td>
 									<td style="vertical-align: middle; text-align: center;"> 5.5 </td>
 									<td style="vertical-align: middle; text-align: center;"> 6.35 </td>
