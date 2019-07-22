@@ -592,7 +592,7 @@
 									<ul>
 										<li> (1) Clique no botão Adicionar para incluir novos vínculos empregatícios ao candidato. </li>
 										<li> (2) Informe a área de atuação e as datas de início e fim do respectivo vínculo empregatício. </li>
-										<li> (3) Caso o vínculo esteja sem data de saída, ou seja, é um vínculo ainda em vigor deve ser informado no campo 'Data de Início do Vínculo' a data do primeiro dia do período das inscrições. </li>
+										<li> (3) Caso o vínculo esteja sem data de saída, ou seja, é um vínculo ainda em vigor deve ser informado no campo 'Data Final do Vínculo' a data do primeiro dia do período das inscrições. </li>
 										<li> (4) Clique em Remover para retirar o último vínculo empregatício adicionado. </li>
 									</ul>
 								</div>
