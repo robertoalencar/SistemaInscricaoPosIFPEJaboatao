@@ -3,7 +3,6 @@ TODO List:
 
 BUGs:
 
- - Resolver o BUG do sistema não adicionar na lista avaliações com notas já existentes, ver caso da inscricao 238 e da inscrição 195, ambos receberam a nota 8,79 mas só um aparece na listagem do resultado;
  - Resolver o BUG de não exibir as datas dos vínculos empregaticios na visualização da avaliação. Ver inscrição 218.
 
 Melhorias: 

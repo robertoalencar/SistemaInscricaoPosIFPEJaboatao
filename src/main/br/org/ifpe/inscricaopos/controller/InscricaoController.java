@@ -421,17 +421,21 @@ public class InscricaoController {
 	for (Inscricao inscricao : mapaListas.get(tipoLista)) {
 
 	    Double nota = 0.0;
+	    String tipoVaga = null; 
 
 	    for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
 		if (avaliacao.isAprovada()) {
 		    nota = avaliacao.getNotaFinal();
+		    tipoVaga = avaliacao.getTipoVaga();
 		    break;
 		}
 	    }
 
 	    resultadoSelecaoVO = new ResultadoSelecaoVO();
 	    resultadoSelecaoVO.setInscricao(inscricao);
+	    resultadoSelecaoVO.setTipoVaga(tipoVaga);
 	    resultadoSelecaoVO.setNotaCandidato(nota);
+	    
 	    listaResultado.add(resultadoSelecaoVO);
 	}
 

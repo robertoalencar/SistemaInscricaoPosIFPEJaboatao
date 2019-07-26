@@ -30,8 +30,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
-public class Inscricao implements Serializable {
-    
+public class Inscricao implements Serializable, Comparable<Inscricao> {
+
     public static final String STATUS_INSCRICAO_APROVADA = "Aprovada";
     public static final String STATUS_INSCRICAO_PENDENTE = "Pendente";
 
@@ -45,12 +45,12 @@ public class Inscricao implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private Candidato candidato;
 
-    @OneToMany(fetch = FetchType.EAGER) 
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Avaliacao> avaliacoes;
 
     @Column
     private String avaliadorAlocado;
-    
+
     @Column
     private Integer numero;
 
@@ -63,11 +63,55 @@ public class Inscricao implements Serializable {
     @Column
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dataInscricao;
-    
+
     @Column
     private String status;
-    
+
     @Column
     private int qtdAvaliacoes;
+
+    @Override
+    public int compareTo(Inscricao inscricaoParam) {
+
+	Avaliacao avaliacaoAprovadaThis = null;
+	Avaliacao avaliacaoAprovadaParam = null;
+
+	if ((this.avaliacoes != null) && (!this.avaliacoes.isEmpty())) {
+	    
+	    for (Avaliacao avaliacao : this.avaliacoes) {
+		
+		if (avaliacao.isAprovada()) {
+		    avaliacaoAprovadaThis = avaliacao;
+		    break;
+		}
+	    }
+	}
+
+	if ((inscricaoParam != null) && (inscricaoParam.getAvaliacoes() != null)
+		&& (!inscricaoParam.getAvaliacoes().isEmpty())) {
+	    
+	    for (Avaliacao avaliacao : inscricaoParam.getAvaliacoes()) {
+		
+		if (avaliacao.isAprovada()) {
+		    avaliacaoAprovadaParam = avaliacao;
+		    break;
+		}
+	    }
+	}
+
+	if ((avaliacaoAprovadaThis != null && avaliacaoAprovadaParam != null)
+		&& avaliacaoAprovadaThis.getNotaFinal() < avaliacaoAprovadaParam.getNotaFinal()) {
+	    
+	    return -1;
+	}
+	
+	if ((avaliacaoAprovadaThis != null && avaliacaoAprovadaParam != null)
+		&& avaliacaoAprovadaThis.getNotaFinal() > avaliacaoAprovadaParam.getNotaFinal()) {
+	    
+	    return 1;
+	}
+
+	return 0;
+    }
 
 }

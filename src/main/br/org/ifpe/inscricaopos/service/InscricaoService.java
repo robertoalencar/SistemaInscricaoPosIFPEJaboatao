@@ -1,10 +1,10 @@
 package main.br.org.ifpe.inscricaopos.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +17,11 @@ import main.br.org.ifpe.inscricaopos.domain.Inscricao;
 @Service
 public class InscricaoService {
     
-    public static final int CURSO_GESTAO_VAGAS_EDITAL_VCG = 30;
+    public static final int CURSO_GESTAO_TOTAL_VAGAS_EDITAL = 30;
     public static final int CURSO_GESTAO_VAGAS_EDITAL_PPI = 5;
     public static final int CURSO_GESTAO_VAGAS_EDITAL_PCD = 2;
     
-    public static final int CURSO_INOVACAO_VAGAS_EDITAL_VCG = 30;
+    public static final int CURSO_INOVACAO_TOTAL_VAGAS_EDITAL = 30;
     public static final int CURSO_INOVACAO_VAGAS_EDITAL_PPI = 5;
     public static final int CURSO_INOVACAO_VAGAS_EDITAL_PCD = 2;
     
@@ -30,27 +30,20 @@ public class InscricaoService {
     
     @Autowired
     private InscricaoDao inscricaoDao;
-
+    
     public Map<String, List<Inscricao>> classificarInscricoes() {
 	
 	List<Inscricao> listaInscricao = inscricaoDao.listar(null, null);
 
+	List<Inscricao> listaGeralGestao = new ArrayList<Inscricao>();
+	List<Inscricao> listaGeralInovacao = new ArrayList<Inscricao>();
 	List<Inscricao> desclassificadosGestao = new ArrayList<Inscricao>();
 	List<Inscricao> desclassificadosInovacao = new ArrayList<Inscricao>();
 
-	int qtdCandidatosGestaoPPI = 0;
-	int qtdCandidatosGestaoPCD = 0;
-
-	int qtdCandidatosInovacaoPPI = 0;
-	int qtdCandidatosInovacaoPCD = 0;
-
-	// -----------------------------------------------------------------------------
-	// Cria as listas ordenadas da menor nota para a maior nota, separadas por curso
-	// -----------------------------------------------------------------------------
-
-	TreeMap<Double, Inscricao> listaOrdemCrescentePosInovacao = new TreeMap<Double, Inscricao>();
-	TreeMap<Double, Inscricao> listaOrdemCrescentePosGestao = new TreeMap<Double, Inscricao>();
-
+	/*
+	 * O For abaixo, separa as listas dos cursos e as listas dos desclassificados por curso
+	 */
+	
 	for (Inscricao inscricao : listaInscricao) {
 
 	    List<Avaliacao> listaAvaliacao = avaliacaoDao.listar(inscricao.getId(), null);
@@ -64,17 +57,11 @@ public class InscricaoService {
 
 			if (avaliacao.isDocumentacaoCompleta()) {
 
-			    if ("PPI".equals(avaliacao.getTipoVaga())) {
-				qtdCandidatosGestaoPPI++;
-			    } else if ("PCD".equals(avaliacao.getTipoVaga())) {
-				qtdCandidatosGestaoPCD++;
-			    }
-			    
 			    if (avaliacao.getNotaFinal() == null) {
 				avaliacao.setNotaFinal(0.0);
 			    }
 			    
-			    listaOrdemCrescentePosGestao.put(avaliacao.getNotaFinal(), inscricao);
+			    listaGeralGestao.add(inscricao);
 
 			} else {
 			    desclassificadosGestao.add(inscricao);
@@ -84,17 +71,11 @@ public class InscricaoService {
 
 			if (avaliacao.isDocumentacaoCompleta()) {
 
-			    if ("PPI".equals(avaliacao.getTipoVaga())) {
-				qtdCandidatosInovacaoPPI++;
-			    } else if ("PCD".equals(avaliacao.getTipoVaga())) {
-				qtdCandidatosInovacaoPCD++;
-			    }
-
 			    if (avaliacao.getNotaFinal() == null) {
 				avaliacao.setNotaFinal(0.0);
 			    }
 			    
-			    listaOrdemCrescentePosInovacao.put(avaliacao.getNotaFinal(), inscricao);
+			    listaGeralInovacao.add(inscricao);
 
 			} else {
 			    desclassificadosInovacao.add(inscricao);
@@ -110,41 +91,83 @@ public class InscricaoService {
 	// Ordena as listas da maior nota pata a menor nota
 	// ------------------------------------------------
 	
-	TreeMap<Integer, Inscricao> listaOrdemDecrescentePosInovacao = ordenaListaOrdemDecrescente(listaOrdemCrescentePosInovacao);
-	TreeMap<Integer, Inscricao> listaOrdemDecrescentePosGestao = ordenaListaOrdemDecrescente(listaOrdemCrescentePosGestao);
+	Collections.sort(listaGeralGestao, Collections.reverseOrder());
+	Collections.sort(listaGeralInovacao, Collections.reverseOrder());
 	
-
+	int qtdVagasGestaoVCG = CURSO_GESTAO_TOTAL_VAGAS_EDITAL - CURSO_GESTAO_VAGAS_EDITAL_PPI - CURSO_GESTAO_VAGAS_EDITAL_PCD;
+	int qtdVagasInovacaoVCG = CURSO_GESTAO_TOTAL_VAGAS_EDITAL - CURSO_GESTAO_VAGAS_EDITAL_PPI - CURSO_GESTAO_VAGAS_EDITAL_PCD;
+	
+	List<Inscricao> classificadosGestaoVCG = criarListaVCG(qtdVagasGestaoVCG, listaGeralGestao);
+	List<Inscricao> classificadosInovacaoVCG = criarListaVCG(qtdVagasInovacaoVCG, listaGeralInovacao);
+	
 	// --------------------------------------------------------------
-	// Montas as listas de acordo com as vagas para o curso de Gestão
+	// Dos candidatos que não ficaram entre as 23 melhores notas, será contabilizaddo quantos existem de acordo com as cotas
+	// --------------------------------------------------------------
+	
+	HashMap<String, Integer> qtdCotasGestao = contarCotasGestao(listaGeralGestao);
+	HashMap<String, Integer> qtdCotasInovacao = contarCotasInovacao(listaGeralInovacao);
+	
+	int qtdCandidatosGestaoPPI = qtdCotasGestao.get("qtdCandidatosGestaoPPI");
+	int qtdCandidatosGestaoPCD = qtdCotasGestao.get("qtdCandidatosGestaoPCD");
+	int qtdCandidatosInovacaoPPI = qtdCotasInovacao.get("qtdCandidatosInovacaoPPI");
+	int qtdCandidatosInovacaoPCD = qtdCotasInovacao.get("qtdCandidatosInovacaoPCD");
+	
+	// --------------------------------------------------------------
+	// Montas as listas de acordo com as cotas para o curso de Gestão
 	// --------------------------------------------------------------
 
-	int qtdVagasGestaoPCD = qtdCandidatosGestaoPCD > CURSO_GESTAO_VAGAS_EDITAL_PCD ? CURSO_GESTAO_VAGAS_EDITAL_PCD : qtdCandidatosGestaoPCD;
 	int qtdVagasGestaoPPI = qtdCandidatosGestaoPPI > CURSO_GESTAO_VAGAS_EDITAL_PPI ? CURSO_GESTAO_VAGAS_EDITAL_PPI : qtdCandidatosGestaoPPI;
-	int qtdVagasGestaoVCG = CURSO_GESTAO_VAGAS_EDITAL_VCG - qtdCandidatosGestaoPPI - qtdCandidatosGestaoPCD;
-
-	List<Inscricao> classificadosGestaoVCG = montarListaVCG(qtdVagasGestaoVCG, listaOrdemDecrescentePosGestao);
-	List<Inscricao> classificadosGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaOrdemDecrescentePosGestao);
-	List<Inscricao> classificadosGestaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasGestaoPCD, listaOrdemDecrescentePosGestao);
-	List<Inscricao> remanejamentoGestaoVCG = montarListaVCG(qtdVagasGestaoVCG, listaOrdemDecrescentePosGestao);
-	List<Inscricao> remanejamentoGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaOrdemDecrescentePosGestao);
-	List<Inscricao> remanejamentoGestaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasGestaoPCD, listaOrdemDecrescentePosGestao);
-	List<Inscricao> naoClassificadosGestaoVCG = montarListaVCG(1000, listaOrdemDecrescentePosGestao);
+	int qtdVagasGestaoPCD = qtdCandidatosGestaoPCD > CURSO_GESTAO_VAGAS_EDITAL_PCD ? CURSO_GESTAO_VAGAS_EDITAL_PCD : qtdCandidatosGestaoPCD;
+	qtdVagasGestaoVCG = CURSO_GESTAO_TOTAL_VAGAS_EDITAL - qtdVagasGestaoVCG - qtdVagasGestaoPPI - qtdVagasGestaoPCD;
+	
+	List<Inscricao> classificadosGestaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasGestaoPPI, listaGeralGestao);
+	List<Inscricao> classificadosGestaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasGestaoPCD, listaGeralGestao);
+	
+	int qtdVagasRemanecentesGestaoVCG = CURSO_GESTAO_TOTAL_VAGAS_EDITAL - classificadosGestaoVCG.size() - classificadosGestaoPPI.size() - classificadosGestaoPCD.size();
+	
+	List<Inscricao> inscricoesVagasRemanecentesGestaoVCG = criarListaVCG(qtdVagasRemanecentesGestaoVCG, listaGeralGestao);
+	int classificacaoVagasRemanecentesGestaoVCG = classificadosGestaoVCG.size();
+	
+	for (Inscricao inscricao : inscricoesVagasRemanecentesGestaoVCG) {
+	    
+	    classificacaoVagasRemanecentesGestaoVCG++;
+	    inscricao.setClassificacao(classificacaoVagasRemanecentesGestaoVCG);
+	    classificadosGestaoVCG.add(inscricao);    
+	}
+	
+	List<Inscricao> remanejamentoGestaoVCG = criarListaVCG(classificadosGestaoVCG.size(), listaGeralGestao);
+	List<Inscricao> remanejamentoGestaoPPI = montarListaCotasPPIPCD("PPI", classificadosGestaoPPI.size(), listaGeralGestao);
+	List<Inscricao> remanejamentoGestaoPCD = montarListaCotasPPIPCD("PCD", classificadosGestaoPCD.size(), listaGeralGestao);
+	
+	List<Inscricao> naoClassificadosGestaoVCG = listaGeralGestao;
 
 	// ----------------------------------------------------------------
-	// Montas as listas de acordo com as vagas para o curso de Inovação
+	// Montas as listas de acordo com as cotas para o curso de Inovação
 	// ----------------------------------------------------------------
 
-	int qtdVagasInovacaoPCD = qtdCandidatosInovacaoPCD > CURSO_INOVACAO_VAGAS_EDITAL_PCD ? CURSO_INOVACAO_VAGAS_EDITAL_PCD : qtdCandidatosInovacaoPCD;
 	int qtdVagasInovacaoPPI = qtdCandidatosInovacaoPPI > CURSO_INOVACAO_VAGAS_EDITAL_PPI ? CURSO_INOVACAO_VAGAS_EDITAL_PPI : qtdCandidatosInovacaoPPI;
-	int qtdVagasInovacaoVCG = CURSO_INOVACAO_VAGAS_EDITAL_VCG - qtdCandidatosInovacaoPPI - qtdCandidatosInovacaoPCD;
-
-	List<Inscricao> classificadosInovacaoVCG = montarListaVCG(qtdVagasInovacaoVCG, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> classificadosInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> classificadosInovacaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasInovacaoPCD, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> remanejamentoInovacaoVCG = montarListaVCG(qtdVagasInovacaoVCG, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> remanejamentoInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> remanejamentoInovacaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasInovacaoPCD, listaOrdemDecrescentePosInovacao);
-	List<Inscricao> naoClassificadosInovacaoVCG = montarListaVCG(1000, listaOrdemDecrescentePosInovacao);
+	int qtdVagasInovacaoPCD = qtdCandidatosInovacaoPCD > CURSO_INOVACAO_VAGAS_EDITAL_PCD ? CURSO_INOVACAO_VAGAS_EDITAL_PCD : qtdCandidatosInovacaoPCD;
+	
+	List<Inscricao> classificadosInovacaoPPI = montarListaCotasPPIPCD("PPI", qtdVagasInovacaoPPI, listaGeralInovacao);
+	List<Inscricao> classificadosInovacaoPCD = montarListaCotasPPIPCD("PCD", qtdVagasInovacaoPCD, listaGeralInovacao);
+	
+	int qtdVagasRemanecentesInovacaoVCG = CURSO_INOVACAO_TOTAL_VAGAS_EDITAL - classificadosInovacaoVCG.size() - classificadosInovacaoPPI.size() - classificadosInovacaoPCD.size();
+	
+	List<Inscricao> inscricoesVagasRemanecentesInovacaoVCG = criarListaVCG(qtdVagasRemanecentesInovacaoVCG, listaGeralInovacao);
+	int classificacaoVagasRemanecentesInovacaoVCG = classificadosInovacaoVCG.size();
+	
+	for (Inscricao inscricao : inscricoesVagasRemanecentesInovacaoVCG) {
+	    
+	    classificacaoVagasRemanecentesInovacaoVCG++;
+	    inscricao.setClassificacao(classificacaoVagasRemanecentesInovacaoVCG);
+	    classificadosInovacaoVCG.add(inscricao);    
+	}
+	
+	List<Inscricao> remanejamentoInovacaoVCG = criarListaVCG(classificadosInovacaoVCG.size(), listaGeralInovacao);
+	List<Inscricao> remanejamentoInovacaoPPI = montarListaCotasPPIPCD("PPI", classificadosInovacaoPPI.size(), listaGeralInovacao);
+	List<Inscricao> remanejamentoInovacaoPCD = montarListaCotasPPIPCD("PCD", classificadosInovacaoPCD.size(), listaGeralInovacao);
+	
+	List<Inscricao> naoClassificadosInovacaoVCG = listaGeralInovacao;
 
 	// ---------------------------------------------------------------------------------
 	// Carrega o mapa que será utilizaro no controlador para enviar as listas para o JSP
@@ -174,84 +197,128 @@ public class InscricaoService {
 	return retorno;
     }
     
-    private TreeMap<Integer, Inscricao> ordenaListaOrdemDecrescente(TreeMap<Double, Inscricao> lista) {
-	
-	TreeMap<Integer, Inscricao> listaOrdemDecrescente = new TreeMap<Integer, Inscricao>();
-	
-	int totalInscritos = lista.values().size();
-	for (Inscricao inscricao : lista.values()) {
+    private List<Inscricao> criarListaVCG(int qtdVagasVCG, List<Inscricao> listaOrdemDecrescente) {
 
-	    listaOrdemDecrescente.put(totalInscritos, inscricao);
-	    totalInscritos--;
-	}
-	
-	return listaOrdemDecrescente;
-    }
-    
-    private List<Inscricao> montarListaVCG(int qtdVagasVCG, TreeMap<Integer, Inscricao> listaOrdemDecrescente) {
-	
 	List<Inscricao> classificadosVCG = new ArrayList<Inscricao>();
-	Inscricao inscricao;
-	ArrayList<Integer> removerItensDaLista = new ArrayList<Integer>();
-	
+	ArrayList<Inscricao> removerDaLista = new ArrayList<Inscricao>();
 	int classificao = 1;
-	for (Integer chave : listaOrdemDecrescente.keySet()) {
 
-	    if (classificao <= qtdVagasVCG) {
+	for (Inscricao inscricao : listaOrdemDecrescente) {
 
-		inscricao = listaOrdemDecrescente.get(chave);
+	    inscricao.setClassificacao(classificao);
+	    classificadosVCG.add(inscricao);
+	    classificao++;
 
-		inscricao.setClassificacao(classificao);
-		classificadosVCG.add(inscricao);
-		classificao++;
-
-		removerItensDaLista.add(chave);
+	    removerDaLista.add(inscricao);
+	    
+	    if (classificadosVCG.size() == qtdVagasVCG) {
+		break;
 	    }
 	}
-	
-	for (Integer chave : removerItensDaLista) {
-	    listaOrdemDecrescente.remove(chave);
+
+	for (Inscricao inscricao : removerDaLista) {
+	    listaOrdemDecrescente.remove(inscricao);
 	}
-	
+
 	return classificadosVCG;
     }
     
-    private List<Inscricao> montarListaCotasPPIPCD(String tipoVaga, int qtdVagas, TreeMap<Integer, Inscricao> listaOrdemDecrescente) {
-	
+    private List<Inscricao> montarListaCotasPPIPCD(String tipoVaga, int qtdVagas, List<Inscricao> listaOrdemDecrescente) {
+
 	List<Inscricao> classificados = new ArrayList<Inscricao>();
-	Inscricao inscricao;
-	ArrayList<Integer> removerItensDaLista = new ArrayList<Integer>();
-	int classificao = 1;
-	
-	for (Integer chave : listaOrdemDecrescente.keySet()) {
 
-	    if (classificao <= qtdVagas) {
+	if (qtdVagas > 0) {
 
-		inscricao = listaOrdemDecrescente.get(chave);
+	    ArrayList<Inscricao> removerDaLista = new ArrayList<Inscricao>();
+	    int classificao = 1;
+
+	    for (Inscricao inscricao : listaOrdemDecrescente) {
 
 		for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
+
 		    if (avaliacao.isAprovada()) {
 
 			if (tipoVaga.equals(avaliacao.getTipoVaga())) {
-
+				
 			    inscricao.setClassificacao(classificao);
 			    classificados.add(inscricao);
 			    classificao++;
 
-			    removerItensDaLista.add(chave);
+			    removerDaLista.add(inscricao);
 			}
-
+			
 			break;
 		    }
 		}
+			
+		if (classificados.size() == qtdVagas) {
+		    break;
+		}
+	    }
+
+	    for (Inscricao inscricao : removerDaLista) {
+		listaOrdemDecrescente.remove(inscricao);
 	    }
 	}
-	
-	for (Integer chave : removerItensDaLista) {
-	    listaOrdemDecrescente.remove(chave);
-	}
-	
+
 	return classificados;
     }
 
+    private HashMap<String, Integer> contarCotasGestao(List<Inscricao> listaOrdemDecrescente) {
+
+	int qtdCandidatosGestaoPPI = 0;
+	int qtdCandidatosGestaoPCD = 0;
+
+	for (Inscricao inscricao : listaOrdemDecrescente) {
+
+	    for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
+
+		if (avaliacao.isAprovada()) {
+
+		    if ("PPI".equals(avaliacao.getTipoVaga())) {
+			qtdCandidatosGestaoPPI++;
+		    } else if ("PCD".equals(avaliacao.getTipoVaga())) {
+			qtdCandidatosGestaoPCD++;
+		    }
+
+		    break;
+		}
+	    }
+	}
+
+	HashMap<String, Integer> qtdCotasGestao = new HashMap<String, Integer>();
+	qtdCotasGestao.put("qtdCandidatosGestaoPPI", qtdCandidatosGestaoPPI);
+	qtdCotasGestao.put("qtdCandidatosGestaoPCD", qtdCandidatosGestaoPCD);
+
+	return qtdCotasGestao;
+    }
+    
+    private HashMap<String, Integer> contarCotasInovacao(List<Inscricao> listaOrdemDecrescente) {
+
+	int qtdCandidatosInovacaoPPI = 0;
+	int qtdCandidatosInovacaoPCD = 0;
+
+	for (Inscricao inscricao : listaOrdemDecrescente) {
+
+	    for (Avaliacao avaliacao : inscricao.getAvaliacoes()) {
+
+		if (avaliacao.isAprovada()) {
+
+		    if ("PPI".equals(avaliacao.getTipoVaga())) {
+			qtdCandidatosInovacaoPPI++;
+		    } else if ("PCD".equals(avaliacao.getTipoVaga())) {
+			qtdCandidatosInovacaoPCD++;
+		    }
+
+		    break;
+		}
+	    }
+	}
+
+	HashMap<String, Integer> qtdCotasGestao = new HashMap<String, Integer>();
+	qtdCotasGestao.put("qtdCandidatosInovacaoPPI", qtdCandidatosInovacaoPPI);
+	qtdCotasGestao.put("qtdCandidatosInovacaoPCD", qtdCandidatosInovacaoPCD);
+
+	return qtdCotasGestao;
+    }
 }

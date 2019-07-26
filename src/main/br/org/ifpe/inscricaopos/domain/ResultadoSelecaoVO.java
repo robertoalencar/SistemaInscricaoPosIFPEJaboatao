@@ -14,6 +14,7 @@ public class ResultadoSelecaoVO implements Serializable {
     private static final long serialVersionUID = -9148776616881273111L;
 
     private Inscricao inscricao;
+    private String tipoVaga;
     private Double notaCandidato;
 
 }
