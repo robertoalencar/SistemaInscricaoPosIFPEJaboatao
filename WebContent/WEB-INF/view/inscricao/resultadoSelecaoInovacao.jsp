@@ -42,10 +42,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -54,6 +56,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -66,10 +70,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -78,6 +84,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -90,10 +98,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -102,6 +112,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -114,10 +126,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -126,6 +140,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -138,10 +154,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -150,6 +168,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -162,10 +182,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -174,6 +196,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -186,10 +210,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -198,6 +224,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>
@@ -210,10 +238,12 @@
 							<thead>
 								<tr>
 									<th style="width: 5%; vertical-align: middle; text-align: center;">#</th>
-									<th style="width: 20%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
-									<th style="width: 45%; vertical-align: middle;">Nome</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
-									<th style="width: 15%; vertical-align: middle; text-align: center;">Nota</th>
+									<th style="width: 15%; vertical-align: middle; text-align: center;">Nº Inscrição</th>
+									<th style="width: 30%; vertical-align: middle;">Nome</th>
+									<th style="width: 20%; vertical-align: middle;">E-mail</th>
+									<th style="width: 10%; vertical-align: middle;">Fone</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Tipo Vaga</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">Nota</th>
 			    				</tr>
 							</thead>
 							<tbody>
@@ -222,6 +252,8 @@
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.classificacao}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.inscricao.numero}</td>
 										<td style="vertical-align: middle;">${resultado.inscricao.candidato.nome}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.email}</td>
+										<td style="vertical-align: middle;">${resultado.inscricao.candidato.foneCelular}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.tipoVaga}</td>
 										<td style="vertical-align: middle; text-align: center;">${resultado.notaCandidato}</td>
 	          						</tr>

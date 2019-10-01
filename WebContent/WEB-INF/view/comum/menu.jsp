@@ -6,7 +6,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<%=request.getContextPath()%>/home">IFPE Campus Jaboatão - Inscrições Pós-Graduação <small id="passwordHelpBlock" class="form-text text-muted">(v.1.8)</small></a>
+                <a class="navbar-brand" href="<%=request.getContextPath()%>/home">IFPE Campus Jaboatão - Inscrições Pós-Graduação <small id="passwordHelpBlock" class="form-text text-muted">(v.1.9)</small></a>
             </div>
             <!-- /.navbar-header -->
 

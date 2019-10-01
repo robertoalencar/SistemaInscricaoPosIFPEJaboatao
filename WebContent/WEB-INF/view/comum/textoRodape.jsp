@@ -1,1 +1,1 @@
-&copy; 2019 - IFPE Campus Jaboatão - Todos os direitos reservados - v.1.8
+&copy; 2019 - IFPE Campus Jaboatão - Todos os direitos reservados - v.1.9
