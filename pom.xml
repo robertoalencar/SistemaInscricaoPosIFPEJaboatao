@@ -72,9 +72,9 @@
 		<!-- Driver MSQL -->
 
 		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>6.0.5</version>
+		    <groupId>mysql</groupId>
+		    <artifactId>mysql-connector-java</artifactId>
+		    <version>8.0.21</version>
 		</dependency>
 
 		<!-- Hibernate -->
