@@ -49,7 +49,7 @@ public class Avaliacao implements Serializable {
     @Column
     private boolean documentacaoCompleta;
 
-    @Column
+    @Column(length = 10000)
     private String observacoes;
 
     @Column

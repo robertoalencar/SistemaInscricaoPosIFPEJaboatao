@@ -482,7 +482,7 @@
 							<div class="col-lg-12">
 								<div class="form-group">
                                    	<label>Observações</label>
-                                   	<textarea class="form-control" name="observacoes"></textarea>
+                                   	<textarea class="form-control" name="observacoes" maxlength="10000"></textarea>
 								</div>
 							</div>
 							
