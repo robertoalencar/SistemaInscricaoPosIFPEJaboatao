@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 
 /**
@@ -38,9 +40,11 @@ public class VinculoEmpregaticio implements Serializable {
     @Column
     private String areaCargo;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column
     private Date dataInicio;
 
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     @Column
     private Date dataFim;
 
