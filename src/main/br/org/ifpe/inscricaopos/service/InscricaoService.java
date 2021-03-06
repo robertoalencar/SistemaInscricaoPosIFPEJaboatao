@@ -25,6 +25,8 @@ public class InscricaoService {
     public static final int CURSO_INOVACAO_VAGAS_EDITAL_PPI = 5;
     public static final int CURSO_INOVACAO_VAGAS_EDITAL_PCD = 2;
     
+    public static final double NOTA_MINIMA_PONTO_DE_CORTE = 5.0;
+    
     @Autowired
     private AvaliacaoDao avaliacaoDao;
     
@@ -55,7 +57,7 @@ public class InscricaoService {
 
 		    if ("Gestao".equals(inscricao.getCursoEscolhido())) {
 
-			if (avaliacao.isDocumentacaoCompleta()) {
+			if (avaliacao.isDocumentacaoCompleta() && avaliacao.getNotaFinal() >= NOTA_MINIMA_PONTO_DE_CORTE) {
 
 			    if (avaliacao.getNotaFinal() == null) {
 				avaliacao.setNotaFinal(0.0);
@@ -69,7 +71,7 @@ public class InscricaoService {
 
 		    } else {
 
-			if (avaliacao.isDocumentacaoCompleta()) {
+			if (avaliacao.isDocumentacaoCompleta() && avaliacao.getNotaFinal() >= NOTA_MINIMA_PONTO_DE_CORTE) {
 
 			    if (avaliacao.getNotaFinal() == null) {
 				avaliacao.setNotaFinal(0.0);
@@ -168,7 +170,7 @@ public class InscricaoService {
 	List<Inscricao> remanejamentoInovacaoPCD = montarListaCotasPPIPCD("PCD", classificadosInovacaoPCD.size(), listaGeralInovacao);
 	
 	List<Inscricao> naoClassificadosInovacaoVCG = listaGeralInovacao;
-
+	
 	// ---------------------------------------------------------------------------------
 	// Carrega o mapa que será utilizaro no controlador para enviar as listas para o JSP
 	// ---------------------------------------------------------------------------------
@@ -321,4 +323,5 @@ public class InscricaoService {
 
 	return qtdCotasGestao;
     }
+    
 }
