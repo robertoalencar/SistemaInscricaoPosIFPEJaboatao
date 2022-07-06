@@ -351,7 +351,7 @@
 							<div class="col-lg-12">
 								<div class="form-group">
 									<label>Nome</label>
-									<input class="form-control" name="nome" id="nome" value="${inscricao.candidato.nome}" readonly="readonly">
+									<input class="form-control" name="nome" id="nome" value="${inscricao.candidato.nome}" readonly="readonly" >
 								</div>
 							</div>
                                    
