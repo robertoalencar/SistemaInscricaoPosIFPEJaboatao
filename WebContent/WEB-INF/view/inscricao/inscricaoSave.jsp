@@ -142,7 +142,7 @@
 	                                    	<label>Curso Escolhido<span style="color: red;"> * </span></label>
 	                                    	<select name="cursoEscolhido" class="form-control" required="required">
 												<option value=""> Selecione </option>
-												<option value="Gestao" <c:if test="${inscricao.cursoEscolhido eq 'Gestao'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>
+												<!-- <option value="Gestao" <c:if test="${inscricao.cursoEscolhido eq 'Gestao'}">selected="selected"</c:if>> Gestão e Qualidade em TIC </option>  -->
 												<option value="Inovacao" <c:if test="${inscricao.cursoEscolhido eq 'Inovacao'}">selected="selected"</c:if>> Desenv. Inovação e Tecnologias Emergentes </option>
 											</select>
 										</div>

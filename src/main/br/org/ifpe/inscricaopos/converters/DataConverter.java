@@ -11,6 +11,7 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class DataConverter implements Converter<String, Date> {
 
+    
     public Date convert(String data) {
 
 	if (data != null && !data.equals("")) {

@@ -249,7 +249,7 @@
 				$("#expProfTotalMesesAreaComp").val(expProfTotalMesesAreaComp);
 				$("#expProfTotalMesesOutras").val(expProfTotalMesesOutras);
 				
-				var expProfPontuacaoTotal = (expProfTotalMesesAreaComp*2)+(expProfTotalMesesOutras*1);
+				var expProfPontuacaoTotal = (expProfTotalMesesAreaComp*2)+(expProfTotalMesesOutras*0.5);
 				$("#expProfPontuacaoTotal").val(parseFloat(expProfPontuacaoTotal).toFixed(2));
 				
 				if (expProfPontuacaoTotal > 10) {
@@ -629,7 +629,7 @@
                             	<div class="form-group">
                                   	<label>Total Geral</label>
                                    	<input class="form-control" id="expProfPontuacaoTotal" name="expProfPontuacaoTotal" readonly="readonly">
-                                   	<small id="passwordHelpBlock" class="form-text text-muted">Total Geral = (TAC * 2) + (TOA * 1)</small>
+                                   	<small id="passwordHelpBlock" class="form-text text-muted">Total Geral = (TAC * 2) + (TOA * 0,5)</small>
                                 </div>
 							</div>
 												
