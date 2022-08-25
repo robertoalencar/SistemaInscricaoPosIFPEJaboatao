@@ -84,7 +84,7 @@
 						
 						<div class="row">
                 			<div class="col-lg-12">
-                				<a href="#" target="_blank">
+                				<a href="<%=request.getContextPath()%>/resources/sei_0211512_edital__01__7.pdf" target="_blank">
                     				<img src="<%=request.getContextPath()%>/resources/img/iconePDF.png" style="width: 10%;">
                     			</a>
                 			</div>

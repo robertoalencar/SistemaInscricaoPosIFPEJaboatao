@@ -41,8 +41,9 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th style="width: 50%; "> &nbsp; </th>
-									<th style="width: 10%; vertical-align: middle; text-align: center; color: red;">2021</th>
+									<th style="width: 40%; "> &nbsp; </th>
+									<th style="width: 10%; vertical-align: middle; text-align: center; color: red;">2022</th>
+									<th style="width: 10%; vertical-align: middle; text-align: center;">2021</th>
 									<th style="width: 10%; vertical-align: middle; text-align: center;">2019</th>
 									<th style="width: 10%; vertical-align: middle; text-align: center;">2018</th>
 									<th style="width: 10%; vertical-align: middle; text-align: center;">2017</th>
@@ -57,10 +58,12 @@
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
+									<td style="vertical-align: middle; text-align: center;"> - </td>
           						</tr>
 								<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Vagas </td>
-									<td style="vertical-align: middle; text-align: center; color: red;"> 60 </td>
+									<td style="vertical-align: middle; text-align: center; color: red;"> 30 </td>
+									<td style="vertical-align: middle; text-align: center;"> 60 </td>
 									<td style="vertical-align: middle; text-align: center;"> 60 </td>
 									<td style="vertical-align: middle; text-align: center;"> 60 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
@@ -69,6 +72,7 @@
 								<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Inscritos </td>
 									<td style="vertical-align: middle; text-align: center; color: red;">${dadosSelecaoVo.quantidadeInscritos}</td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 104 </td>
 									<td style="vertical-align: middle; text-align: center;"> 145 </td>
 									<td style="vertical-align: middle; text-align: center;"> 165 </td>
@@ -76,7 +80,8 @@
           						</tr>
           						<tr>
 									<td> &nbsp; -  &nbsp; Relação candidato/vaga </td>
-									<td style="vertical-align: middle; text-align: center; color: red;"><fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritos/60}" pattern="#,#0.0#"/></td>
+									<td style="vertical-align: middle; text-align: center; color: red;"><fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritos/30}" pattern="#,#0.0#"/></td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 1.7 </td>
 									<td style="vertical-align: middle; text-align: center;"> 2.4 </td>
 									<td style="vertical-align: middle; text-align: center;"> 5.5 </td>
@@ -85,6 +90,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Desclassificados por documentação incompleta </td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> ${dadosSelecaoVo.quantidadeDesclassificados} </td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 02 </td>
 									<td style="vertical-align: middle; text-align: center;"> 02 </td>
 									<td style="vertical-align: middle; text-align: center;"> 03 </td>
@@ -93,6 +99,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Quantidade de recursos apresentados </td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> </td>
+									<td style="vertical-align: middle; text-align: center;">  </td>
 									<td style="vertical-align: middle; text-align: center;">  </td>
 									<td style="vertical-align: middle; text-align: center;"> 02 </td>
 									<td style="vertical-align: middle; text-align: center;"> 01 </td>
@@ -105,10 +112,11 @@
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
+									<td style="vertical-align: middle; text-align: center;"> - </td>
           						</tr>
           						<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Vagas</td>
-									<td style="vertical-align: middle; text-align: center; color: red;"> 30 </td>
+									<td style="vertical-align: middle; text-align: center; color: red;"> 0 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
@@ -117,6 +125,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Inscritos</td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> ${dadosSelecaoVo.quantidadeInscritosPosGestao} </td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 56 </td>
 									<td style="vertical-align: middle; text-align: center;"> 82 </td>
 									<td style="vertical-align: middle; text-align: center;"> 165 </td>
@@ -125,6 +134,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Relação candidato/vaga</td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> <fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritosPosGestao/30}" pattern="#,#0.0#"/> </td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 1.8 </td>
 									<td style="vertical-align: middle; text-align: center;"> 2.7 </td>
 									<td style="vertical-align: middle; text-align: center;"> 5.5 </td>
@@ -140,6 +150,11 @@
 										${dadosSelecaoVo.quantitativoClassificadosGestaoVCG} <br/>
 										${dadosSelecaoVo.quantitativoClassificadosGestaoPPI} <br/>
 										${dadosSelecaoVo.quantitativoClassificadosGestaoPCD} <br/>
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										? <br/> 
+										? <br/>
+										? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										27 <br/> 
@@ -164,6 +179,11 @@
 										${dadosSelecaoVo.maiorNotaGestao} <br/> 
 										${dadosSelecaoVo.menorNotaGestao} <br/>
 										${dadosSelecaoVo.notaMediaGestao} <br/>
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										? <br/> 
+										? <br/>
+										? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										11.79 <br/> 
@@ -212,6 +232,18 @@
 										(8) &nbsp; ${dadosSelecaoVo.perfilCandidatosGestaoMaior30Menor40} <br/>
 										(9) &nbsp; ${dadosSelecaoVo.perfilCandidatosGestaoMaior40Menor50} <br/>
 										(10) &nbsp; ${dadosSelecaoVo.perfilCandidatosGestaoMaior50} <br/>
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										(1) &nbsp; ? <br/>
+										(2) &nbsp; ? <br/>
+										(3) &nbsp; ? <br/>
+										(4) &nbsp; ? <br/>
+										(5) &nbsp; ? <br/>
+										(6) &nbsp; ? <br/>
+										(7) &nbsp; ? <br/>
+										(8) &nbsp; ? <br/>
+										(9) &nbsp; ? <br/>
+										(10) &nbsp; ? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										(1) &nbsp; 28 <br/>
@@ -271,10 +303,12 @@
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
 									<td style="vertical-align: middle; text-align: center;"> - </td>
+									<td style="vertical-align: middle; text-align: center;"> - </td>
           						</tr>
           						<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Vagas</td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> 30 </td>
+									<td style="vertical-align: middle; text-align: center;"> 30 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
 									<td style="vertical-align: middle; text-align: center;"> 30 </td>
 									<td style="vertical-align: middle; text-align: center;"> n/a </td>
@@ -283,6 +317,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Quantidade Inscritos</td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> ${dadosSelecaoVo.quantidadeInscritosPosInovacao} </td>
+									<td style="vertical-align: middle; text-align: center;"> ? </td>
 									<td style="vertical-align: middle; text-align: center;"> 48 </td>
 									<td style="vertical-align: middle; text-align: center;"> 63 </td>
 									<td style="vertical-align: middle; text-align: center;"> n/a </td>
@@ -291,6 +326,7 @@
           						<tr>
 									<td> &nbsp; -  &nbsp; Relação candidato/vaga</td>
 									<td style="vertical-align: middle; text-align: center; color: red;"> <fmt:formatNumber value="${dadosSelecaoVo.quantidadeInscritosPosInovacao/30}" pattern="#,#0.0#"/> </td>
+									<td style="vertical-align: middle; text-align: center;"> ?</td>
 									<td style="vertical-align: middle; text-align: center;"> 1.6 </td>
 									<td style="vertical-align: middle; text-align: center;"> 2.1 </td>
 									<td style="vertical-align: middle; text-align: center;"> n/a </td>
@@ -306,6 +342,11 @@
 										${dadosSelecaoVo.quantitativoClassificadosInovacaoVCG} <br/>
 										${dadosSelecaoVo.quantitativoClassificadosInovacaoPPI} <br/>
 										${dadosSelecaoVo.quantitativoClassificadosInovacaoPCD} <br/>												
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										? <br/> 
+										? <br/>
+										? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										28 <br/> 
@@ -330,6 +371,11 @@
 										${dadosSelecaoVo.maiorNotaInovacao} <br/> 
 										${dadosSelecaoVo.menorNotaInovacao} <br/>
 										${dadosSelecaoVo.notaMediaInovacao} <br/>
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										? <br/> 
+										? <br/>
+										? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										11.54 <br/> 
@@ -369,6 +415,18 @@
 										(8) &nbsp; ${dadosSelecaoVo.perfilCandidatosInovaMaior30Menor40} <br/>
 										(9) &nbsp; ${dadosSelecaoVo.perfilCandidatosInovaMaior40Menor50} <br/>
 										(10) &nbsp; ${dadosSelecaoVo.perfilCandidatosInovaMaior50} <br/>
+									</td>
+									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
+										(1) &nbsp; ? <br/>
+										(2) &nbsp; ? <br/>
+										(3) &nbsp; ? <br/>
+										(4) &nbsp; ? <br/>
+										(5) &nbsp; ? <br/>
+										(6) &nbsp; ? <br/>
+										(7) &nbsp; ? <br/>
+										(8) &nbsp; ? <br/>
+										(9) &nbsp; ? <br/>
+										(10) &nbsp; ? <br/>
 									</td>
 									<td style="vertical-align: middle; text-align: center; vertical-align: bottom;"> 
 										(1) &nbsp; 35 <br/>
